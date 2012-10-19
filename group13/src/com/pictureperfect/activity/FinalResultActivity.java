@@ -1,10 +1,15 @@
 package com.pictureperfect.activity;	
 
-import android.R;
+import com.pictureperfect.activity.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * This screen shows the final processed image to the user. The user can choose to save or discard it.
+ * @author group13
+ *
+ */
 public class FinalResultActivity extends Activity {
 	
 	/** Called when the activity is first created. */

@@ -1,16 +1,23 @@
 package com.pictureperfect.activity;
 
-import android.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * This screen helps the user to click a burst of images.
+ * @author group13
+ *
+ */
 public class CameraActivity extends Activity {
 	
-	private static final int CAMERA_PIC_REQUEST = 1337; 
+	private static final int CAMERA_PIC_REQUEST = 1337;
+	private PictureCallback rawCallback;
+
     /** Called when the activity is first created. */
     @Override
     

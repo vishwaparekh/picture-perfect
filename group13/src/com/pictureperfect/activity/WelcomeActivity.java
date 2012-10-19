@@ -1,6 +1,6 @@
 package com.pictureperfect.activity;	
 
-import android.R;
+import com.pictureperfect.activity.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * It is the main screen of the application It consists of two buttons. 
+ * @author group13 
+ *
+ */
 public class WelcomeActivity extends Activity {
 	
 	/** Called when the activity is first created. */

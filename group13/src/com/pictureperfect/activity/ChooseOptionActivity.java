@@ -1,7 +1,8 @@
 package com.pictureperfect.activity;	
 
 
-import android.R;
+
+import com.pictureperfect.activity.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * This screen helps the user to chose between selecting faces and removing unwanted objects.
+ * @author group13
+ *
+ */
 public class ChooseOptionActivity extends Activity {
 	
 	/** Called when the activity is first created. */

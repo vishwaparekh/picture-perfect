@@ -1,6 +1,6 @@
 package com.pictureperfect.activity;	
 
-import android.R;
+import com.pictureperfect.activity.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * This screen helps the user to remove unwanted objects from the image. 
+ * @author group13 
+ *
+ */
 public class RemoveUnwantedObjectsActivity extends Activity {
 	
 	static boolean finished = false;
@@ -50,6 +55,19 @@ public class RemoveUnwantedObjectsActivity extends Activity {
 		});
         
     }
+
+    /**
+     * Given the position on the image where the user clicked, calls the ImgData object to replace that portion of the image with the replacement.
+     */
+    private void replaceSelection() {
+    }
+
+    /**
+     * It is called by replaceSelection to update the modified image on the screen
+     */
+    private void refreshImage() {
+    }
+
 
 
 }
