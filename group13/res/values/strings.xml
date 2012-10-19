@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, PictureperfectActivity!</string>
-    <string name="app_name">Pictureperfect</string>
+    <string name="hello">Hello World, PPActivity!</string>
+    <string name="app_name">PP</string>
+    <string name="bestFace">Choose Face</string>
+    <string name="unwantedObjects"> Remove Unwanted Objects</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
 
 </resources>
