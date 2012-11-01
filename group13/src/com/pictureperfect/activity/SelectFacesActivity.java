@@ -22,7 +22,7 @@ public class SelectFacesActivity extends Activity {
 
 	private Bitmap[] myFaces;
 
-	private Integer pId;
+	private Integer pId = 0;
 
 	static boolean finished = false;
 

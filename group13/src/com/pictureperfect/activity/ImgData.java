@@ -1,7 +1,12 @@
 package com.pictureperfect.activity;
 
-import android.graphics.Bitmap;
+import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.PointF;
+import android.media.FaceDetector;
+import android.util.Log;
 /**
  * This is the central class of this project. It implements algorithms to detect faces, detect unwanted objects, and warp the changes to the background image.
  * It is used by all the views.
@@ -12,17 +17,20 @@ import android.graphics.Bitmap;
  */
 public class ImgData {
 
-	private Bitmap[] myPictures;
+	private ArrayList<Bitmap> myPictures;
 
 	private Bitmap myBackground;
 
-	private Faces[] myFaces;
+	private ArrayList<ArrayList<Faces>> myFaces = null;
 
-	private Person[] myPeople;
+	private ArrayList<Person> myPeople;
 
-	private UnwantedObjects[] unwantedObjects;
+	private ArrayList<UnwantedObjects> unwantedObjects;
 
 	private Integer myBackgroundNum;
+	
+	private int numPictures = 0;
+	private static final int MAX_FACES = 10;
 
 	/**
 	 * Given a person ID, it warps the current face of the person with the chosen best face.
@@ -37,8 +45,8 @@ public class ImgData {
 	 * @param pId Person ID
 	 * @return Faces of the person
 	 */
-	public Faces []getFaces(Integer pId) {
-		return myPeople[pId].getFaces();
+	public ArrayList<Faces> getFaces(Integer pId) {
+		return myPeople.get(pId).getFaces();
 	}
 
 	/**
@@ -47,20 +55,77 @@ public class ImgData {
 	 * @param bestFace The best face chosen by user
 	 */
 	public void setBestFace(Integer pId, Faces bestFace) {
+		myPeople.get(pId).setBestFace(bestFace);
+		
 	}
 
 	/**
 	 * Given an image, it finds all the faces and adds them to the myFaces array.
 	 * @param myPicture Image
 	 */
-	private void findandAddFaces(Bitmap myPicture) {
+	private void findandAddFaces(int pictureIndex) {
+	//calls a face detection code on this picture here and get back all
+	//the required values.
+		ArrayList<Faces> facesPic = null;
+		FaceDetector fd;
+		FaceDetector.Face [] faces = new FaceDetector.Face[MAX_FACES];
+		PointF midpoint = new PointF();
+		int [] fpx = null;
+		int [] fpy = null;
+		int count = 0;
+		int mFaceWidth = myPictures.get(pictureIndex).getWidth();
+		int mFaceHeight = myPictures.get(pictureIndex).getHeight();
+		try {
+			fd = new FaceDetector(mFaceWidth, mFaceHeight, MAX_FACES);        
+			count = fd.findFaces(myPictures.get(pictureIndex), faces);
+		} catch (Exception e) {
+			/*Log.e(TAG, "setFace(): " + e.toString());*/
+			return;
+		}
+		if (count > 0) {
+			fpx = new int[count];
+			fpy = new int[count];
+
+			for (int i = 0; i < count; i++) { 
+				try {                 
+					faces[i].getMidPoint(midpoint);                  
+
+					fpx[i] = (int)midpoint.x;
+					fpy[i] = (int)midpoint.y;
+					int mpx = fpx[i];
+					int mpy = fpy[i];
+					int eyedist = (int)faces[i].eyesDistance();
+					int lcx = mpx - eyedist/2 - eyedist;
+					int lcy = mpy - eyedist;
+					int width = eyedist * 3;
+					int height = eyedist * 3;
+					int eplx = mpx - eyedist/2;
+					int eply = mpy;
+					int widthEye = eyedist;
+					int heightEye = 1;
+					RectRegion facePos = new RectRegion(lcx, lcy, width, height);
+					RectRegion eyePos = new RectRegion(eplx,eply,widthEye,heightEye);
+					Bitmap faceImg = Bitmap.createBitmap(myPictures.get(pictureIndex),lcx,lcy,width,height);
+					Faces faceTemp = new Faces(facePos,faceImg,eyePos);
+					facesPic.add(faceTemp);
+				} catch (Exception e) { 
+					/*Log.e(TAG, "setFace(): face " + i + ": " + e.toString());*/
+				}            
+			}      
+		}
+		myFaces.add(facesPic);
+
 	}
 
 	/**
 	 * Adds a new picture to the myPicture array. Calls findandAddFaces() on the same.  
 	 * @param data Byte stream of the captured image
 	 */
-	public void addPicture(Byte data) {
+	public void addPicture(byte[] data) {
+		Bitmap myBitmap = BitmapFactory.decodeByteArray(data,0,data.length);
+		myPictures.add(myBitmap.copy(Bitmap.Config.ARGB_8888, true));
+		findandAddFaces(numPictures);
+		numPictures ++;
 	}
 
 	/**
@@ -82,7 +147,7 @@ public class ImgData {
 	 * Returns all the unwanted objects that belong to the background image
 	 * @return
 	 */
-	public UnwantedObjects []getUnwantedObjects() {
+	public ArrayList<UnwantedObjects> getUnwantedObjects() {
 		return unwantedObjects;
 	}
 
@@ -91,6 +156,13 @@ public class ImgData {
 	 * @param num The ID of the image
 	 */
 	public void setBackgroundNum(Integer num) {
+		myBackgroundNum = num;
+		myBackground = myPictures.get(myBackgroundNum);
+		for (int i=0; i< myFaces.get(myBackgroundNum).size();i++)
+		{
+			Person personTemp = new Person(myFaces,myFaces.get(myBackgroundNum).get(i),i);
+			myPeople.add(personTemp);
+		}
 	}
 
 	/**
@@ -102,10 +174,10 @@ public class ImgData {
 	
 	/**
 	 * Given face position, it returns the corresponding person ID.
-	 * @param facePos Positon of the face
+	 * @param facePos Position of the face
 	 * @return Person ID
 	 */
-	public Integer getPersonId(Integer []facePos) {
+	public Integer getPersonId(Integer facePos) {
 		return 0; // return pid
 	}
 

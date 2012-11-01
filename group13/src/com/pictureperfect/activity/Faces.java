@@ -9,16 +9,39 @@ import android.graphics.Bitmap;
  */
 public class Faces {
 
-	private Integer facePos[];
-
+	private RectRegion facePos;
 	private Bitmap faceImg;
 
-	private Integer eyePos[];
+	private RectRegion eyePos;
 
-	private Integer mouthPos[];
+	private RectRegion mouthPos;
 
-	public ImgData contains;
+	public RectRegion getFacePos() {
+		return facePos;
+	}
+	public void setFacePos(RectRegion facePos) {
+		this.facePos = facePos;
+	}
+	public RectRegion getEyePos() {
+		return eyePos;
+	}
+	public void setEyePos(RectRegion eyePos) {
+		this.eyePos = eyePos;
+	}
+	public RectRegion getMouthPos() {
+		return mouthPos;
+	}
+	public void setMouthPos(RectRegion mouthPos) {
+		this.mouthPos = mouthPos;
+	}
+	public void setFaceImg(Bitmap faceImg) {
+		this.faceImg = faceImg;
+	}
 
+	
+	Faces(RectRegion facePos, Bitmap face, RectRegion eyePos) {
+		init(facePos, face, eyePos);
+	}
 	/**
 	 * This method initializes the face object with the given parameter values. 
 	 * Position is an array of four integers
@@ -31,7 +54,11 @@ public class Faces {
 	 * @param eyePos	Position of the eye in the detected face
 	 * @param mouthPos Position of the mouth in the detected face
 	 */
-	private void init(int[] facePos, Bitmap face, int[] eyePos, int[] mouthPos) {
+	private void init(RectRegion facePos, Bitmap face, RectRegion eyePos) {
+		faceImg = face;
+		this.facePos = facePos;
+		this.eyePos = eyePos;
+		
 	}
 
 	/**
