@@ -11,7 +11,12 @@ import com.pictureperfect.activity.Person;
 import junit.framework.TestCase;
 
 public class ImgDataTest extends TestCase {
-
+	
+	/**
+	 * Tests initial emptiness of the current set of faces. Then
+	 *  ensures that faces are added successfully to the current
+	 *  set of faces.
+	 */  
 	public void testGetFaces() {
 		ImgData I = new ImgData();
 		
@@ -23,19 +28,15 @@ public class ImgDataTest extends TestCase {
 		
 		assertTrue(I.getMyPeople().get(1).getFaces().isEmpty());
 		myfaces.add(testFace1);
-		
+		myfaces.add(testFace2);
 		assertEquals(2, I.getFaces(1).size());
 	}
-
-	public void testSetBestFace() {
-//		ArrayList<ArrayList<Faces>> myfaces = new ArrayList();
-//		Faces bestFace = new Faces(null, null, null);
-//		Person P = new Person(myfaces, null, 1);
-//		P.setBestFace(bestFace);
-//
-//		assertEquals(P.bestFace, bestFace);
-	}
-
+	
+	/**
+	 * Tests for initial emptiness of current set of images. Then
+	 * checks that an added picture was successfully added to current
+	 * picture set.
+	 */ 
 	public void testAddPicture() {
 		byte[] data = null;
 		ImgData I = new ImgData();
@@ -46,13 +47,14 @@ public class ImgDataTest extends TestCase {
 		myPicturesTest = I.getMyPictures();
 		int sizeAfter = myPicturesTest.size();
 		assertEquals(sizeAfter, 1);
-				
 	}
 
-
+	/**
+	 * Verifies functionality of setMyBackgroundNum() by calling
+	 * getMyBackgroundNum() to check current background index.	 
+	 */
 	public void testSetBackgroundNum() {
-		ImgData I = new ImgData();
-		
+		ImgData I = new ImgData();		
 		I.setBackgroundNum(1);
 		int bgNum = I.getMyBackgroundNum();
 		assertEquals(1, bgNum);
@@ -60,10 +62,4 @@ public class ImgDataTest extends TestCase {
 		int bgNum2 = I.getMyBackgroundNum();
 		assertEquals(2, bgNum2);
 	}
-
-	public void testWarpUnwanted() {
-		fail("Not yet implemented");
-	}
-
-
 }
