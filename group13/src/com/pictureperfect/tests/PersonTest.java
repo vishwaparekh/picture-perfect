@@ -19,5 +19,9 @@ public class PersonTest extends TestCase {
 	public void testGetBestFace() {
 		fail("Not yet implemented");
 	}
+	public void testGetBestMatch(){
+		
+		
+	}
 
 }

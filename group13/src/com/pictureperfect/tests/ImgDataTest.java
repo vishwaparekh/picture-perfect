@@ -2,6 +2,8 @@ package com.pictureperfect.tests;
 
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+
 import com.pictureperfect.activity.Faces;
 import com.pictureperfect.activity.ImgData;
 import com.pictureperfect.activity.Person;
@@ -26,36 +28,42 @@ public class ImgDataTest extends TestCase {
 	}
 
 	public void testSetBestFace() {
-		ArrayList<ArrayList<Faces>> myfaces = new ArrayList();
-		Faces bestFace = new Faces(null, null, null);
-		Person P = new Person(myfaces, null, 1);
-		P.setBestFace(bestFace);
-
-		assertEquals(P.bestFace, bestFace);
+//		ArrayList<ArrayList<Faces>> myfaces = new ArrayList();
+//		Faces bestFace = new Faces(null, null, null);
+//		Person P = new Person(myfaces, null, 1);
+//		P.setBestFace(bestFace);
+//
+//		assertEquals(P.bestFace, bestFace);
 	}
 
 	public void testAddPicture() {
-		
+		byte[] data = null;
+		ImgData I = new ImgData();
+		ArrayList<Bitmap> myPicturesTest = I.getMyPictures();
+		int sizeBefore = myPicturesTest.size();
+		assertEquals(sizeBefore, 0);
+		I.addPicture(data);
+		myPicturesTest = I.getMyPictures();
+		int sizeAfter = myPicturesTest.size();
+		assertEquals(sizeAfter, 1);
+				
 	}
 
-	public void testGetBackground() {
-		fail("Not yet implemented");
-	}
-
-	public void testGetUnwantedObjects() {
-		fail("Not yet implemented");
-	}
 
 	public void testSetBackgroundNum() {
-		fail("Not yet implemented");
+		ImgData I = new ImgData();
+		
+		I.setBackgroundNum(1);
+		int bgNum = I.getMyBackgroundNum();
+		assertEquals(1, bgNum);
+		I.setBackgroundNum(2);
+		int bgNum2 = I.getMyBackgroundNum();
+		assertEquals(2, bgNum2);
 	}
 
 	public void testWarpUnwanted() {
 		fail("Not yet implemented");
 	}
 
-	public void testGetPersonId() {
-		fail("Not yet implemented");
-	}
 
 }
