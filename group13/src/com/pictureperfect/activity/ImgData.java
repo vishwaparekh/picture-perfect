@@ -37,7 +37,14 @@ public class ImgData {
 	 * @param pId person ID
 	 */
 	private void warpFace(Integer pId) {
-		
+		Faces baseFace = myFaces.get(myBackgroundNum).get(pId);
+		Faces bestFace = myPeople.get(pId).getBestFace();
+		int dstWidth = baseFace.getFacePos().getWidth();
+		int dstHeight = baseFace.getFacePos().getHeight();
+		Bitmap faceTemp = Bitmap.createScaledBitmap(bestFace.getFaceImg(), dstWidth, dstHeight, false);
+		int pixels [] =  null;
+		faceTemp.getPixels(pixels, 0, 0, 0, 0, faceTemp.getWidth(), faceTemp.getHeight());
+		myBackground.setPixels(pixels, 0, 0, baseFace.getFacePos().getX(),baseFace.getFacePos().getY() , baseFace.getFacePos().getWidth(), baseFace.getFacePos().getHeight());
 	}
 
 	/**
@@ -56,7 +63,7 @@ public class ImgData {
 	 */
 	public void setBestFace(Integer pId, Faces bestFace) {
 		myPeople.get(pId).setBestFace(bestFace);
-		
+		warpFace(pId);
 	}
 
 	/**
