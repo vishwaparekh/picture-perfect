@@ -188,5 +188,47 @@ public class ImgData {
 		return 0; // return pid
 	}
 
+	/**
+	 * @return the myPictures
+	 */
+	public ArrayList<Bitmap> getMyPictures() {
+		return myPictures;
+	}
+
+	/**
+	 * @return the myBackground
+	 */
+	public Bitmap getMyBackground() {
+		return myBackground;
+	}
+
+	/**
+	 * @return the myFaces
+	 */
+	public ArrayList<ArrayList<Faces>> getMyFaces() {
+		return myFaces;
+	}
+
+	/**
+	 * @return the myPeople
+	 */
+	public ArrayList<Person> getMyPeople() {
+		return myPeople;
+	}
+
+	/**
+	 * @return the myBackgroundNum
+	 */
+	public Integer getMyBackgroundNum() {
+		return myBackgroundNum;
+	}
+
+	/**
+	 * @return the numPictures
+	 */
+	public int getNumPictures() {
+		return numPictures;
+	}
+
 	
 }
