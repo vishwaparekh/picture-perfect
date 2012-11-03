@@ -3,9 +3,11 @@ package com.pictureperfect.activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-
-
-
+/**
+ * This class implements a template matching algorithm. 
+ * 
+ * @author group13
+ */
 public class TemplateMatcher implements ImageMatcher {
 	private double rConvert = 0.2989;
 	private double gConvert = 0.5870;
@@ -14,8 +16,13 @@ public class TemplateMatcher implements ImageMatcher {
 	{
 		super();
 	}
-	@SuppressWarnings("null")
-	@Override
+
+	/**
+	 * It is used to match two images and returns a matching index.  
+	 * Lower matching index implies higher match.
+	 * Minimum value of matching index is 0
+	 * @author group13
+	 */
 	public int getMatchIndex(Bitmap b1, Bitmap b2) {
 		// TODO Auto-generated method stub
 		int []pixelsB1 = null;
@@ -32,10 +39,17 @@ public class TemplateMatcher implements ImageMatcher {
 		
 		return (int)minValue;
 	}
+	
+	/**
+	 * This method converts the a pixel from RGB to Grayscale.
+	 * @param redValue Red component
+	 * @param greenValue Green  component
+	 * @param blueValue Blue  component
+	 * @return GrayScale value
+	 */
 	private double getGrayScale(int redValue,int greenValue, int blueValue)
 	{
 		return redValue * rConvert + greenValue * gConvert + blueValue * bConvert; 
-		
 	}
 
 }

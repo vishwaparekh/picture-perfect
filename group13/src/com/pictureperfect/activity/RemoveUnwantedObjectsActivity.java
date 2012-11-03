@@ -48,9 +48,6 @@ public class RemoveUnwantedObjectsActivity extends Activity {
 						ChooseOptionActivity.class);
 					startActivity(intent);
 				}
-				
-				
-				
 			}
 		});
         

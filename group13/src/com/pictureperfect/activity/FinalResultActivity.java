@@ -28,9 +28,6 @@ public class FinalResultActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.finalresult);
         
-        
-        
     }
-
 
 }

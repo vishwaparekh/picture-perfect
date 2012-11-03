@@ -42,9 +42,11 @@ public class CameraActivity extends Activity {
 	 * CamButton.setOnClickListener(new OnClickListener() { public void
 	 * onClick(View v) { Intent intent = new Intent(CameraActivity.this,
 	 * SelectBackground.class); startActivity(intent); } });
-	 * 
-	 * } public static int getCameraPicRequest() { return CAMERA_PIC_REQUEST; }
 	 */
+	
+	public static int getCameraPicRequest() {
+		return CAMERA_PIC_REQUEST;
+	}
 
 	private SurfaceView preview = null;
 	private SurfaceHolder previewHolder = null;
@@ -87,7 +89,7 @@ public class CameraActivity extends Activity {
 
 	private Camera.Size getBestPreviewSize(int width, int height,
 			Camera.Parameters parameters) {
-		
+
 		int rotation = this.getWindowManager().getDefaultDisplay()
 				.getRotation();
 		int degrees = 0;
