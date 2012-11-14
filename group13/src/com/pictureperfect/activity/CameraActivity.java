@@ -1,11 +1,13 @@
 package com.pictureperfect.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Surface;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
@@ -16,12 +18,13 @@ import android.widget.Toast;
  * @author group13
  * 
  */
+
 public class CameraActivity extends Activity {
 
 	private static final int CAMERA_PIC_REQUEST = 1337;
-	private PictureCallback rawCallback;
-
-	/** Called when the activity is first created. */
+	private SurfaceView preview = null;
+	private SurfaceHolder previewHolder = null;
+	private Camera mCamera = null;
 
 	/**
 	 * Called when the activity is first created. This is where you should do
@@ -34,30 +37,10 @@ public class CameraActivity extends Activity {
 	 *            shut down then this Bundle contains the data it most recently
 	 *            supplied in onSaveInstanceState(Bundle)
 	 */
-	/*
-	 * public void onCreate(Bundle savedInstanceState) {
-	 * super.onCreate(savedInstanceState); setContentView(R.layout.camera);
-	 * Button CamButton = (Button) findViewById(R.id.cameraButton);
-	 * 
-	 * CamButton.setOnClickListener(new OnClickListener() { public void
-	 * onClick(View v) { Intent intent = new Intent(CameraActivity.this,
-	 * SelectBackground.class); startActivity(intent); } });
-	 */
-	
-	public static int getCameraPicRequest() {
-		return CAMERA_PIC_REQUEST;
-	}
-
-	private SurfaceView preview = null;
-	private SurfaceHolder previewHolder = null;
-	private Camera camera = null;
-	private boolean inPreview = false;
-	private boolean cameraConfigured = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.camera);
 
 		preview = (SurfaceView) findViewById(R.id.preview);
@@ -67,112 +50,96 @@ public class CameraActivity extends Activity {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		/* When we touch the screen, it will auto-focus again */
+		if (mCamera != null) {
+			mCamera.cancelAutoFocus(); // release the previous auto-focus
+			mCamera.autoFocus(new Camera.AutoFocusCallback() {
 
-		camera = Camera.open();
-		startPreview();
-	}
-
-	@Override
-	public void onPause() {
-		if (inPreview) {
-			camera.stopPreview();
-		}
-
-		camera.release();
-		camera = null;
-		inPreview = false;
-
-		super.onPause();
-	}
-
-	private Camera.Size getBestPreviewSize(int width, int height,
-			Camera.Parameters parameters) {
-
-		int rotation = this.getWindowManager().getDefaultDisplay()
-				.getRotation();
-		int degrees = 0;
-		switch (rotation) {
-		case Surface.ROTATION_0:
-			degrees = 0;
-			break;
-		case Surface.ROTATION_90:
-			degrees = 90;
-			break;
-		case Surface.ROTATION_180:
-			degrees = 180;
-			break;
-		case Surface.ROTATION_270:
-			degrees = 270;
-			break;
-		}
-
-		camera.setDisplayOrientation((360 - degrees + 90) % 360);
-		Camera.Size result = null;
-		for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
-			if (size.width <= width && size.height <= height) {
-				if (result == null) {
-					result = size;
-				} else {
-					int resultArea = result.width * result.height;
-					int newArea = size.width * size.height;
-
-					if (newArea > resultArea) {
-						result = size;
-					}
+				public void onAutoFocus(boolean success, Camera camera) {
+					Log.d("HOME", "isAutofoucs " + Boolean.toString(success));
 				}
-			}
-		}
+			});
 
-		return (result);
+		}
+		return super.dispatchTouchEvent(ev);
 	}
 
-	private void initPreview(int width, int height) {
-		if (camera != null && previewHolder.getSurface() != null) {
-			try {
-				camera.setPreviewDisplay(previewHolder);
-			} catch (Throwable t) {
-				Log.e("PreviewDemo-surfaceCallback",
-						"Exception in setPreviewDisplay()", t);
-				Toast.makeText(CameraActivity.this, t.getMessage(),
-						Toast.LENGTH_LONG).show();
-			}
+	/* Define which keys will "take the picture" */
 
-			if (!cameraConfigured) {
-				Camera.Parameters parameters = camera.getParameters();
-				Camera.Size size = getBestPreviewSize(width, height, parameters);
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_CAMERA
+				|| keyCode == KeyEvent.KEYCODE_SEARCH) {
+			takePicture();
 
-				if (size != null) {
-					parameters.setPreviewSize(size.width, size.height);
-					camera.setParameters(parameters);
-					cameraConfigured = true;
-				}
-			}
+			return (true);
 		}
+
+		return (super.onKeyDown(keyCode, event));
 	}
 
-	private void startPreview() {
-		if (cameraConfigured && camera != null) {
-			camera.startPreview();
-			inPreview = true;
-		}
+	private void takePicture() {
+		mCamera.takePicture(null, null, photoCallback);
 	}
 
 	SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
+
 		public void surfaceCreated(SurfaceHolder holder) {
-			// no-op -- wait until surfaceChanged()
+			mCamera = Camera.open();
+
+			try {
+				mCamera.setPreviewDisplay(previewHolder);
+			} catch (Throwable t) {
+				Log.e("surfaceCallback", "Exception in setPreviewDisplay()", t);
+				Toast.makeText(CameraActivity.this, t.getMessage(),
+						Toast.LENGTH_LONG).show();
+			}
 		}
 
 		public void surfaceChanged(SurfaceHolder holder, int format, int width,
 				int height) {
-			initPreview(width, height);
-			startPreview();
+			Camera.Parameters parameters = mCamera.getParameters();
+
+			/*
+			 * Customize width/height here - otherwise defaults to screen
+			 * width/height
+			 */
+			parameters.setPreviewSize(width, height);
+			parameters.setPictureFormat(PixelFormat.JPEG);
+			parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+			parameters.setJpegQuality(100);
+
+			mCamera.setParameters(parameters);
+			mCamera.startPreview();
+
+			/* Must add the following callback to allow the camera to autofocus. */
+			mCamera.autoFocus(new Camera.AutoFocusCallback() {
+				public void onAutoFocus(boolean success, Camera camera) {
+					Log.d("HOME", "isAutofoucs " + Boolean.toString(success));
+				}
+			});
 		}
 
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			// no-op
+
 		}
 	};
 
+	Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
+		public void onPictureTaken(byte[] data, Camera camera) {
+			Intent mIntent = new Intent();
+			mIntent.putExtra("picture", data);
+			setResult(1, mIntent); // 1 for result code = ok
+			/*
+			 * This segment moved from surfaceDestroyed - otherwise the Camera
+			 * is not properly released
+			 */
+			if (mCamera != null) {
+				mCamera.stopPreview();
+				mCamera.release();
+				mCamera = null;
+			}
+			finish();
+		}
+	};
 }
