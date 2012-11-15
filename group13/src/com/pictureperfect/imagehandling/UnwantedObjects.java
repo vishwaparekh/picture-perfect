@@ -1,4 +1,6 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.imagehandling;
+
+import com.pictureperfect.common.RectRegion;
 
 import android.graphics.Bitmap;
 

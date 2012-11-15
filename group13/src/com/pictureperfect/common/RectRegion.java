@@ -1,4 +1,4 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.common;
 
 import android.graphics.Bitmap;
 

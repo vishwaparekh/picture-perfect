@@ -1,4 +1,4 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.removeunwantedtools;
 
 import java.util.ArrayList;
 

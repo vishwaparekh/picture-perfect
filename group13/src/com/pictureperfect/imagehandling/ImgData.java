@@ -1,7 +1,12 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.imagehandling;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.pictureperfect.common.RectRegion;
+import com.pictureperfect.removeunwantedtools.AveragePictureGenerator;
+import com.pictureperfect.removeunwantedtools.GetConnectedComponents;
+import com.pictureperfect.removeunwantedtools.GetDifferencePicture;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -145,7 +150,7 @@ public class ImgData {
 		Bitmap differencePicture = GetDifferencePicture.generate(myPicture,avgPicture);
 		List<RectRegion> regions = GetConnectedComponents.generate(differencePicture);
 		for(int i =0;i<regions.size();i++){
-			unwantedObjects.add(new UnwantedObjects(regions.get(i)),Bitmap.createBitmap(avgPicture, regions.get(i).getX(), regions.get(i).getY(), regions.get(i).getWidth(), regions.get(i).getHeight()));
+			unwantedObjects.add(new UnwantedObjects(regions.get(i),Bitmap.createBitmap(avgPicture, regions.get(i).getX(), regions.get(i).getY(), regions.get(i).getWidth(), regions.get(i).getHeight())));
 		}
 	}
 

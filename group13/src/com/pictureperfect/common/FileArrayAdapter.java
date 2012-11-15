@@ -1,6 +1,9 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.common;
 
 import java.util.List;
+
+import com.pictureperfect.activity.R;
+import com.pictureperfect.activity.R.id;
 
 import android.content.Context;
 import android.view.LayoutInflater;

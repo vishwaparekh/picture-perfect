@@ -1,4 +1,4 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.facerecognitiontools;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

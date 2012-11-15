@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 
-import com.pictureperfect.activity.Faces;
-import com.pictureperfect.activity.ImgData;
-import com.pictureperfect.activity.Person;
+import com.pictureperfect.imagehandling.Faces;
+import com.pictureperfect.imagehandling.ImgData;
+import com.pictureperfect.imagehandling.Person;
 
 import junit.framework.TestCase;
 

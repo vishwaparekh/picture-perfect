@@ -1,6 +1,8 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.removeunwantedtools;
 
 import java.util.List;
+
+import com.pictureperfect.common.RectRegion;
 
 import android.graphics.Bitmap;
 

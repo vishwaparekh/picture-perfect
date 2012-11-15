@@ -1,4 +1,4 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.common;
 
 /**
  * This is a helper class for listing the directory items.

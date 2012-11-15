@@ -1,6 +1,9 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.imagehandling;
 
 import java.util.ArrayList;
+
+import com.pictureperfect.facerecognitiontools.ImageMatcher;
+import com.pictureperfect.facerecognitiontools.TemplateMatcher;
 
 import android.graphics.Bitmap;
 

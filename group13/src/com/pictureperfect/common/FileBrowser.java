@@ -1,9 +1,12 @@
-package com.pictureperfect.activity;
+package com.pictureperfect.common;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.pictureperfect.activity.R;
+import com.pictureperfect.activity.R.layout;
 
 import android.app.ListActivity;
 import android.os.Bundle;

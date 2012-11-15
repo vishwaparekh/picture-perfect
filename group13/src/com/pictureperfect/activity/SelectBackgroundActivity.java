@@ -1,5 +1,7 @@
 package com.pictureperfect.activity;
 
+import com.pictureperfect.imagehandling.ImgData;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,7 +26,7 @@ import android.widget.Toast;
  * @author group13
  *
  */
-public class SelectBackground extends Activity {
+public class SelectBackgroundActivity extends Activity {
 
 	ImgData imgData;
 

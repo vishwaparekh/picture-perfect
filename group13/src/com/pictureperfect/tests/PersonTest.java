@@ -1,11 +1,11 @@
 package com.pictureperfect.tests;
 
-import com.pictureperfect.activity.Faces;
 import java.util.ArrayList;
 import junit.framework.TestCase;
-import com.pictureperfect.activity.Faces;
-import com.pictureperfect.activity.ImgData;
-import com.pictureperfect.activity.Person;
+
+import com.pictureperfect.imagehandling.Faces;
+import com.pictureperfect.imagehandling.ImgData;
+import com.pictureperfect.imagehandling.Person;
 
 public class PersonTest extends TestCase {
 
