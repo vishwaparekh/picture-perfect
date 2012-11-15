@@ -12,15 +12,15 @@ import android.graphics.Bitmap;
  */
 public class Person {
 
-	private Integer pId;
+//	private Integer pId;
 
 	private ArrayList<Faces> myfaces;
 
 	private Faces bestFace;
 
-	public Person(ArrayList<ArrayList<Faces>> faces, Faces baseFace, int pId) {
+	public Person(ArrayList<ArrayList<Faces>> faces, Faces baseFace) {
 		super();
-		this.pId = pId;
+	//	this.pId = pId;
 		this.bestFace = baseFace;
 		init(faces, baseFace);
 	}

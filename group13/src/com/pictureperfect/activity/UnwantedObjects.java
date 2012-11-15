@@ -10,15 +10,19 @@ import android.graphics.Bitmap;
  */
 public class UnwantedObjects {
 
-	private Integer[] position;
+	private RectRegion position;
 	private Bitmap replaceImg;
-
+	UnwantedObjects(RectRegion position,Bitmap replaceImg)
+	{
+		init(position,replaceImg);
+	}
 	/**
 	 * Populates the object corresponding to an unwanted item with the position and its replacement. 
 	 * @param replaceImg
 	 */
-	private void init(Integer[] position,Bitmap replaceImg) {
-	
+	private void init(RectRegion position,Bitmap replaceImg) {
+		this.position = position;
+		this.replaceImg = replaceImg;
 	}
 
 }

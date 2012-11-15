@@ -1,6 +1,7 @@
 package com.pictureperfect.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -70,7 +71,7 @@ public class ImgData {
 	 * Given an image, it finds all the faces and adds them to the myFaces array.
 	 * @param myPicture Image
 	 */
-	private void findandAddFaces(int pictureIndex) {
+	private void findandAddFaces(Bitmap mPicture) {
 	//calls a face detection code on this picture here and get back all
 	//the required values.
 		ArrayList<Faces> facesPic = null;
@@ -80,11 +81,11 @@ public class ImgData {
 		int [] fpx = null;
 		int [] fpy = null;
 		int count = 0;
-		int mFaceWidth = myPictures.get(pictureIndex).getWidth();
-		int mFaceHeight = myPictures.get(pictureIndex).getHeight();
+		int mFaceWidth = mPicture.getWidth();
+		int mFaceHeight = mPicture.getHeight();
 		try {
 			fd = new FaceDetector(mFaceWidth, mFaceHeight, MAX_FACES);        
-			count = fd.findFaces(myPictures.get(pictureIndex), faces);
+			count = fd.findFaces(mPicture, faces);
 		} catch (Exception e) {
 			/*Log.e(TAG, "setFace(): " + e.toString());*/
 			return;
@@ -112,7 +113,7 @@ public class ImgData {
 					int heightEye = 1;
 					RectRegion facePos = new RectRegion(lcx, lcy, width, height);
 					RectRegion eyePos = new RectRegion(eplx,eply,widthEye,heightEye);
-					Bitmap faceImg = Bitmap.createBitmap(myPictures.get(pictureIndex),lcx,lcy,width,height);
+					Bitmap faceImg = Bitmap.createBitmap(mPicture,lcx,lcy,width,height);
 					Faces faceTemp = new Faces(facePos,faceImg,eyePos);
 					facesPic.add(faceTemp);
 				} catch (Exception e) { 
@@ -131,7 +132,7 @@ public class ImgData {
 	public void addPicture(byte[] data) {
 		Bitmap myBitmap = BitmapFactory.decodeByteArray(data,0,data.length);
 		myPictures.add(myBitmap.copy(Bitmap.Config.ARGB_8888, true));
-		findandAddFaces(numPictures);
+		findandAddFaces(myPictures.get(numPictures));
 		numPictures ++;
 	}
 
@@ -140,6 +141,12 @@ public class ImgData {
 	 * @param myPicture Image
 	 */
 	private void findandAddUnwantedObjects(Bitmap myPicture) {
+		Bitmap avgPicture = AveragePictureGenerator.generate(myPictures);
+		Bitmap differencePicture = GetDifferencePicture.generate(myPicture,avgPicture);
+		List<RectRegion> regions = GetConnectedComponents.generate(differencePicture);
+		for(int i =0;i<regions.size();i++){
+			unwantedObjects.add(new UnwantedObjects(regions.get(i)),Bitmap.createBitmap(avgPicture, regions.get(i).getX(), regions.get(i).getY(), regions.get(i).getWidth(), regions.get(i).getHeight()));
+		}
 	}
 
 	/**
@@ -167,7 +174,7 @@ public class ImgData {
 		myBackground = myPictures.get(myBackgroundNum);
 		for (int i=0; i< myFaces.get(myBackgroundNum).size();i++)
 		{
-			Person personTemp = new Person(myFaces,myFaces.get(myBackgroundNum).get(i),i);
+			Person personTemp = new Person(myFaces,myFaces.get(myBackgroundNum).get(i));
 			myPeople.add(personTemp);
 		}
 	}
@@ -176,17 +183,10 @@ public class ImgData {
 	 * Gets the replacement for the unwanted object from unwantedObjects and warps it to myBackground.
 	 * @param pos Position of the unwanted object
 	 */
-	public void warpUnwanted(Integer []pos) {
+	public void warpUnwanted(RectRegion pos) {
 	}
 	
-	/**
-	 * Given face position, it returns the corresponding person ID.
-	 * @param facePos Position of the face
-	 * @return Person ID
-	 */
-	public Integer getPersonId(Integer facePos) {
-		return 0; // return pid
-	}
+	
 
 	/**
 	 * @return the myPictures
