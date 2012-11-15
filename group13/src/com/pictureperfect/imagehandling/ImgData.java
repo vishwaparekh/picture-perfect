@@ -3,16 +3,15 @@ package com.pictureperfect.imagehandling;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pictureperfect.common.RectRegion;
-import com.pictureperfect.removeunwantedtools.AveragePictureGenerator;
-import com.pictureperfect.removeunwantedtools.GetConnectedComponents;
-import com.pictureperfect.removeunwantedtools.GetDifferencePicture;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.media.FaceDetector;
-import android.util.Log;
+
+import com.pictureperfect.common.RectRegion;
+import com.pictureperfect.removeunwantedtools.AveragePictureGenerator;
+import com.pictureperfect.removeunwantedtools.GetConnectedComponents;
+import com.pictureperfect.removeunwantedtools.GetDifferencePicture;
 /**
  * This is the central class of this project. It implements algorithms to detect faces, detect unwanted objects, and warp the changes to the background image.
  * It is used by all the views.

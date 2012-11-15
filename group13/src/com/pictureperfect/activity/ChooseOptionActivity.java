@@ -2,7 +2,6 @@ package com.pictureperfect.activity;
 
 
 
-import com.pictureperfect.activity.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

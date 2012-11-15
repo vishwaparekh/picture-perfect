@@ -33,7 +33,7 @@ public class RectRegion {
 	private int width;
 	private int height;
 
-	RectRegion(int x, int y, int width, int height) {
+	public RectRegion(int x, int y, int width, int height) {
 		// initialize the RectRegion
 		this.x = x;
 		this.y = y;

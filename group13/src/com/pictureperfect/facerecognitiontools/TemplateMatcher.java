@@ -12,7 +12,7 @@ public class TemplateMatcher implements ImageMatcher {
 	private double rConvert = 0.2989;
 	private double gConvert = 0.5870;
 	private double bConvert = 0.1140;
-	TemplateMatcher()
+	public TemplateMatcher()
 	{
 		super();
 	}

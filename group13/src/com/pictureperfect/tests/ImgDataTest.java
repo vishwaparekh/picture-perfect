@@ -2,13 +2,12 @@ package com.pictureperfect.tests;
 
 import java.util.ArrayList;
 
+import junit.framework.TestCase;
 import android.graphics.Bitmap;
 
 import com.pictureperfect.imagehandling.Faces;
 import com.pictureperfect.imagehandling.ImgData;
 import com.pictureperfect.imagehandling.Person;
-
-import junit.framework.TestCase;
 
 public class ImgDataTest extends TestCase {
 	
@@ -24,7 +23,7 @@ public class ImgDataTest extends TestCase {
 		ArrayList<Faces> testFace1 = new ArrayList();
 		ArrayList<Faces> testFace2 = new ArrayList();
 		
-		Person P = new Person(myfaces, null, 1);
+		Person P = new Person(myfaces, null);
 		
 		assertTrue(I.getMyPeople().get(1).getFaces().isEmpty());
 		myfaces.add(testFace1);

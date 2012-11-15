@@ -12,7 +12,7 @@ public class GetDifferencePicture {
 	 * @param background
 	 * @return difference image
 	 */
-	static Bitmap generate(Bitmap foreground,Bitmap background){
+	public static Bitmap generate(Bitmap foreground,Bitmap background){
 		int[] pixelsForeground = null;
 		int[] pixelsBackground = null;
 		int[] subPixels = null;
