@@ -134,6 +134,9 @@ public class ImgData {
 	 * @param data Byte stream of the captured image
 	 */
 	public void addPicture(byte[] data) {
+		BitmapFactory.Options options= new BitmapFactory.Options();
+		options.inJustDecodeBounds= true;
+		Bitmap myBitmap = BitmapFactory.decodeByteArray(data,0,data.length, options);
 		Bitmap myBitmap = BitmapFactory.decodeByteArray(data,0,data.length);
 		myPictures.add(myBitmap.copy(Bitmap.Config.ARGB_8888, true));
 		findandAddFaces(myPictures.get(numPictures));
@@ -187,7 +190,12 @@ public class ImgData {
 	 * Gets the replacement for the unwanted object from unwantedObjects and warps it to myBackground.
 	 * @param pos Position of the unwanted object
 	 */
-	public void warpUnwanted(RectRegion pos) {
+	public void warpUnwanted(UnwantedObjects unwantedObj) {
+		Bitmap replaceImg = unwantedObj.getReplaceImg();
+		int []pixels= null;
+		replaceImg.getPixels(pixels, 0, 0, 0, 0, replaceImg.getWidth(), replaceImg.getHeight());
+		RectRegion regionToreplace = unwantedObj.getPosition();
+		this.getBackground().setPixels(pixels, 0, 0, regionToreplace.getX(), regionToreplace.getY(), regionToreplace.getWidth(), regionToreplace.getHeight());
 	}
 	
 	
