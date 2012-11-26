@@ -1,5 +1,7 @@
 package com.pictureperfect.facerecognitiontools;
 
+import com.pictureperfect.common.ImageToGray;
+
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
@@ -9,9 +11,7 @@ import android.graphics.Color;
  * @author group13
  */
 public class TemplateMatcher implements ImageMatcher {
-	private double rConvert = 0.2989;
-	private double gConvert = 0.5870;
-	private double bConvert = 0.1140;
+	
 	public TemplateMatcher()
 	{
 		super();
@@ -32,8 +32,8 @@ public class TemplateMatcher implements ImageMatcher {
 		double minValue = 0;
 		for (int i=0;i<pixelsB1.length;i++)
 		{
-			double grayScaleB1 = getGrayScale(Color.red(pixelsB1[i]),Color.green(pixelsB1[i]),Color.blue(pixelsB1[i]));
-			double grayScaleB2 = getGrayScale(Color.red(pixelsB2[i]),Color.green(pixelsB2[i]),Color.blue(pixelsB2[i]));
+			double grayScaleB1 = ImageToGray.getGrayScale(Color.red(pixelsB1[i]),Color.green(pixelsB1[i]),Color.blue(pixelsB1[i]));
+			double grayScaleB2 = ImageToGray.getGrayScale(Color.red(pixelsB2[i]),Color.green(pixelsB2[i]),Color.blue(pixelsB2[i]));
 			minValue = minValue + Math.abs(grayScaleB1 - grayScaleB2);
 		}
 		
@@ -47,9 +47,5 @@ public class TemplateMatcher implements ImageMatcher {
 	 * @param blueValue Blue  component
 	 * @return GrayScale value
 	 */
-	private double getGrayScale(int redValue,int greenValue, int blueValue)
-	{
-		return redValue * rConvert + greenValue * gConvert + blueValue * bConvert; 
-	}
-
+	
 }
