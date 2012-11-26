@@ -14,6 +14,12 @@ public class UnwantedObjects {
 
 	private RectRegion position;
 	private Bitmap replaceImg;
+	public RectRegion getPosition() {
+		return position;
+	}
+	public Bitmap getReplaceImg() {
+		return replaceImg;
+	}
 	UnwantedObjects(RectRegion position,Bitmap replaceImg)
 	{
 		init(position,replaceImg);
