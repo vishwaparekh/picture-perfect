@@ -1,7 +1,10 @@
 package com.pictureperfect.activity;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -12,6 +15,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+import com.pictureperfect.imagehandling.ImgData;
+import com.pictureperfect.imagehandling.SavePhoto;
+
 /**
  * This screen helps the user to click a burst of images.
  * 
@@ -21,10 +27,12 @@ import android.widget.Toast;
 
 public class CameraActivity extends Activity {
 
+	private ArrayList<Bitmap> myPictures;
 	private static final int CAMERA_PIC_REQUEST = 1337;
 	private SurfaceView preview = null;
 	private SurfaceHolder previewHolder = null;
 	private Camera mCamera = null;
+	ImgData imgData = new ImgData();
 
 	/**
 	 * Called when the activity is first created. This is where you should do
@@ -66,15 +74,13 @@ public class CameraActivity extends Activity {
 	}
 
 	/* Define which keys will "take the picture" */
-
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_CAMERA
 				|| keyCode == KeyEvent.KEYCODE_SEARCH) {
 			takePicture();
-
 			return (true);
 		}
-
 		return (super.onKeyDown(keyCode, event));
 	}
 
@@ -99,7 +105,6 @@ public class CameraActivity extends Activity {
 		public void surfaceChanged(SurfaceHolder holder, int format, int width,
 				int height) {
 			Camera.Parameters parameters = mCamera.getParameters();
-
 			/*
 			 * Customize width/height here - otherwise defaults to screen
 			 * width/height
@@ -107,7 +112,7 @@ public class CameraActivity extends Activity {
 			parameters.setPreviewSize(width, height);
 			parameters.setPictureFormat(PixelFormat.JPEG);
 			parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-			parameters.setJpegQuality(100);
+			// parameters.setJpegQuality(10);
 
 			mCamera.setParameters(parameters);
 			mCamera.startPreview();
@@ -127,9 +132,14 @@ public class CameraActivity extends Activity {
 
 	Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
-			Intent mIntent = new Intent();
-			mIntent.putExtra("picture", data);
-			setResult(1, mIntent); // 1 for result code = ok
+			new SavePhoto().execute(data);
+			//[] x = Base64.decode(data, Base64.DEFAULT);
+			Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+			
+			
+			imgData.addPicture(bmp);
+			
+			// myPictures.add(data);
 			/*
 			 * This segment moved from surfaceDestroyed - otherwise the Camera
 			 * is not properly released
@@ -142,4 +152,5 @@ public class CameraActivity extends Activity {
 			finish();
 		}
 	};
+
 }
