@@ -13,6 +13,7 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.pictureperfect.imagehandling.ImgData;
+import com.pictureperfect.imagehandling.SavePhoto;
 
 /**
  * This screen helps the user to click a burst of images.
