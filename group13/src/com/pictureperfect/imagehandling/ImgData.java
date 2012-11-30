@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.media.FaceDetector;
@@ -22,11 +23,11 @@ import com.pictureperfect.removeunwantedtools.GetDifferencePicture;
  */
 public class ImgData {
 
-	private ArrayList<Bitmap> myPictures;
+	private ArrayList<Bitmap> myPictures = new ArrayList<Bitmap>();
 
 	private Bitmap myBackground;
 
-	private ArrayList<ArrayList<Faces>> myFaces = null;
+	private ArrayList<ArrayList<Faces>> myFaces = new ArrayList<ArrayList<Faces>>();
 
 	private ArrayList<Person> myPeople;
 
@@ -78,7 +79,7 @@ public class ImgData {
 	private void findandAddFaces(Bitmap mPicture) {
 	//calls a face detection code on this picture here and get back all
 	//the required values.
-		ArrayList<Faces> facesPic = null;
+		ArrayList<Faces> facesPic = new ArrayList<Faces>();
 		FaceDetector fd;
 		FaceDetector.Face [] faces = new FaceDetector.Face[MAX_FACES];
 		PointF midpoint = new PointF();
@@ -90,6 +91,7 @@ public class ImgData {
 		try {
 			fd = new FaceDetector(mFaceWidth, mFaceHeight, MAX_FACES);        
 			count = fd.findFaces(mPicture, faces);
+			
 		} catch (Exception e) {
 			/*Log.e(TAG, "setFace(): " + e.toString());*/
 			return;
@@ -135,10 +137,17 @@ public class ImgData {
 	 */
 	public void addPicture(byte[] data) {
 		BitmapFactory.Options options= new BitmapFactory.Options();
-		options.inJustDecodeBounds= true;
+		/*options.inJustDecodeBounds= true;*/
+		options.inPreferredConfig = Config.RGB_565;
+		options.inSampleSize=10;
+		
 		Bitmap myBitmap = BitmapFactory.decodeByteArray(data,0,data.length, options);
-		Bitmap myBitmap = BitmapFactory.decodeByteArray(data,0,data.length);
-		myPictures.add(myBitmap.copy(Bitmap.Config.ARGB_8888, true));
+		int x = myBitmap.getHeight();
+		int y = myBitmap.getWidth();
+		//Bitmap myBitmap = BitmapFactory.decodeByteArray(data,0,data.length);
+		myPictures.add(myBitmap.copy(Bitmap.Config.RGB_565, true));
+		/*myPictures.add(myBitmap);*/
+		 
 		findandAddFaces(myPictures.get(numPictures));
 		numPictures ++;
 	}
