@@ -1,13 +1,21 @@
 package com.pictureperfect.imagehandling;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.media.FaceDetector;
+import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
 import com.pictureperfect.common.RectRegion;
 import com.pictureperfect.removeunwantedtools.AveragePictureGenerator;
@@ -21,7 +29,7 @@ import com.pictureperfect.removeunwantedtools.GetDifferencePicture;
  * It maintains a collection of all the people detected in the burst and their corresponding faces.  
  * @author group13
  */
-public class ImgData {
+public class ImgData implements Parcelable{
 
 	private ArrayList<Bitmap> myPictures = new ArrayList<Bitmap>();
 
@@ -29,9 +37,9 @@ public class ImgData {
 
 	private ArrayList<ArrayList<Faces>> myFaces = new ArrayList<ArrayList<Faces>>();
 
-	private ArrayList<Person> myPeople;
+	private ArrayList<Person> myPeople = new ArrayList<Person>();;
 
-	private ArrayList<UnwantedObjects> unwantedObjects;
+	private ArrayList<UnwantedObjects> unwantedObjects = new ArrayList<UnwantedObjects>();
 
 	private Integer myBackgroundNum;
 	
@@ -122,6 +130,8 @@ public class ImgData {
 					Bitmap faceImg = Bitmap.createBitmap(mPicture,lcx,lcy,width,height);
 					Faces faceTemp = new Faces(facePos,faceImg,eyePos);
 					facesPic.add(faceTemp);
+					byte[] abc= bitmapToByteArray(faceImg);
+					saveFaces(abc,i);
 				} catch (Exception e) { 
 					/*Log.e(TAG, "setFace(): face " + i + ": " + e.toString());*/
 				}            
@@ -129,6 +139,30 @@ public class ImgData {
 		}
 		myFaces.add(facesPic);
 
+	}
+	
+	private void saveFaces(byte[] data, int count) {
+		File photo = new File(Environment.getExternalStorageDirectory(),
+				"/Picture Perfect/face/"+ "face"+numPictures+count+".png");
+
+		if (photo.exists()) {
+			photo.delete();
+		}
+
+		try {
+			FileOutputStream fos = new FileOutputStream(photo.getPath());
+			fos.write(data);
+			fos.close();
+		} catch (java.io.IOException e) {
+			Log.e("PictureDemo", "Exception in photoCallback", e);
+		}
+	}
+	
+	public static byte[] bitmapToByteArray(Bitmap bitmap) {
+	    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	    bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
+	    byte[] bitmapdata = bos.toByteArray();
+	    return bitmapdata;
 	}
 
 	/**
@@ -249,6 +283,16 @@ public class ImgData {
 	 */
 	public int getNumPictures() {
 		return numPictures;
+	}
+
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void writeToParcel(Parcel arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
