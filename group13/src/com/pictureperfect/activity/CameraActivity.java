@@ -1,9 +1,13 @@
 package com.pictureperfect.activity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import android.app.Activity;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -13,7 +17,6 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.pictureperfect.imagehandling.ImgData;
-import com.pictureperfect.imagehandling.SavePhoto;
 
 /**
  * This screen helps the user to click a burst of images.
@@ -31,6 +34,7 @@ public class CameraActivity extends Activity {
 	ImgData imgData = new ImgData();
 	private boolean cameraConfigured = false;
 	private boolean inPreview = false;
+	private int numPictureTaken = 1;
 
 	/**
 	 * Called when the activity is first created. This is where you should do
@@ -53,6 +57,13 @@ public class CameraActivity extends Activity {
 		previewHolder = preview.getHolder();
 		previewHolder.addCallback(surfaceCallback);
 		previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+		/*
+		 * Intent intent = new Intent(CameraActivity.this,
+		 * SelectBackgroundActivity.class);
+		 * intent.putExtra("com.pictureperfect.activity.imgData", imgData);
+		 * startActivity(intent);
+		 */
 	}
 
 	@Override
@@ -76,11 +87,13 @@ public class CameraActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_CAMERA
 				|| keyCode == KeyEvent.KEYCODE_SEARCH) {
-			takePicture();
-
-			return (true);
+			int i = 0;
+			if (inPreview) {
+				takePicture();
+				i++;
+			}
+			// return (true);
 		}
-
 		return (super.onKeyDown(keyCode, event));
 	}
 
@@ -118,7 +131,7 @@ public class CameraActivity extends Activity {
 		}
 
 		mCamera.setDisplayOrientation((360 - degrees + 90) % 360);
-		
+
 		Camera.Size result = null;
 		for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
 			if (size.width <= width && size.height <= height) {
@@ -172,7 +185,7 @@ public class CameraActivity extends Activity {
 	}
 
 	private void takePicture() {
-		mCamera.takePicture(null, null, null, photoCallback);
+		mCamera.takePicture(null, null, photoCallback);
 	}
 
 	SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
@@ -202,9 +215,9 @@ public class CameraActivity extends Activity {
 			parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 			parameters.setJpegQuality(100);
 
-			/*parameters.setRotation(270);*/
+			/* parameters.setRotation(270); */
 			mCamera.setParameters(parameters);
-			/*mCamera.setDisplayOrientation(90);*/
+			/* mCamera.setDisplayOrientation(90); */
 			initPreview(width, height);
 			startPreview();
 
@@ -223,27 +236,43 @@ public class CameraActivity extends Activity {
 
 	Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
-			/*
-			 * Intent mIntent = new Intent(); mIntent.putExtra("picture", data);
-			 * setResult(1, mIntent); // 1 for result code = ok
-			 *//*
-				 * This segment moved from surfaceDestroyed - otherwise the
-				 * Camera is not properly released
-				 */
-			/*
-			 * Bitmap bmp = BitmapFactory.decodeStream(new
-			 * ByteArrayInputStream(data)); int x = bmp.getWidth(); int y =
-			 * bmp.getHeight();
-			 */
-			new SavePhoto().execute(data);
+			// new SavePhoto().execute(data);
 			imgData.addPicture(data);
-			if (mCamera != null) {
-				mCamera.stopPreview();
-				mCamera.release();
-				mCamera = null;
+			inPreview = true;
+
+			savePhoto(data);
+			if (numPictureTaken < 3) {
+				/*
+				 * try { Thread.sleep(200); } catch (InterruptedException e) {
+				 * // TODO Auto-generated catch block e.printStackTrace(); }
+				 */
+				takePicture();
+				numPictureTaken++;
 			}
-			finish();
+			else{
+				System.out.println("Burst successfully taken");
+			}
+		}
+		/*
+		 * This segment moved from surfaceDestroyed - otherwise the Camera is
+		 * not properly released
+		 */
+
+		private void savePhoto(byte[] data) {
+			File photo = new File(
+					Environment.getExternalStorageDirectory(), "/Picture Perfect/"+"photo"+numPictureTaken+".jpg");
+
+			if (photo.exists()) {
+				photo.delete();
+			}
+
+			try {
+				FileOutputStream fos = new FileOutputStream(photo.getPath());
+				fos.write(data);
+				fos.close();
+			} catch (java.io.IOException e) {
+				Log.e("PictureDemo", "Exception in photoCallback", e);
+			}
 		}
 	};
-
 }
