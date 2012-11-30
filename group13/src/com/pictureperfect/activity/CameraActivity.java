@@ -27,6 +27,7 @@ import com.pictureperfect.imagehandling.ImgData;
 
 public class CameraActivity extends Activity {
 
+	private static final int BURST_SIZE = 3;
 	private static final int CAMERA_PIC_REQUEST = 1337;
 	private SurfaceView preview = null;
 	private SurfaceHolder previewHolder = null;
@@ -241,7 +242,7 @@ public class CameraActivity extends Activity {
 			inPreview = true;
 
 			savePhoto(data);
-			if (numPictureTaken < 3) {
+			if (numPictureTaken < BURST_SIZE) {
 				/*
 				 * try { Thread.sleep(200); } catch (InterruptedException e) {
 				 * // TODO Auto-generated catch block e.printStackTrace(); }
