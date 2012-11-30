@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -59,12 +60,10 @@ public class CameraActivity extends Activity {
 		previewHolder.addCallback(surfaceCallback);
 		previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-		/*
-		 * Intent intent = new Intent(CameraActivity.this,
-		 * SelectBackgroundActivity.class);
-		 * intent.putExtra("com.pictureperfect.activity.imgData", imgData);
-		 * startActivity(intent);
-		 */
+		/*Intent intent = new Intent(CameraActivity.this,
+				SelectBackgroundActivity.class);
+		intent.putExtra("com.pictureperfect.activity.imgData", imgData);
+		startActivity(intent);*/
 	}
 
 	@Override
@@ -249,19 +248,19 @@ public class CameraActivity extends Activity {
 				 */
 				takePicture();
 				numPictureTaken++;
-			}
-			else{
+			} else {
 				System.out.println("Burst successfully taken");
 			}
 		}
+
 		/*
 		 * This segment moved from surfaceDestroyed - otherwise the Camera is
 		 * not properly released
 		 */
 
 		private void savePhoto(byte[] data) {
-			File photo = new File(
-					Environment.getExternalStorageDirectory(), "/Picture Perfect/"+"photo"+numPictureTaken+".jpg");
+			File photo = new File(Environment.getExternalStorageDirectory(),
+					"/Picture Perfect/" + "photo" + numPictureTaken + ".jpg");
 
 			if (photo.exists()) {
 				photo.delete();
