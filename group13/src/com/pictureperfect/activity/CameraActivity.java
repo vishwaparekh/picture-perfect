@@ -1,22 +1,18 @@
 package com.pictureperfect.activity;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.pictureperfect.imagehandling.ImgData;
-import com.pictureperfect.imagehandling.SavePhoto;
 
 /**
  * This screen helps the user to click a burst of images.
@@ -27,12 +23,13 @@ import com.pictureperfect.imagehandling.SavePhoto;
 
 public class CameraActivity extends Activity {
 
-	private ArrayList<Bitmap> myPictures;
 	private static final int CAMERA_PIC_REQUEST = 1337;
 	private SurfaceView preview = null;
 	private SurfaceHolder previewHolder = null;
 	private Camera mCamera = null;
 	ImgData imgData = new ImgData();
+	private boolean cameraConfigured = false;
+	private boolean inPreview = false;
 
 	/**
 	 * Called when the activity is first created. This is where you should do
@@ -74,18 +71,107 @@ public class CameraActivity extends Activity {
 	}
 
 	/* Define which keys will "take the picture" */
-	@Override
+
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_CAMERA
 				|| keyCode == KeyEvent.KEYCODE_SEARCH) {
 			takePicture();
+
 			return (true);
 		}
+
 		return (super.onKeyDown(keyCode, event));
 	}
 
+	@Override
+	public void onPause() {
+		if (inPreview) {
+			mCamera.stopPreview();
+		}
+
+		mCamera.release();
+		mCamera = null;
+		inPreview = false;
+
+		super.onPause();
+	}
+
+	private Camera.Size getBestPreviewSize(int width, int height,
+			Camera.Parameters parameters) {
+		int rotation = this.getWindowManager().getDefaultDisplay()
+				.getRotation();
+		int degrees = 0;
+		switch (rotation) {
+		case Surface.ROTATION_0:
+			degrees = 0;
+			break;
+		case Surface.ROTATION_90:
+			degrees = 90;
+			break;
+		case Surface.ROTATION_180:
+			degrees = 180;
+			break;
+		case Surface.ROTATION_270:
+			degrees = 270;
+			break;
+		}
+
+		mCamera.setDisplayOrientation((360 - degrees + 90) % 360);
+		
+		Camera.Size result = null;
+		for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
+			if (size.width <= width && size.height <= height) {
+				if (result == null) {
+					result = size;
+				} else {
+					int resultArea = result.width * result.height;
+					int newArea = size.width * size.height;
+
+					if (newArea > resultArea) {
+						result = size;
+					}
+				}
+			}
+		}
+
+		return (result);
+	}
+
+	private void initPreview(int width, int height) {
+		if (mCamera != null && previewHolder.getSurface() != null) {
+			try {
+				mCamera.setPreviewDisplay(previewHolder);
+			} catch (Throwable t) {
+				Log.e("PreviewDemo-surfaceCallback",
+						"Exception in setPreviewDisplay()", t);
+				/*
+				 * Toast .makeText(camera.this, t.getMessage(),
+				 * Toast.LENGTH_LONG) .show();
+				 */
+			}
+
+			if (!cameraConfigured) {
+				Camera.Parameters parameters = mCamera.getParameters();
+				Camera.Size size = getBestPreviewSize(width, height, parameters);
+
+				if (size != null) {
+					parameters.setPreviewSize(size.width, size.height);
+					mCamera.setParameters(parameters);
+					cameraConfigured = true;
+				}
+			}
+		}
+	}
+
+	private void startPreview() {
+		if (cameraConfigured && mCamera != null) {
+			mCamera.startPreview();
+			inPreview = true;
+		}
+	}
+
 	private void takePicture() {
-		mCamera.takePicture(null, null, photoCallback);
+		mCamera.takePicture(null, null, null, photoCallback);
 	}
 
 	SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
@@ -105,6 +191,7 @@ public class CameraActivity extends Activity {
 		public void surfaceChanged(SurfaceHolder holder, int format, int width,
 				int height) {
 			Camera.Parameters parameters = mCamera.getParameters();
+
 			/*
 			 * Customize width/height here - otherwise defaults to screen
 			 * width/height
@@ -112,10 +199,13 @@ public class CameraActivity extends Activity {
 			parameters.setPreviewSize(width, height);
 			parameters.setPictureFormat(PixelFormat.JPEG);
 			parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-			// parameters.setJpegQuality(10);
+			parameters.setJpegQuality(100);
 
+			/*parameters.setRotation(270);*/
 			mCamera.setParameters(parameters);
-			mCamera.startPreview();
+			/*mCamera.setDisplayOrientation(90);*/
+			initPreview(width, height);
+			startPreview();
 
 			/* Must add the following callback to allow the camera to autofocus. */
 			mCamera.autoFocus(new Camera.AutoFocusCallback() {
@@ -132,18 +222,20 @@ public class CameraActivity extends Activity {
 
 	Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
-			new SavePhoto().execute(data);
-			//[] x = Base64.decode(data, Base64.DEFAULT);
-			Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
-			
-			
-			imgData.addPicture(bmp);
-			
-			// myPictures.add(data);
 			/*
-			 * This segment moved from surfaceDestroyed - otherwise the Camera
-			 * is not properly released
+			 * Intent mIntent = new Intent(); mIntent.putExtra("picture", data);
+			 * setResult(1, mIntent); // 1 for result code = ok
+			 *//*
+				 * This segment moved from surfaceDestroyed - otherwise the
+				 * Camera is not properly released
+				 */
+			/*
+			 * Bitmap bmp = BitmapFactory.decodeStream(new
+			 * ByteArrayInputStream(data)); int x = bmp.getWidth(); int y =
+			 * bmp.getHeight();
 			 */
+			new SavePhoto().execute(data);
+			imgData.addPicture(data);
 			if (mCamera != null) {
 				mCamera.stopPreview();
 				mCamera.release();
