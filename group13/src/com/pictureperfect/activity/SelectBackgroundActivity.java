@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.pictureperfect.imagehandling.ImgData;
-import com.pictureperfect.imagehandling.MyImageView;
 
 /**
  * This screen helps the user to choose the background image.
@@ -22,9 +21,7 @@ import com.pictureperfect.imagehandling.MyImageView;
  */
 public class SelectBackgroundActivity extends Activity {
 
-	// ImgData imgData;
-
-	private ImageView mIV;
+	private ImageView myImageView;
 	private int mFaceWidth = 200;
 	private int mFaceHeight = 200;
 	private static final int MAX_FACES = 10;
@@ -47,7 +44,7 @@ public class SelectBackgroundActivity extends Activity {
 	protected Handler mHandler = new Handler() {
 		// @Override
 		public void handleMessage(Message msg) {
-			mIV.invalidate();
+			myImageView.invalidate();
 			super.handleMessage(msg);
 		}
 	};
@@ -60,7 +57,7 @@ public class SelectBackgroundActivity extends Activity {
 		/*setContentView(mIV, new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));*/
 		setContentView(R.layout.selectbackground);
-		mIV = (ImageView) findViewById(R.id.imageView1);
+		myImageView = (ImageView) findViewById(R.id.imageView1);
 		
 		 Button NextPictureButton = (Button) findViewById(R.id.button1);
 		 Button PreviousPictureButton = (Button) findViewById(R.id.button3);
@@ -73,7 +70,7 @@ public class SelectBackgroundActivity extends Activity {
 					number--;
 				}
 				((ImgData) getApplication()).setBackgroundNum(number);
-				mIV.setImageBitmap(((ImgData) getApplication()).getBackground());
+				myImageView.setImageBitmap(((ImgData) getApplication()).getBackground());
 			}
 		});
 		
@@ -84,7 +81,7 @@ public class SelectBackgroundActivity extends Activity {
 					number++;
 				}
 				((ImgData) getApplication()).setBackgroundNum(number);
-				mIV.setImageBitmap(((ImgData) getApplication()).getBackground());
+				myImageView.setImageBitmap(((ImgData) getApplication()).getBackground());
 			}
 		});
 		
@@ -102,8 +99,8 @@ public class SelectBackgroundActivity extends Activity {
 
 	private void init() {
 		((ImgData) getApplication()).setBackgroundNum(0);
-		mIV.setImageBitmap(((ImgData) getApplication()).getBackground());
-		mIV.invalidate();
+		myImageView.setImageBitmap(((ImgData) getApplication()).getBackground());
+		myImageView.invalidate();
 	}
 
 	SurfaceHolder.Callback cameraSurfaceCallback = new SurfaceHolder.Callback() {
