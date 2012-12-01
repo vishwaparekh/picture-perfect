@@ -1,15 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
-    
+
+    <LinearLayout
+        android:id="@+id/ImageAndNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="326dp"
+            android:layout_weight="0.19"
+            android:src="@drawable/ic_launcher" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll123"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.45"
+            android:src="@drawable/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="82dp"
+            android:layout_weight="0.54"
+            android:src="@drawable/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            android:src="@drawable/ic_launcher" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/facesDone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
         android:text="@string/done" />
-    
 
 </LinearLayout>
