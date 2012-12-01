@@ -31,12 +31,20 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.main);
         
         Button TakePictureButton = (Button) findViewById(R.id.button1);
-        
+        Button editExistingButton = (Button) findViewById(R.id.button2);
         TakePictureButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(WelcomeActivity.this,
 						CameraActivity.class);
 				startActivity(intent);
+			}
+		});
+        
+        editExistingButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+		/*		Intent intent = new Intent(WelcomeActivity.this,
+						CustomGalleryActivity.class);
+				startActivity(intent);*/
 			}
 		});
     }

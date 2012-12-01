@@ -42,7 +42,7 @@ public class SelectFacesActivity extends Activity {
 	protected static final int GUIUPDATE_SETFACE = 999;
 	
 	private int currentpId = 0;
-	private int currentfaceId = ((ImgData) getApplication()).getMyBackgroundNum();
+	private int currentfaceId = 0;
 	/**
 	 * Called when the activity is first created. This is where you should do
 	 * all of your normal static set up: create views, bind data to lists, etc.
@@ -64,7 +64,8 @@ public class SelectFacesActivity extends Activity {
 		faceView.add((ImageView) findViewById(R.id.imageView3));
 		Button Next = (Button) findViewById(R.id.button1);
 		Button Done = (Button) findViewById(R.id.facesDone); // Insert Button
-
+		initializeScreen();
+		
 		Done.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				finished = true;
@@ -79,6 +80,7 @@ public class SelectFacesActivity extends Activity {
 				}
 			}
 		});
+		
 		Next.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				currentfaceId = currentfaceId+1;
@@ -96,6 +98,7 @@ public class SelectFacesActivity extends Activity {
 	 */
 	private void initializeScreen() {
 		myBitmap = ((ImgData) getApplication()).getBackground();
+		currentfaceId=((ImgData) getApplication()).getMyBackgroundNum();
 		myCanvas = new Canvas(myBitmap);
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
