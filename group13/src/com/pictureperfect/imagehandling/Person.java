@@ -15,15 +15,12 @@ import android.graphics.Bitmap;
  */
 public class Person {
 
-//	private Integer pId;
-
 	private ArrayList<Faces> myfaces = new ArrayList<Faces>();
 
 	private Faces bestFace;
 
 	public Person(ArrayList<ArrayList<Faces>> faces, Faces baseFace) {
 		super();
-	//	this.pId = pId;
 		this.bestFace = baseFace;
 		init(faces, baseFace);
 	}
@@ -77,8 +74,10 @@ public class Person {
 	/**
 	 * Finds the corresponding face of a given face in a picture.
 	 * 
-	 * @param faces Array of faces of a specific picture
-	 * @param baseFace The face to be compared from the Background picture 
+	 * @param faces
+	 *            Array of faces of a specific picture
+	 * @param baseFace
+	 *            The face to be compared from the Background picture
 	 * @return the matched face of the person
 	 */
 	private Faces getBestMatch(ArrayList<Faces> faces, Faces baseFace) {
@@ -90,10 +89,10 @@ public class Person {
 		for (int i = 0; i < faces.size(); i++) {
 			Bitmap faceTemp = Bitmap.createScaledBitmap(faces.get(i)
 					.getFaceImg(), dstWidth, dstHeight, false);
-			int x = faceTemp.getHeight();
-			int y = faceTemp.getWidth();
+			faceTemp.getHeight();
+			faceTemp.getWidth();
 			ImageMatcher imgMatcher = new TemplateMatcher();
-			
+
 			int matchIndex = imgMatcher.getMatchIndex(faceTemp,
 					baseFace.getFaceImg());
 			if (i == 0) {
@@ -107,5 +106,4 @@ public class Person {
 		}
 		return matchedFace;
 	}
-
 }
