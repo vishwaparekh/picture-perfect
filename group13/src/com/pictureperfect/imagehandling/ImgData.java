@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
@@ -29,7 +30,7 @@ import com.pictureperfect.removeunwantedtools.GetDifferencePicture;
  * It maintains a collection of all the people detected in the burst and their corresponding faces.  
  * @author group13
  */
-public class ImgData implements Parcelable{
+public class ImgData extends Application{
 
 	private ArrayList<Bitmap> myPictures = new ArrayList<Bitmap>();
 
@@ -285,15 +286,7 @@ public class ImgData implements Parcelable{
 		return numPictures;
 	}
 
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	
 }

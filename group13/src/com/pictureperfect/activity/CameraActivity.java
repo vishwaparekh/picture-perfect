@@ -33,7 +33,7 @@ public class CameraActivity extends Activity {
 	private SurfaceView preview = null;
 	private SurfaceHolder previewHolder = null;
 	private Camera mCamera = null;
-	ImgData imgData = new ImgData();
+	// ImgData imgData = new ImgData();
 	private boolean cameraConfigured = false;
 	private boolean inPreview = false;
 	private int numPictureTaken = 1;
@@ -62,7 +62,6 @@ public class CameraActivity extends Activity {
 
 		/*Intent intent = new Intent(CameraActivity.this,
 				SelectBackgroundActivity.class);
-		intent.putExtra("com.pictureperfect.activity.imgData", imgData);
 		startActivity(intent);*/
 	}
 
@@ -237,20 +236,20 @@ public class CameraActivity extends Activity {
 	Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			// new SavePhoto().execute(data);
-			imgData.addPicture(data);
+			((ImgData) getApplication()).addPicture(data);
 			inPreview = true;
 
 			savePhoto(data);
 			if (numPictureTaken < BURST_SIZE) {
-				/*
-				 * try { Thread.sleep(200); } catch (InterruptedException e) {
-				 * // TODO Auto-generated catch block e.printStackTrace(); }
-				 */
 				takePicture();
 				numPictureTaken++;
 			} else {
 				System.out.println("Burst successfully taken");
+				Intent intent = new Intent(CameraActivity.this,
+						SelectBackgroundActivity.class);
+				startActivity(intent);
 			}
+
 		}
 
 		/*

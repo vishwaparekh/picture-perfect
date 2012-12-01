@@ -17,7 +17,7 @@ public class Person {
 
 //	private Integer pId;
 
-	private ArrayList<Faces> myfaces;
+	private ArrayList<Faces> myfaces = new ArrayList<Faces>();
 
 	private Faces bestFace;
 
@@ -90,7 +90,10 @@ public class Person {
 		for (int i = 0; i < faces.size(); i++) {
 			Bitmap faceTemp = Bitmap.createScaledBitmap(faces.get(i)
 					.getFaceImg(), dstWidth, dstHeight, false);
+			int x = faceTemp.getHeight();
+			int y = faceTemp.getWidth();
 			ImageMatcher imgMatcher = new TemplateMatcher();
+			
 			int matchIndex = imgMatcher.getMatchIndex(faceTemp,
 					baseFace.getFaceImg());
 			if (i == 0) {

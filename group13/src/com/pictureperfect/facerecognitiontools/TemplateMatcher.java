@@ -25,10 +25,10 @@ public class TemplateMatcher implements ImageMatcher {
 	 */
 	public int getMatchIndex(Bitmap b1, Bitmap b2) {
 		// TODO Auto-generated method stub
-		int []pixelsB1 = null;
-		int []pixelsB2 = null;
-		b1.getPixels(pixelsB1,0,0,0,0,b1.getWidth(),b1.getHeight());
-		b2.getPixels(pixelsB2,0,0,0,0,b2.getWidth(),b2.getHeight());
+		int []pixelsB1 = new int[b1.getHeight()*b1.getWidth()];
+		int []pixelsB2 = new int[b2.getHeight()*b2.getWidth()];
+		b1.getPixels(pixelsB1,0,b1.getWidth(),0,0,b1.getWidth(),b1.getHeight());
+		b2.getPixels(pixelsB2,0,b2.getWidth(),0,0,b2.getWidth(),b2.getHeight());
 		double minValue = 0;
 		for (int i=0;i<pixelsB1.length;i++)
 		{
