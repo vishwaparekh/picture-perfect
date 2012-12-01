@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, PPActivity!</string>
+    <string name="SelectBackground">Select Background</string>
     <string name="app_name">Picture Perfect</string>
     <string name="bestFace">Choose Face</string>
     <string name="unwantedObjects"> Remove Unwanted Objects</string>
