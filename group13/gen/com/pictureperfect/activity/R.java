@@ -14,28 +14,35 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int backgroundDone=0x7f050008;
-        public static final int button1=0x7f050005;
-        public static final int button2=0x7f050006;
-        public static final int button3=0x7f050003;
-        public static final int button4=0x7f050004;
-        public static final int cameraButton=0x7f050000;
+        public static final int TextView01=0x7f050008;
+        public static final int TextView02=0x7f050009;
+        public static final int button1=0x7f050006;
+        public static final int button2=0x7f050007;
+        public static final int button3=0x7f050004;
+        public static final int button4=0x7f050005;
         public static final int choosebutton1=0x7f050001;
         public static final int choosebutton2=0x7f050002;
-        public static final int facesDone=0x7f050009;
-        public static final int removeDone=0x7f050007;
+        public static final int facesDone=0x7f05000c;
+        public static final int horiz=0x7f050003;
+        public static final int imageView1=0x7f05000b;
+        public static final int preview=0x7f050000;
+        public static final int removeDone=0x7f05000a;
     }
     public static final class layout {
         public static final int camera=0x7f030000;
         public static final int chooseoption=0x7f030001;
-        public static final int facesvsobjects=0x7f030002;
-        public static final int finalresult=0x7f030003;
-        public static final int main=0x7f030004;
-        public static final int removeunwantedobjects=0x7f030005;
-        public static final int selectbackground=0x7f030006;
-        public static final int selectfaces=0x7f030007;
+        public static final int editexisting=0x7f030002;
+        public static final int facesvsobjects=0x7f030003;
+        public static final int file_view=0x7f030004;
+        public static final int finalresult=0x7f030005;
+        public static final int main=0x7f030006;
+        public static final int removeunwantedobjects=0x7f030007;
+        public static final int selectbackground=0x7f030008;
+        public static final int selectfaces=0x7f030009;
     }
     public static final class string {
+        public static final int Next=0x7f040006;
+        public static final int Previous=0x7f040007;
         public static final int app_name=0x7f040001;
         public static final int bestFace=0x7f040002;
         public static final int cancel=0x7f040004;
