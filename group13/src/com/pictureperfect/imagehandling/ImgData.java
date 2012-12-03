@@ -48,6 +48,8 @@ public class ImgData extends Application {
 	private int numPictures = 0;
 
 	private static final int MAX_FACES = 10;
+	
+	private int multFactor = 5;
 
 	/**
 	 * Given a person ID, it warps the current face of the person with the
@@ -136,8 +138,8 @@ public class ImgData extends Application {
 					int eyedist = (int) faces[i].eyesDistance();
 					int lcx = mpx - eyedist / 2 - eyedist;
 					int lcy = mpy - eyedist;
-					int width = eyedist * 3;
-					int height = eyedist * 3;
+					int width = eyedist * multFactor;
+					int height = eyedist * multFactor;
 					int eplx = mpx - eyedist / 2;
 					int eply = mpy;
 					int widthEye = eyedist;
