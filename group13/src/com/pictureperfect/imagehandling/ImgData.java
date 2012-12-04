@@ -65,12 +65,14 @@ public class ImgData extends Application {
 		int dstHeight = baseFace.getFacePos().getHeight();
 		Bitmap faceTemp = Bitmap.createScaledBitmap(bestFace.getFaceImg(),
 				dstWidth, dstHeight, false);
+		faceTemp = ImageBlender.blend(faceTemp, baseFace.getFaceImg());
 		int pixels[] = new int[faceTemp.getWidth()*faceTemp.getHeight()];
 		faceTemp.getPixels(pixels, 0, faceTemp.getWidth(), 0, 0, faceTemp.getWidth(),
 				faceTemp.getHeight());
 		myBackground.setPixels(pixels, 0, baseFace.getFacePos().getWidth(), baseFace.getFacePos().getX(),
 				baseFace.getFacePos().getY(), baseFace.getFacePos().getWidth(),
 				baseFace.getFacePos().getHeight());
+		
 	}
 
 	/**
