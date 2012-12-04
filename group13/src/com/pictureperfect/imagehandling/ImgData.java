@@ -136,10 +136,11 @@ public class ImgData extends Application {
 					int mpx = fpx[i];
 					int mpy = fpy[i];
 					int eyedist = (int) faces[i].eyesDistance();
-					int lcx = mpx - eyedist / 2 - eyedist;
-					int lcy = mpy - eyedist;
 					int width = eyedist * multFactor;
 					int height = eyedist * multFactor;
+					int lcx = Math.max(mpx - Math.round(width/2),0);
+					int lcy = Math.max(mpy - Math.round(height/2),0);
+					
 					int eplx = mpx - eyedist / 2;
 					int eply = mpy;
 					int widthEye = eyedist;
