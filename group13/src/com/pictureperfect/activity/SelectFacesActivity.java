@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.provider.Contacts.People;
@@ -15,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.pictureperfect.common.RectRegion;
 import com.pictureperfect.imagehandling.Faces;
 import com.pictureperfect.imagehandling.ImgData;
 import com.pictureperfect.imagehandling.Person;
@@ -40,9 +42,13 @@ public class SelectFacesActivity extends Activity {
 	private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	private int mDisplayStyle = 0;
 	protected static final int GUIUPDATE_SETFACE = 999;
-	
+	private int totalFaces = 0;
 	private int currentpId = 0;
 	private int currentfaceId = 0;
+	private int totalPeople = 0;
+	private List<Person> myPeople = new ArrayList<Person>();
+	private List<Faces> myFaces = new ArrayList<Faces>();
+	
 	/**
 	 * Called when the activity is first created. This is where you should do
 	 * all of your normal static set up: create views, bind data to lists, etc.
@@ -62,7 +68,8 @@ public class SelectFacesActivity extends Activity {
 		faceView.add((ImageView) findViewById(R.id.imageView2));
 		faceView.add((ImageView) findViewById(R.id.imageView4));
 		faceView.add((ImageView) findViewById(R.id.imageView3));
-		Button Next = (Button) findViewById(R.id.button1);
+		Button NextPerson = (Button) findViewById(R.id.button1);
+		Button NextFace = (Button) findViewById(R.id.button2);
 		Button Done = (Button) findViewById(R.id.facesDone); // Insert Button
 		initializeScreen();
 		
@@ -81,14 +88,14 @@ public class SelectFacesActivity extends Activity {
 			}
 		});
 		
-		Next.setOnClickListener(new OnClickListener() {
+		NextPerson.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				currentfaceId = currentfaceId+1;
-				if(currentfaceId > ((ImgData) getApplication()).getNumPictures()-1){
-					currentfaceId = 0;
-				}
-				Faces bestFace = ((ImgData) getApplication()).getMyPeople().get(currentpId).getFaces().get(currentfaceId);
-				((ImgData) getApplication()).setBestFace(currentpId, bestFace);
+				changePersonSelection();
+			}
+		});
+		NextFace.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				changeFaceSelection();
 			}
 		});
 	}
@@ -98,7 +105,6 @@ public class SelectFacesActivity extends Activity {
 	 */
 	private void initializeScreen() {
 		myBitmap = ((ImgData) getApplication()).getBackground();
-		currentfaceId=((ImgData) getApplication()).getMyBackgroundNum();
 		myCanvas = new Canvas(myBitmap);
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -106,14 +112,25 @@ public class SelectFacesActivity extends Activity {
 		mPaint.setStrokeWidth(3);
 		myCanvas.drawBitmap(myBitmap, 0, 0, null);
 		mIV.setImageBitmap(myBitmap);
-		int bgImg =  ((ImgData) getApplication()).getMyBackgroundNum();
-		for (int i=0;i<((ImgData) getApplication()).getNumPictures();i++)
+		totalPeople = ((ImgData) getApplication()).getMyPeople().size();
+		if (totalPeople == 0)
 		{
-			myBitmapFaces.add(((ImgData) getApplication()).getFaces(bgImg).get(i).getFaceImg());
+			return;
+		}
+		totalFaces = ((ImgData) getApplication()).getMyPeople().get(0).getFaces().size();
+		if (totalFaces == 0){
+			return;
+		}
+		myFaces= ((ImgData) getApplication()).getMyPeople().get(0).getFaces();
+		myPeople =  ((ImgData) getApplication()).getMyPeople();
+		for(int i =0; i<3;i++ )
+		{
+			myBitmapFaces.add(myFaces.get(i).getFaceImg());
 			myCanvasFaces.add(new Canvas(myBitmapFaces.get(i)));
 			myCanvasFaces.get(i).drawBitmap(myBitmapFaces.get(i),0,0,null);
 			faceView.get(i).setImageBitmap(myBitmapFaces.get(i));
 		}
+		
 		
 	}
 
@@ -121,18 +138,65 @@ public class SelectFacesActivity extends Activity {
 	 * This method switches the current selection of person.  
 	 */
 	private void changePersonSelection() {
+		if(totalPeople==0)return;
+		currentpId = (currentpId + 1) % myPeople.size();
+		myBitmap = ((ImgData) getApplication()).getBackground();
+		myCanvas = new Canvas(myBitmap);
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setColor(0x80ff0000);
+		mPaint.setStrokeWidth(3);
+		myCanvas.drawBitmap(myBitmap, 0, 0, null);
+		mIV.setImageBitmap(myBitmap);
+		RectRegion facP = myPeople.get(currentpId).getBaseFace().getFacePos();
+		float left = facP.getX();
+		float bottom = facP.getY();
+		float right = facP.getWidth() + left;
+		float top = facP.getHeight() + bottom;
+		mPaint.setColor(Color.RED);
+		myCanvas.drawRect(left,top,right,bottom,mPaint);
 	}
 
 	/**
 	 * This method updates the processed image to the view.
 	 */
-	private void refreshImage() {
+	private void resetImage() {
+		if(totalPeople==0)return;
+		int bgNum =  ((ImgData) getApplication()).getMyBackgroundNum();
+		myBitmap = ((ImgData) getApplication()).getMyPictures().get(bgNum);
+		myCanvas = new Canvas(myBitmap);
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setColor(0x80ff0000);
+		mPaint.setStrokeWidth(3);
+		myCanvas.drawBitmap(myBitmap, 0, 0, null);
+		mIV.setImageBitmap(myBitmap);
 	}
 
 	/**
 	 * This method switches the current selection of face.
 	 */
 	private void changeFaceSelection() {
+		if(totalPeople==0)return;
+		currentfaceId = (currentfaceId+1) % myFaces.size();
+		Faces bestFace = myPeople.get(currentpId).getFaces().get(currentfaceId);
+		((ImgData) getApplication()).setBestFace(currentpId, bestFace);
+		myBitmap = ((ImgData) getApplication()).getBackground();
+		myCanvas = new Canvas(myBitmap);
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setColor(0x80ff0000);
+		mPaint.setStrokeWidth(3);
+		myCanvas.drawBitmap(myBitmap, 0, 0, null);
+		mIV.setImageBitmap(myBitmap);
+		for(int j = currentfaceId; j < currentfaceId + 3;j++ )
+		{
+			int i = j%totalFaces;
+			myBitmapFaces.add(myFaces.get(i).getFaceImg());
+			myCanvasFaces.add(new Canvas(myBitmapFaces.get(i)));
+			myCanvasFaces.get(i).drawBitmap(myBitmapFaces.get(i),0,0,null);
+			faceView.get(i).setImageBitmap(myBitmapFaces.get(i));
+		}
 	}
 
 }
