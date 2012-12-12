@@ -79,10 +79,13 @@ public class ChooseOptionActivity extends Activity {
 				startActivity(intent);*/
 				byte[] myBitmapFinal= bitmapToByteArray(((ImgData) getApplication()).getMyBackground());
 				new SavePhoto().execute(myBitmapFinal);
-				Intent intent = new Intent(Intent.ACTION_MAIN);
+				/*Intent intent = new Intent(Intent.ACTION_MAIN);
 				intent.addCategory(Intent.CATEGORY_HOME);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
+				Intent intent = new Intent(ChooseOptionActivity.this,
+				WelcomeActivity.class);
 				startActivity(intent);
+				
 			}
 		});
         
