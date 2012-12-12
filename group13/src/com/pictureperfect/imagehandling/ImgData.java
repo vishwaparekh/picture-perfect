@@ -49,7 +49,7 @@ public class ImgData extends Application {
 
 	private static final int MAX_FACES = 10;
 	
-	private int multFactor = 5;
+	private int multFactor = 3;
 
 	/**
 	 * Given a person ID, it warps the current face of the person with the
@@ -65,7 +65,7 @@ public class ImgData extends Application {
 		int dstHeight = baseFace.getFaceImg().getHeight();
 		Bitmap faceTemp = Bitmap.createScaledBitmap(bestFace.getFaceImg(),
 				dstWidth, dstHeight, false);
-		faceTemp = ImageBlender.blend( baseFace.getFaceImg(),faceTemp);
+		//faceTemp = ImageBlender.blend( baseFace.getFaceImg(),faceTemp);
 		int pixels[] = new int[faceTemp.getWidth()*faceTemp.getHeight()];
 		faceTemp.getPixels(pixels, 0, faceTemp.getWidth(), 0, 0, faceTemp.getWidth(),
 				faceTemp.getHeight());
@@ -339,5 +339,20 @@ public class ImgData extends Application {
 	 */
 	public int getNumPictures() {
 		return numPictures;
+	}
+	public void reset(){
+		this.myPictures = new ArrayList<Bitmap>();
+
+
+		this.myFaces = new ArrayList<ArrayList<Faces>>();
+
+		this.myPeople = new ArrayList<Person>();;
+
+		this.unwantedObjects = new ArrayList<UnwantedObjects>();
+
+
+		this.numPictures = 0;
+
+		
 	}
 }
