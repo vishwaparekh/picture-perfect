@@ -19,10 +19,20 @@ public class Person {
 
 	private Faces bestFace;
 
+	private Faces baseFace;
+
 	public Person(ArrayList<ArrayList<Faces>> faces, Faces baseFace) {
 		super();
 		this.bestFace = baseFace;
+		this.baseFace = baseFace;
+		myfaces.add(0, baseFace);
 		init(faces, baseFace);
+	}
+
+	
+
+	public Faces getBaseFace() {
+		return baseFace;
 	}
 
 	/**
@@ -40,7 +50,8 @@ public class Person {
 	private void init(ArrayList<ArrayList<Faces>> faces, Faces baseFace) {
 
 		for (int i = 0; i < faces.size(); i++) {
-			myfaces.add(this.getBestMatch(faces.get(i), baseFace));
+			//myfaces.add(this.getBestMatch(faces.get(i), baseFace));
+			myfaces.addAll(faces.get(i));
 		}
 	}
 

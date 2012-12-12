@@ -61,11 +61,11 @@ public class ImgData extends Application {
 	private void warpFace(Integer pId) {
 		Faces baseFace = myFaces.get(myBackgroundNum).get(pId);
 		Faces bestFace = myPeople.get(pId).getBestFace();
-		int dstWidth = baseFace.getFacePos().getWidth();
-		int dstHeight = baseFace.getFacePos().getHeight();
+		int dstWidth = baseFace.getFaceImg().getWidth();
+		int dstHeight = baseFace.getFaceImg().getHeight();
 		Bitmap faceTemp = Bitmap.createScaledBitmap(bestFace.getFaceImg(),
 				dstWidth, dstHeight, false);
-		faceTemp = ImageBlender.blend(faceTemp, baseFace.getFaceImg());
+		faceTemp = ImageBlender.blend( baseFace.getFaceImg(),faceTemp);
 		int pixels[] = new int[faceTemp.getWidth()*faceTemp.getHeight()];
 		faceTemp.getPixels(pixels, 0, faceTemp.getWidth(), 0, 0, faceTemp.getWidth(),
 				faceTemp.getHeight());
@@ -106,51 +106,51 @@ public class ImgData extends Application {
 	 * @param myPicture
 	 *            Image
 	 */
-	private void findandAddFaces(Bitmap mPicture) {
+	private void findandAddFaces(Bitmap myPicture) {
 		// calls a face detection code on this picture here and get back all
 		// the required values.
 		ArrayList<Faces> facesPic = new ArrayList<Faces>();
-		FaceDetector fd;
+		FaceDetector faceDetector;
 		FaceDetector.Face[] faces = new FaceDetector.Face[MAX_FACES];
 		PointF midpoint = new PointF();
-		int[] fpx = null;
-		int[] fpy = null;
+		int[] facePosX = null;
+		int[] facePosY = null;
 		int count = 0;
-		int mFaceWidth = mPicture.getWidth();
-		int mFaceHeight = mPicture.getHeight();
+		int myFaceWidth = myPicture.getWidth();
+		int myFaceHeight = myPicture.getHeight();
 		try {
-			fd = new FaceDetector(mFaceWidth, mFaceHeight, MAX_FACES);
-			count = fd.findFaces(mPicture, faces);
+			faceDetector = new FaceDetector(myFaceWidth, myFaceHeight, MAX_FACES);
+			count = faceDetector.findFaces(myPicture, faces);
 		} catch (Exception e) {
 			/* Log.e(TAG, "setFace(): " + e.toString()); */
 			return;
 		}
 		if (count > 0) {
-			fpx = new int[count];
-			fpy = new int[count];
+			facePosX = new int[count];
+			facePosY = new int[count];
 
 			for (int i = 0; i < count; i++) {
 				try {
 					faces[i].getMidPoint(midpoint);
 
-					fpx[i] = (int) midpoint.x;
-					fpy[i] = (int) midpoint.y;
-					int mpx = fpx[i];
-					int mpy = fpy[i];
+					facePosX[i] = (int) midpoint.x;
+					facePosY[i] = (int) midpoint.y;
+					int midpointx = facePosX[i];
+					int midppinty = facePosY[i];
 					int eyedist = (int) faces[i].eyesDistance();
 					int width = eyedist * multFactor;
 					int height = eyedist * multFactor;
-					int lcx = Math.max(mpx - Math.round(width/2),0);
-					int lcy = Math.max(mpy - Math.round(height/2),0);
+					int leftCornerX = Math.max(midpointx - Math.round(width/2),0);
+					int leftCornerY = Math.max(midppinty - Math.round(height/2),0);
 					
-					int eplx = mpx - eyedist / 2;
-					int eply = mpy;
+					int eyePosLeftX = midpointx - eyedist / 2;
+					int eyePosLeftY = midppinty;
 					int widthEye = eyedist;
 					int heightEye = 1;
-					RectRegion facePos = new RectRegion(lcx, lcy, width, height);
-					RectRegion eyePos = new RectRegion(eplx, eply, widthEye,
+					RectRegion facePos = new RectRegion(leftCornerX, leftCornerY, width, height);
+					RectRegion eyePos = new RectRegion(eyePosLeftX, eyePosLeftY, widthEye,
 							heightEye);
-					Bitmap faceImg = Bitmap.createBitmap(mPicture, lcx, lcy,
+					Bitmap faceImg = Bitmap.createBitmap(myPicture, leftCornerX, leftCornerY,
 							width, height);
 					Faces faceTemp = new Faces(facePos, faceImg, eyePos);
 					facesPic.add(faceTemp);
@@ -269,7 +269,11 @@ public class ImgData extends Application {
 	 */
 	public void setBackgroundNum(Integer num) {
 		myBackgroundNum = num;
+		this.myPeople = new ArrayList<Person>();
 		myBackground = myPictures.get(myBackgroundNum);
+		if (myFaces.get(myBackgroundNum).size()==0){
+			return;
+		}
 		for (int i = 0; i < myFaces.get(myBackgroundNum).size(); i++) {
 			Person personTemp = new Person(myFaces, myFaces
 					.get(myBackgroundNum).get(i));
