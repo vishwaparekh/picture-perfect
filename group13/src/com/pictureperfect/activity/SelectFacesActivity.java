@@ -10,7 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.provider.Contacts.People;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -104,7 +103,8 @@ public class SelectFacesActivity extends Activity {
 	 * This method initializes the screen with all the faces corresponding to each person
 	 */
 	private void initializeScreen() {
-		myBitmap = ((ImgData) getApplication()).getBackground();
+		Bitmap myBitmapImm = ((ImgData) getApplication()).getBackground();
+		myBitmap = Bitmap.createScaledBitmap(myBitmapImm, myBitmapImm.getWidth(), myBitmapImm.getHeight(), false);
 		myCanvas = new Canvas(myBitmap);
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -123,14 +123,21 @@ public class SelectFacesActivity extends Activity {
 		}
 		myFaces= ((ImgData) getApplication()).getMyPeople().get(0).getFaces();
 		myPeople =  ((ImgData) getApplication()).getMyPeople();
-		for(int i =0; i<3;i++ )
+		for(int j =0; j<3;j++ )
 		{
-			myBitmapFaces.add(myFaces.get(i).getFaceImg());
-			myCanvasFaces.add(new Canvas(myBitmapFaces.get(i)));
+			int i = j%totalFaces;
+			myBitmapFaces.add(i,myFaces.get(i).getFaceImg());
+			myCanvasFaces.add(i,new Canvas(myBitmapFaces.get(i)));
 			myCanvasFaces.get(i).drawBitmap(myBitmapFaces.get(i),0,0,null);
 			faceView.get(i).setImageBitmap(myBitmapFaces.get(i));
 		}
-		
+		RectRegion facP = myPeople.get(currentpId).getBaseFace().getFacePos();
+		float left = facP.getX();
+		float bottom = facP.getY();
+		float right = facP.getWidth() + left;
+		float top = facP.getHeight() + bottom;
+		mPaint.setColor(Color.RED);
+		myCanvas.drawRect(left,top,right,bottom,mPaint);
 		
 	}
 
@@ -140,7 +147,9 @@ public class SelectFacesActivity extends Activity {
 	private void changePersonSelection() {
 		if(totalPeople==0)return;
 		currentpId = (currentpId + 1) % myPeople.size();
-		myBitmap = ((ImgData) getApplication()).getBackground();
+		Bitmap myBitmapImm = ((ImgData) getApplication()).getBackground();
+		myBitmap = Bitmap.createScaledBitmap(myBitmapImm, myBitmapImm.getWidth(), myBitmapImm.getHeight(), false);
+
 		myCanvas = new Canvas(myBitmap);
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -161,7 +170,7 @@ public class SelectFacesActivity extends Activity {
 	 * This method updates the processed image to the view.
 	 */
 	private void resetImage() {
-		if(totalPeople==0)return;
+		/*if(totalPeople==0)return;
 		int bgNum =  ((ImgData) getApplication()).getMyBackgroundNum();
 		myBitmap = ((ImgData) getApplication()).getMyPictures().get(bgNum);
 		myCanvas = new Canvas(myBitmap);
@@ -170,7 +179,7 @@ public class SelectFacesActivity extends Activity {
 		mPaint.setColor(0x80ff0000);
 		mPaint.setStrokeWidth(3);
 		myCanvas.drawBitmap(myBitmap, 0, 0, null);
-		mIV.setImageBitmap(myBitmap);
+		mIV.setImageBitmap(myBitmap);*/
 	}
 
 	/**
@@ -181,7 +190,8 @@ public class SelectFacesActivity extends Activity {
 		currentfaceId = (currentfaceId+1) % myFaces.size();
 		Faces bestFace = myPeople.get(currentpId).getFaces().get(currentfaceId);
 		((ImgData) getApplication()).setBestFace(currentpId, bestFace);
-		myBitmap = ((ImgData) getApplication()).getBackground();
+		Bitmap myBitmapImm = ((ImgData) getApplication()).getBackground();
+		myBitmap = Bitmap.createScaledBitmap(myBitmapImm, myBitmapImm.getWidth(), myBitmapImm.getHeight(), false);
 		myCanvas = new Canvas(myBitmap);
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -192,11 +202,18 @@ public class SelectFacesActivity extends Activity {
 		for(int j = currentfaceId; j < currentfaceId + 3;j++ )
 		{
 			int i = j%totalFaces;
-			myBitmapFaces.add(myFaces.get(i).getFaceImg());
-			myCanvasFaces.add(new Canvas(myBitmapFaces.get(i)));
+			myBitmapFaces.add(i,myFaces.get(i).getFaceImg());
+			myCanvasFaces.add(i,new Canvas(myBitmapFaces.get(i)));
 			myCanvasFaces.get(i).drawBitmap(myBitmapFaces.get(i),0,0,null);
-			faceView.get(i).setImageBitmap(myBitmapFaces.get(i));
+			faceView.get(i%3).setImageBitmap(myBitmapFaces.get(i));
 		}
+		RectRegion facP = myPeople.get(currentpId).getBaseFace().getFacePos();
+		float left = facP.getX();
+		float bottom = facP.getY();
+		float right = facP.getWidth() + left;
+		float top = facP.getHeight() + bottom;
+		mPaint.setColor(Color.RED);
+		myCanvas.drawRect(left,top,right,bottom,mPaint);
 	}
 
 }
