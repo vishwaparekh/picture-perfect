@@ -13,16 +13,16 @@ public class ImageBlender {
 		int width = bmp1.getWidth();
 		int height = bmp1.getHeight();
 		int constant1 = 10;
-		int constant2  = 20;
+		int constant2  = 5;
 		for (int y = 0;y < height ;y++){
 			for (int x = 0;x < width ;x++){
 				pixel_bmp1 = bmp1.getPixel(x, y);
 				pixel_bmp2 = bmp2.getPixel(x, y);
 				
-				if(x < width/constant1 || x > width-width/constant1)
+				if(x < width/constant1 || x > width-width/constant1 || y<height/constant1 ||y > height-height/constant1)
 				{
 					pixel_bmp2 = pixel_bmp1;
-					bmp2.setPixel(x, y, pixel_bmp2);
+					bmp2.setPixel(x, y, Color.rgb(Color.red(pixel_bmp1),Color.green(pixel_bmp1),Color.blue(pixel_bmp1)));
 				}
 				else if(x < width/constant2 || x > width-width/constant2 || y < height/constant2 || y > height-height/constant2 )
 				{
@@ -50,12 +50,13 @@ public class ImageBlender {
 						
 						
 				
-						
-					redVal = (multFactorLeft*Color.red(pixel_bmp1))+(multFactorRight*Color.red(pixel_bmp2));
+					pixel_bmp2 = Math.round(multFactorLeft)*pixel_bmp1 + Math.round(multFactorRight)*pixel_bmp2;	
+					/*redVal = (multFactorLeft*Color.red(pixel_bmp1))+(multFactorRight*Color.red(pixel_bmp2));
 					greenVal = (multFactorLeft*Color.green(pixel_bmp1)+multFactorRight*Color.green(pixel_bmp2));
 					blueVal = (multFactorLeft*Color.blue(pixel_bmp1)+multFactorRight*Color.blue(pixel_bmp2));
-					pixel_bmp2 = Color.rgb(redVal, greenVal, blueVal);
-					bmp2.setPixel(x, y, pixel_bmp2);
+					pixel_bmp2 = Color.rgb(redVal, greenVal, blueVal);*/
+					/*bmp2.setPixel(x, y, pixel_bmp2);*/
+					bmp2.setPixel(x, y, Color.rgb(Color.red(pixel_bmp2),Color.green(pixel_bmp2),Color.blue(pixel_bmp2)));
 				}
 				
 			}
