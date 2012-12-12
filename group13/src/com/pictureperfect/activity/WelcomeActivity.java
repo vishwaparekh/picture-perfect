@@ -1,6 +1,8 @@
 package com.pictureperfect.activity;	
 
 import com.pictureperfect.activity.R;
+import com.pictureperfect.imagehandling.ImgData;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ public class WelcomeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+        ((ImgData) getApplication()).reset();
         Button TakePictureButton = (Button) findViewById(R.id.button1);
         Button editExistingButton = (Button) findViewById(R.id.button2);
         TakePictureButton.setOnClickListener(new OnClickListener() {
