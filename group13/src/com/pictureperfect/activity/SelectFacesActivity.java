@@ -205,7 +205,7 @@ public class SelectFacesActivity extends Activity {
 			myBitmapFaces.add(i,myFaces.get(i).getFaceImg());
 			myCanvasFaces.add(i,new Canvas(myBitmapFaces.get(i)));
 			myCanvasFaces.get(i).drawBitmap(myBitmapFaces.get(i),0,0,null);
-			faceView.get(i%3).setImageBitmap(myBitmapFaces.get(i));
+			faceView.get(j-currentfaceId).setImageBitmap(myBitmapFaces.get(i));
 		}
 		RectRegion facP = myPeople.get(currentpId).getBaseFace().getFacePos();
 		float left = facP.getX();
