@@ -59,19 +59,23 @@ public class ImgData extends Application {
 	 *            person ID
 	 */
 	private void warpFace(Integer pId) {
-		Faces baseFace = myFaces.get(myBackgroundNum).get(pId);
+		Faces baseFace = myPeople.get(pId).getBaseFace();
 		Faces bestFace = myPeople.get(pId).getBestFace();
 		int dstWidth = baseFace.getFaceImg().getWidth();
 		int dstHeight = baseFace.getFaceImg().getHeight();
+		int currWidth = bestFace.getFaceImg().getWidth();
+		int currHeight = bestFace.getFaceImg().getHeight();
 		Bitmap faceTemp = Bitmap.createScaledBitmap(bestFace.getFaceImg(),
 				dstWidth, dstHeight, false);
+		int tempWidth = faceTemp.getWidth();
+		int tempHeight = faceTemp.getHeight();
 		//faceTemp = ImageBlender.blend( baseFace.getFaceImg(),faceTemp);
 		int pixels[] = new int[faceTemp.getWidth()*faceTemp.getHeight()];
 		faceTemp.getPixels(pixels, 0, faceTemp.getWidth(), 0, 0, faceTemp.getWidth(),
 				faceTemp.getHeight());
-		myBackground.setPixels(pixels, 0, baseFace.getFacePos().getWidth(), baseFace.getFacePos().getX(),
-				baseFace.getFacePos().getY(), baseFace.getFacePos().getWidth(),
-				baseFace.getFacePos().getHeight());
+		myBackground.setPixels(pixels, 0, baseFace.getFaceImg().getWidth(), baseFace.getFacePos().getX(),
+				baseFace.getFacePos().getY(), baseFace.getFaceImg().getWidth(),
+				baseFace.getFaceImg().getHeight());
 		
 	}
 
