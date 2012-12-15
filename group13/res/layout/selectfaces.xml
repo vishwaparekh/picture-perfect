@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#DCDCDC"
     android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/ImageAndNext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="356dp" >
 
         <ImageView
             android:id="@+id/imageView1"
@@ -15,53 +16,52 @@
             android:layout_height="326dp"
             android:layout_weight="0.19"
             android:src="@drawable/ic_launcher" />
-
-        <Button
+        <Button
             android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next" />
-    </LinearLayout>
+            android:layout_width="36dp"
+            android:layout_height="match_parent"
+            android:text="@string/NextP" />
 
-    <LinearLayout
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/ll123"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.45"
+            android:layout_weight="1.12"
             android:src="@drawable/ic_launcher" />
 
-        <ImageView
+        <ImageView
             android:id="@+id/imageView4"
             android:layout_width="wrap_content"
-            android:layout_height="82dp"
-            android:layout_weight="0.54"
+            android:layout_height="match_parent"
+             android:layout_weight="1.13"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.50"
+            android:layout_height="92dp"
+            android:layout_weight="1.12"
             android:src="@drawable/ic_launcher" />
 
-        <Button
+        <Button
             android:id="@+id/button2"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="52dp"
-            android:text="Next" />
+            android:layout_width="34dp"
+            android:layout_height="match_parent"
+            android:text="@string/NextA" />
 
     </LinearLayout>
-
+
     <Button
         android:id="@+id/facesDone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/done" />
 
 </LinearLayout>
