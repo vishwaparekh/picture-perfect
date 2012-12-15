@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="SelectBackground">Select Background</string>
+    <string name="SelectBackground"><b>: Step 1 - Select Background :</b></string>
     <string name="app_name">Picture Perfect</string>
-    <string name="bestFace">Choose Face</string>
+    <string name="bestFace">Select Faces</string>
     <string name="unwantedObjects"> Remove Unwanted Objects</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
     <string name="Next">Next</string>
     <string name="Previous">Previous</string>
+    <string name="NextA">→</string>
+    <string name="PreviousA">←</string>
+    <string name="editEx">Edit Existing Burst</string>
+    <string name="TakeAPic">Take a Picture</string>
+    <string name="selFace">: Step 2 : </string>
+    <string name="remFace">: Step 3 : </string>
+    <string name="welcome">Welcome to Picture Perfect!</string>
+    <string name="NextP">S W I T C H</string>
+    
+    
+    <string name="About">About</string>
+    <string name="Exit">Exit</string>
+    <string name="app_about">About</string>
+    <string name="app_help">Help</string>
+    <string name="ays">Are you sure?</string>
+    <string name="Settings">Settings</string>
+    <string name="str_exit">Exit</string>
+    <string name="app_about_messageB">Select a base image. You have 3 images to choose from.</string>
+    <string name="app_about_messageF">Select a face for each Square.</string>
+    <string name="app_about_messageH">Choose Step 2 for replacing faces. Try it!<br/> OR <br/> Step 3 to pull out bad stuff </string>
+    <string name="app_about_messageW">Picture Perfect v 1.0  Authored by Group 13</string>
+    <string name="app_about_message">Use the Camera button on the side or the Search button in  the front to capture the images</string>
+    <string name="str_ok">OK</string>
+    <string name="app_exit">Exit</string>
+    <string name="app_exit_message">Do you want to exit?</string>
+    <string name="str_no">No</string>
+    
 
 </resources>
