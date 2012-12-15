@@ -1,14 +1,17 @@
 package com.pictureperfect.activity;	
 
-import com.pictureperfect.activity.R;
-import com.pictureperfect.imagehandling.ImgData;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.pictureperfect.imagehandling.ImgData;
 
 /**
  * It is the main screen of the application It consists of two buttons. 
@@ -50,4 +53,62 @@ public class WelcomeActivity extends Activity {
 			}
 		});
     }
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 1, R.string.About);
+		menu.add(0, 1, 1, R.string.Exit);
+		/*menu.add(0, 2, 1, R.string.Refresh);
+		menu.add(0, 3, 1, R.string.Delete);*/
+	/*	menu.add(0, 4, 1, R.string.app_about);
+		menu.add(0, 5, 1, R.string.logout);*/
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		super.onOptionsItemSelected(item);
+
+		switch (item.getItemId()) {
+		case 0:
+			openOptionsDialog();
+			break;
+		case 1:
+			exitOptionsDialog();
+			break;
+		}
+		return true;
+	}
+
+	private void openOptionsDialog() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.app_about)
+				.setMessage(R.string.app_about_messageW)
+				.setPositiveButton(R.string.str_ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialoginterface, int i) {
+							}
+						}).show();
+	}
+
+	private void exitOptionsDialog() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.Exit)
+				.setMessage(R.string.ays)
+				.setNegativeButton(R.string.str_no,
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialoginterface, int i) {
+							}
+						})
+				.setPositiveButton(R.string.str_ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialoginterface, int i) {
+								finish();
+							}
+						}).show();
+	}
 }
+

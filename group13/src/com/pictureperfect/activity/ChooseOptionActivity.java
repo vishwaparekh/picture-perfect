@@ -1,14 +1,16 @@
 package com.pictureperfect.activity;	
 
-
-
 import java.io.ByteArrayOutputStream;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -39,8 +41,6 @@ public class ChooseOptionActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chooseoption);
-        
-        
         
         Button SelectFaces = (Button) findViewById(R.id.choosebutton1); 
         Button RemoveObjects = (Button) findViewById(R.id.choosebutton2); 
@@ -74,9 +74,6 @@ public class ChooseOptionActivity extends Activity {
         
         Done.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-			/*	Intent intent = new Intent(ChooseOptionActivity.this,
-						FinalResultActivity.class);
-				startActivity(intent);*/
 				byte[] myBitmapFinal= bitmapToByteArray(((ImgData) getApplication()).getMyBackground());
 				new SavePhoto().execute(myBitmapFinal);
 				/*Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -85,11 +82,13 @@ public class ChooseOptionActivity extends Activity {
 				Intent intent = new Intent(ChooseOptionActivity.this,
 				WelcomeActivity.class);
 				startActivity(intent);
+				finish();
 				
 			}
 		});
         
     }
+    
     /**
 	 * Convert the Bitmap of an image into Byte array
 	 * @param bitmap
@@ -100,6 +99,61 @@ public class ChooseOptionActivity extends Activity {
 		bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
 		byte[] bitmapdata = bos.toByteArray();
 		return bitmapdata;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 1, R.string.app_help);
+		menu.add(0, 1, 1, R.string.Exit);
+		
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		super.onOptionsItemSelected(item);
+
+		switch (item.getItemId()) {
+		case 0:
+			openOptionsDialog();
+			break;
+		case 1:
+			exitOptionsDialog();
+			break;
+		}
+		return true;
+	}
+
+	private void openOptionsDialog() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.app_help)
+				.setMessage(R.string.app_about_messageH)
+				.setPositiveButton(R.string.str_ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialoginterface, int i) {
+							}
+						}).show();
+	}
+
+	private void exitOptionsDialog() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.Exit)
+				.setMessage(R.string.ays)
+				.setNegativeButton(R.string.str_no,
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialoginterface, int i) {
+							}
+						})
+				.setPositiveButton(R.string.str_ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialoginterface, int i) {
+								finish();
+							}
+						}).show();
 	}
 
 }
