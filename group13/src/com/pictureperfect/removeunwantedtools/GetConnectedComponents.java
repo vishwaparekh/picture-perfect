@@ -23,19 +23,19 @@ public class GetConnectedComponents {
 	 */
 	public static List<RectRegion> generate(Bitmap picture){
 		
-		ArrayList<RectRegion> listOfComponents = null;
+		ArrayList<RectRegion> listOfComponents = new ArrayList<RectRegion>();
 		int width  = 5;
 		int height = 5;
 		
 		for (int x = 0;x<picture.getWidth()-width;x++)
 		{
 			for (int y = 0;x<picture.getHeight()-height;y++){
-				int[] pixels_extracted = null;
+				int[] pixels_extracted = new int[width*height];
 				
-				picture.getPixels(pixels_extracted, 0, 0, x, y, width, height);
+				picture.getPixels(pixels_extracted, 0, width, x, y, width, height);
 				int countMax=0;
 				double maxVal = 0;
-				double grayScaleValues[] = null;
+				double grayScaleValues[] = new double[width*height];
 				for(int i =0;i<pixels_extracted.length;i++){
 					grayScaleValues[i] = ImageToGray.getGrayScale(Color.red(pixels_extracted[i]), Color.green(pixels_extracted[i]), Color.blue(pixels_extracted[i]));
 					if (grayScaleValues[i]>maxVal){
@@ -56,7 +56,7 @@ public class GetConnectedComponents {
 			}
 				
 		}
-		return null;
+		return listOfComponents;
 		
 	}
 }

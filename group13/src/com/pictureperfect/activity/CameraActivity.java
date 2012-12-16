@@ -1,16 +1,13 @@
 package com.pictureperfect.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,6 +18,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+import com.pictureperfect.common.Helper;
 import com.pictureperfect.imagehandling.ImgData;
 
 /**
@@ -35,6 +33,8 @@ public class CameraActivity extends Activity {
 	private static final int BURST_SIZE = 3;
 	private static final int CAMERA_PIC_REQUEST = 1337;
 	private static final int SET_ZOOM_CHANGE_LISTENER = 14;
+	protected static final String EFFECT_SEPIA = "sepia";
+	protected static final String FLASH_MODE_AUTO = "auto";
 	private SurfaceView preview = null;
 	private SurfaceHolder previewHolder = null;
 	private Camera mCamera = null;
@@ -163,10 +163,10 @@ public class CameraActivity extends Activity {
 			} catch (Throwable t) {
 				Log.e("PreviewDemo-surfaceCallback",
 						"Exception in setPreviewDisplay()", t);
-				/*
-				 * Toast .makeText(camera.this, t.getMessage(),
-				 * Toast.LENGTH_LONG) .show();
-				 */
+
+				Toast.makeText(CameraActivity.this, t.getMessage(), Toast.LENGTH_LONG)
+						.show();
+
 			}
 
 			if (!cameraConfigured) {
@@ -219,18 +219,11 @@ public class CameraActivity extends Activity {
 			parameters.setPictureFormat(PixelFormat.JPEG);
 			parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 			parameters.setJpegQuality(100);
-			/* parameters.setRotation(270); */
+			//parameters.setFlashMode(FLASH_MODE_AUTO);
 			mCamera.setParameters(parameters);
-			/* mCamera.setDisplayOrientation(90); */
 			initPreview(width, height);
 			startPreview();
 
-			/*
-			 * mCamera.setZoomChangeListener(new Camera.OnZoomChangeListener() {
-			 * public void onZoomChange(int zoomValue, boolean stopped, Camera
-			 * camera) { mCamera.obtainMessage(SET_ZOOM_CHANGE_LISTENER,
-			 * ).sendToTarget(); } });
-			 */
 			/* Must add the following callback to allow the camera to autofocus. */
 			mCamera.autoFocus(new Camera.AutoFocusCallback() {
 				public void onAutoFocus(boolean success, Camera camera) {
@@ -250,7 +243,8 @@ public class CameraActivity extends Activity {
 			((ImgData) getApplication()).addPicture(data);
 			inPreview = true;
 
-			savePhoto(data);
+			Helper.savePhoto(data, numPictureTaken);
+			
 			if (numPictureTaken < BURST_SIZE) {
 				takePicture();
 				numPictureTaken++;
@@ -260,37 +254,21 @@ public class CameraActivity extends Activity {
 						SelectBackgroundActivity.class);
 				startActivity(intent);
 			}
-
-		}
-
-		/*
-		 * This segment moved from surfaceDestroyed - otherwise the Camera is
-		 * not properly released
-		 */
-
-		private void savePhoto(byte[] data) {
-			File photo = new File(Environment.getExternalStorageDirectory(),
-					"/Picture Perfect/" + "photo" + numPictureTaken + ".jpg");
-
-			if (photo.exists()) {
-				photo.delete();
-			}
-
-			try {
-				FileOutputStream fos = new FileOutputStream(photo.getPath());
-				fos.write(data);
-				fos.close();
-			} catch (java.io.IOException e) {
-				Log.e("PictureDemo", "Exception in photoCallback", e);
-			}
 		}
 	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 1, R.string.app_help);
-		menu.add(0, 1, 1, R.string.Exit);
-		
+		menu.add(0, 0, 1, R.string.Normal);
+		menu.add(0, 1, 1, R.string.BW);
+		menu.add(0, 2, 1, R.string.Sepia);
+		menu.add(0, 3, 1, R.string.Negative);
+		menu.add(0, 4, 1, R.string.Posterize);
+		menu.add(0, 5, 1, R.string.Solarize);
+		menu.add(0, 6, 1, R.string.Whiteboard);
+		menu.add(0, 7, 1, R.string.app_help);
+		menu.add(0, 8, 1, R.string.Exit);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -301,9 +279,33 @@ public class CameraActivity extends Activity {
 
 		switch (item.getItemId()) {
 		case 0:
-			openOptionsDialog();
+			mCamera.getParameters().setColorEffect("none");
+			mCamera.setParameters(mCamera.getParameters());
 			break;
 		case 1:
+			mCamera.getParameters().setColorEffect("blackboard");
+			mCamera.setParameters(mCamera.getParameters());
+			break;
+		case 2:
+			mCamera.getParameters().setColorEffect("sepia");
+			mCamera.setParameters(mCamera.getParameters());
+			break;
+		case 3:
+			mCamera.getParameters().setColorEffect("negative");
+			break;
+		case 4:
+			mCamera.getParameters().setColorEffect("posterize");
+			break;
+		case 5:
+			mCamera.getParameters().setColorEffect("solarize");
+			break;
+		case 6:
+			mCamera.getParameters().setColorEffect("whiteboard");
+			break;
+		case 7:
+			openOptionsDialog();
+			break;
+		case 8:
 			exitOptionsDialog();
 			break;
 		}

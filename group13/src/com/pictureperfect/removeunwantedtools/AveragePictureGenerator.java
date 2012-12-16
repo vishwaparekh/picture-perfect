@@ -18,12 +18,12 @@ public class AveragePictureGenerator {
 	public static Bitmap generate(ArrayList<Bitmap> myPictures) {
 		// TODO Auto-generated method stub
 		Bitmap b = myPictures.get(0);
-		int []pixelsAverage=null;
+		int []pixelsAverage= new int[b.getWidth()*b.getHeight()];
 		for (int i = 0; i<myPictures.size();i++)
 		{
 			Bitmap b1 = myPictures.get(i);
-			int []pixelsB1 = null;
-			b1.getPixels(pixelsB1,0,0,0,0,b1.getWidth(),b1.getHeight());
+			int []pixelsB1 = new int[b1.getWidth()*b1.getHeight()];
+			b1.getPixels(pixelsB1,0,b1.getWidth(),0,0,b1.getWidth(),b1.getHeight());
 			if(i==0)
 				pixelsAverage = pixelsB1;
 			else
@@ -32,8 +32,8 @@ public class AveragePictureGenerator {
 					pixelsAverage[j] = pixelsB1[j] + pixelsAverage[j];
 			}
 		}
-		b.setPixels(pixelsAverage, 0, 0, 0, 0, b.getWidth(), b.getHeight());
-		return null;
+		b.setPixels(pixelsAverage, 0, b.getWidth(), 0, 0, b.getWidth(), b.getHeight());
+		return b;
 	}
 
 }

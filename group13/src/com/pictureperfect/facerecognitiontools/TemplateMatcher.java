@@ -39,13 +39,4 @@ public class TemplateMatcher implements ImageMatcher {
 		
 		return (int)minValue;
 	}
-	
-	/**
-	 * This method converts the a pixel from RGB to Grayscale.
-	 * @param redValue Red component
-	 * @param greenValue Green  component
-	 * @param blueValue Blue  component
-	 * @return GrayScale value
-	 */
-	
 }

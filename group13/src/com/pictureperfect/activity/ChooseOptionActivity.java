@@ -1,13 +1,9 @@
 package com.pictureperfect.activity;	
 
-import java.io.ByteArrayOutputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.pictureperfect.common.Helper;
 import com.pictureperfect.imagehandling.ImgData;
 import com.pictureperfect.imagehandling.SavePhoto;
 
@@ -74,13 +71,13 @@ public class ChooseOptionActivity extends Activity {
         
         Done.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				byte[] myBitmapFinal= bitmapToByteArray(((ImgData) getApplication()).getMyBackground());
+				byte[] myBitmapFinal= Helper.bitmapToByteArray(((ImgData) getApplication()).getMyBackground());
 				new SavePhoto().execute(myBitmapFinal);
 				/*Intent intent = new Intent(Intent.ACTION_MAIN);
 				intent.addCategory(Intent.CATEGORY_HOME);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
 				Intent intent = new Intent(ChooseOptionActivity.this,
-				WelcomeActivity.class);
+				FinalResultActivity.class);
 				startActivity(intent);
 				finish();
 				
@@ -89,18 +86,6 @@ public class ChooseOptionActivity extends Activity {
         
     }
     
-    /**
-	 * Convert the Bitmap of an image into Byte array
-	 * @param bitmap
-	 * @return Byte array
-	 */
-	public static byte[] bitmapToByteArray(Bitmap bitmap) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
-		byte[] bitmapdata = bos.toByteArray();
-		return bitmapdata;
-	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 1, R.string.app_help);
@@ -111,7 +96,6 @@ public class ChooseOptionActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		super.onOptionsItemSelected(item);
 
 		switch (item.getItemId()) {

@@ -74,11 +74,12 @@ public class SelectFacesActivity extends Activity {
 		faceView.add((ImageView) findViewById(R.id.imageView3));
 		Button NextPerson = (Button) findViewById(R.id.button1);
 		Button NextFace = (Button) findViewById(R.id.button2);
-		Button Done = (Button) findViewById(R.id.facesDone); // Insert Button
+		Button Done = (Button) findViewById(R.id.facesDone);
 		initializeScreen();
 
 		Done.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				blendImage();
 				finished = true;
 				if (finished && RemoveUnwantedObjectsActivity.finished) {
 					Intent intent = new Intent(SelectFacesActivity.this,
@@ -99,7 +100,7 @@ public class SelectFacesActivity extends Activity {
 				changePersonSelection();
 			}
 		});
-		
+
 		NextFace.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				changeFaceSelection();
@@ -173,23 +174,8 @@ public class SelectFacesActivity extends Activity {
 		float bottom = facP.getY();
 		float right = facP.getWidth() + left;
 		float top = facP.getHeight() + bottom;
-		mPaint.setColor(Color.RED);
+		mPaint.setColor(Color.GREEN);
 		myCanvas.drawRect(left, top, right, bottom, mPaint);
-	}
-
-	/**
-	 * This method updates the processed image to the view.
-	 */
-	private void resetImage() {
-		/*
-		 * if(totalPeople==0)return; int bgNum = ((ImgData)
-		 * getApplication()).getMyBackgroundNum(); myBitmap = ((ImgData)
-		 * getApplication()).getMyPictures().get(bgNum); myCanvas = new
-		 * Canvas(myBitmap); mPaint.setStyle(Paint.Style.STROKE);
-		 * mPaint.setStrokeCap(Paint.Cap.ROUND); mPaint.setColor(0x80ff0000);
-		 * mPaint.setStrokeWidth(3); myCanvas.drawBitmap(myBitmap, 0, 0, null);
-		 * mIV.setImageBitmap(myBitmap);
-		 */
 	}
 
 	/**
@@ -278,11 +264,91 @@ public class SelectFacesActivity extends Activity {
 						new DialogInterface.OnClickListener() {
 							public void onClick(
 									DialogInterface dialoginterface, int i) {
-								Intent intent = new Intent(SelectFacesActivity.this,
+								Intent intent = new Intent(
+										SelectFacesActivity.this,
 										WelcomeActivity.class);
-										startActivity(intent);
-										finish();
+								startActivity(intent);
+								finish();
 							}
 						}).show();
+	}
+
+	private void blendImage() {
+		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
+		Canvas myCanvasIm = new Canvas(myBitmapIm);
+		int r = 0, g = 0, b = 0, color;
+		int r1 = 0, g1 = 0, b1 = 0, color1;
+		double outerBoundary = 0.3;
+		double innerBoundary = 0;
+
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setColor(0x80ff0000);
+		mPaint.setStrokeWidth(0);
+		myCanvasIm.drawBitmap(myBitmapIm, 0, 0, null);
+		for (currentpId = 0; currentpId < myPeople.size(); currentpId++) {
+			Bitmap faceBase = myPeople.get(currentpId).getBaseFace()
+					.getFaceImg();
+			int startX =  myPeople.get(currentpId).getBaseFace().getFacePos().getX();
+			int startY = myPeople.get(currentpId).getBaseFace().getFacePos().getY();
+			Bitmap faceBest = myPeople.get(currentpId).getBestFace()
+					.getFaceImg();
+			for (int x = 0; x < faceBest.getWidth(); x++) {
+				for (int y = 0; y < faceBest.getHeight(); y++) {
+					color = faceBest.getPixel(x, y);
+					r = Color.red(color);
+					g = Color.green(color);
+					b = Color.blue(color);
+					color1 = faceBase.getPixel(x, y);
+					r1 = Color.red(color1);
+					g1 = Color.green(color1);
+					b1 = Color.blue(color1);
+					if (x < innerBoundary * faceBest.getWidth()
+							|| y < innerBoundary * faceBest.getHeight()
+							|| x > (1 - innerBoundary) * faceBest.getWidth()
+							|| y > (1 - innerBoundary) * faceBest.getHeight()) {
+						r = r1;
+						b = b1;
+						g = g1;
+
+					}
+					else if (x < outerBoundary * faceBest.getWidth()
+							|| y < outerBoundary * faceBest.getHeight()
+							|| x > (1 - outerBoundary) * faceBest.getWidth()
+							|| y > (1 - outerBoundary) * faceBest.getHeight()) {
+						
+						
+						double baseContr=0;
+						double bestContr=0;
+						if(x< faceBest.getWidth() * outerBoundary){
+							baseContr = Math.max(baseContr,x/(faceBest.getWidth() * outerBoundary));
+							bestContr = 1-baseContr;
+						}
+						if(x > faceBest.getWidth() * (1-outerBoundary)){
+							baseContr = Math.max(baseContr,(faceBase.getWidth()-x)/(faceBest.getWidth() * outerBoundary));
+							bestContr = 1-baseContr;
+						}
+						if(y< faceBest.getHeight()* outerBoundary){
+							baseContr = Math.max(baseContr,y/(faceBest.getHeight() * outerBoundary));
+							bestContr = 1-baseContr;
+						}
+						if(y > faceBest.getHeight()* (1-outerBoundary)){
+							baseContr = Math.max(baseContr,(faceBase.getHeight()-y)/(faceBest.getHeight()* outerBoundary));
+							bestContr = 1-baseContr;
+						}
+							
+						r = (int)((double)r1*baseContr + (double)r*bestContr);
+						g = (int)((double)g1*baseContr + (double)g*bestContr);
+						b = (int)((double)b1*baseContr + (double)b*bestContr);
+					}
+					
+					mPaint.setColor(Color
+							.argb(100, r, g, b));
+					myCanvas.drawPoint(startX+x, startY+y, mPaint);
+				}
+			}
+
+		}
+
 	}
 }

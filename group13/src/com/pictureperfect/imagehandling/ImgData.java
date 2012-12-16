@@ -1,21 +1,16 @@
 package com.pictureperfect.imagehandling;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.media.FaceDetector;
-import android.os.Environment;
-import android.util.Log;
 
+import com.pictureperfect.common.Helper;
 import com.pictureperfect.common.RectRegion;
 import com.pictureperfect.removeunwantedtools.AveragePictureGenerator;
 import com.pictureperfect.removeunwantedtools.GetConnectedComponents;
@@ -158,50 +153,14 @@ public class ImgData extends Application {
 							width, height);
 					Faces faceTemp = new Faces(facePos, faceImg, eyePos);
 					facesPic.add(faceTemp);
-					byte[] abc = bitmapToByteArray(faceImg);
-					saveFaces(abc, i);
+					byte[] abc = Helper.bitmapToByteArray(faceImg);
+					Helper.savePhoto(abc, i);
 				} catch (Exception e) {
 					/* Log.e(TAG, "setFace(): face " + i + ": " + e.toString()); */
 				}
 			}
 		}
 		myFaces.add(facesPic);
-	}
-
-	/**
-	 * Saves the extracted faces from the photographs
-	 * 
-	 * @param data byte array of the image
-	 * @param count the count of face detected
-	 */
-	private void saveFaces(byte[] data, int count) {
-		File photo = new File(Environment.getExternalStorageDirectory(),
-				"/Picture Perfect/face/" + "face" + numPictures + count
-						+ ".png");
-		
-		if (photo.exists()) {
-			photo.delete();
-		}
-	
-		try {
-			FileOutputStream fos = new FileOutputStream(photo.getPath());
-			fos.write(data);
-			fos.close();
-		} catch (java.io.IOException e) {
-			Log.e("PictureDemo", "Exception in photoCallback", e);
-		}
-	}
-
-	/**
-	 * Convert the Bitmap of an image into Byte array
-	 * @param bitmap
-	 * @return Byte array
-	 */
-	public static byte[] bitmapToByteArray(Bitmap bitmap) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
-		byte[] bitmapdata = bos.toByteArray();
-		return bitmapdata;
 	}
 
 	/**
@@ -283,6 +242,7 @@ public class ImgData extends Application {
 					.get(myBackgroundNum).get(i));
 			myPeople.add(personTemp);
 		}
+		//findandAddUnwantedObjects(myBackground);
 	}
 
 	/**
@@ -344,19 +304,12 @@ public class ImgData extends Application {
 	public int getNumPictures() {
 		return numPictures;
 	}
+
 	public void reset(){
 		this.myPictures = new ArrayList<Bitmap>();
-
-
 		this.myFaces = new ArrayList<ArrayList<Faces>>();
-
 		this.myPeople = new ArrayList<Person>();;
-
 		this.unwantedObjects = new ArrayList<UnwantedObjects>();
-
-
 		this.numPictures = 0;
-
-		
 	}
 }
