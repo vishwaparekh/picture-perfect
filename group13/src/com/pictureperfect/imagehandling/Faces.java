@@ -21,29 +21,35 @@ public class Faces {
 	public RectRegion getFacePos() {
 		return facePos;
 	}
+	
 	public void setFacePos(RectRegion facePos) {
 		this.facePos = facePos;
 	}
+	
 	public RectRegion getEyePos() {
 		return eyePos;
 	}
+	
 	public void setEyePos(RectRegion eyePos) {
 		this.eyePos = eyePos;
 	}
+	
 	public RectRegion getMouthPos() {
 		return mouthPos;
 	}
+	
 	public void setMouthPos(RectRegion mouthPos) {
 		this.mouthPos = mouthPos;
 	}
+	
 	public void setFaceImg(Bitmap faceImg) {
 		this.faceImg = faceImg;
 	}
 
-	
 	Faces(RectRegion facePos, Bitmap face, RectRegion eyePos) {
 		init(facePos, face, eyePos);
 	}
+	
 	/**
 	 * This method initializes the face object with the given parameter values. 
 	 * Position is an array of four integers
@@ -60,7 +66,6 @@ public class Faces {
 		faceImg = face;
 		this.facePos = facePos;
 		this.eyePos = eyePos;
-		
 	}
 
 	/**
@@ -69,6 +74,4 @@ public class Faces {
 	public Bitmap getFaceImg() {
 		return faceImg;
 	}
-
-
 }

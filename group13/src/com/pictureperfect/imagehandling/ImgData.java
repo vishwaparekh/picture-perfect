@@ -138,7 +138,7 @@ public class ImgData extends Application {
 					int midppinty = facePosY[i];
 					int eyedist = (int) faces[i].eyesDistance();
 					int width = eyedist * multFactor;
-					int height = eyedist * multFactor;
+					int height = eyedist * (int)(multFactor*1.5);
 					int leftCornerX = Math.max(midpointx - Math.round(width/2),0);
 					int leftCornerY = Math.max(midppinty - Math.round(height/2),0);
 					
@@ -235,6 +235,7 @@ public class ImgData extends Application {
 		this.myPeople = new ArrayList<Person>();
 		myBackground = myPictures.get(myBackgroundNum);
 		if (myFaces.get(myBackgroundNum).size()==0){
+			System.out.println("hello");
 			return;
 		}
 		for (int i = 0; i < myFaces.get(myBackgroundNum).size(); i++) {

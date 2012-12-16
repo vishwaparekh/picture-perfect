@@ -29,8 +29,6 @@ public class Person {
 		init(faces, baseFace);
 	}
 
-	
-
 	public Faces getBaseFace() {
 		return baseFace;
 	}
@@ -48,11 +46,14 @@ public class Person {
 	 *            to be found
 	 */
 	private void init(ArrayList<ArrayList<Faces>> faces, Faces baseFace) {
-
+		ArrayList<Faces> myFacesTemp = new ArrayList<Faces>();
 		for (int i = 0; i < faces.size(); i++) {
 			//myfaces.add(this.getBestMatch(faces.get(i), baseFace));
-			myfaces.addAll(faces.get(i));
+				myFacesTemp.addAll(faces.get(i));
 		}
+		
+		myFacesTemp.remove(baseFace);
+		myfaces.addAll(myFacesTemp);
 	}
 
 	/**
@@ -71,6 +72,7 @@ public class Person {
 	 */
 	public void setBestFace(Faces face) {
 		bestFace = face;
+		
 	}
 
 	/**
