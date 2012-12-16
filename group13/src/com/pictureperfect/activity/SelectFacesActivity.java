@@ -146,7 +146,7 @@ public class SelectFacesActivity extends Activity {
 		float bottom = facP.getY();
 		float right = facP.getWidth() + left;
 		float top = facP.getHeight() + bottom;
-		mPaint.setColor(Color.RED);
+		mPaint.setColor(Color.GREEN);
 		myCanvas.drawRect(left, top, right, bottom, mPaint);
 
 	}
@@ -210,7 +210,7 @@ public class SelectFacesActivity extends Activity {
 		float bottom = facP.getY();
 		float right = facP.getWidth() + left;
 		float top = facP.getHeight() + bottom;
-		mPaint.setColor(Color.RED);
+		mPaint.setColor(Color.GREEN);
 		myCanvas.drawRect(left, top, right, bottom, mPaint);
 	}
 
@@ -291,10 +291,13 @@ public class SelectFacesActivity extends Activity {
 					.getFaceImg();
 			int startX =  myPeople.get(currentpId).getBaseFace().getFacePos().getX();
 			int startY = myPeople.get(currentpId).getBaseFace().getFacePos().getY();
-			Bitmap faceBest = myPeople.get(currentpId).getBestFace()
+			Bitmap faceBestTemp = myPeople.get(currentpId).getBestFace()
 					.getFaceImg();
+			Bitmap faceBest = Bitmap.createScaledBitmap(faceBestTemp, faceBase.getWidth(), faceBase.getHeight(), false);
+			
 			for (int x = 0; x < faceBest.getWidth(); x++) {
 				for (int y = 0; y < faceBest.getHeight(); y++) {
+					int alphaVal = 1;
 					color = faceBest.getPixel(x, y);
 					r = Color.red(color);
 					g = Color.green(color);
@@ -321,34 +324,36 @@ public class SelectFacesActivity extends Activity {
 						double baseContr=0;
 						double bestContr=0;
 						if(x< faceBest.getWidth() * outerBoundary){
-							baseContr = Math.max(baseContr,x/(faceBest.getWidth() * outerBoundary));
-							bestContr = 1-baseContr;
+							bestContr = Math.max(bestContr,x/(faceBest.getWidth() * outerBoundary));
+							baseContr = 1-bestContr;
 						}
 						if(x > faceBest.getWidth() * (1-outerBoundary)){
-							baseContr = Math.max(baseContr,(faceBase.getWidth()-x)/(faceBest.getWidth() * outerBoundary));
-							bestContr = 1-baseContr;
+							bestContr = Math.max(bestContr,(faceBase.getWidth()-x)/(faceBest.getWidth() * outerBoundary));
+							baseContr = 1-bestContr;
 						}
 						if(y< faceBest.getHeight()* outerBoundary){
-							baseContr = Math.max(baseContr,y/(faceBest.getHeight() * outerBoundary));
-							bestContr = 1-baseContr;
+							bestContr = Math.max(bestContr,y/(faceBest.getHeight() * outerBoundary));
+							baseContr = 1-bestContr;
 						}
 						if(y > faceBest.getHeight()* (1-outerBoundary)){
-							baseContr = Math.max(baseContr,(faceBase.getHeight()-y)/(faceBest.getHeight()* outerBoundary));
-							bestContr = 1-baseContr;
+							bestContr = Math.max(bestContr,(faceBase.getHeight()-y)/(faceBest.getHeight()* outerBoundary));
+							baseContr = 1-bestContr;
 						}
 							
-						r = (int)((double)r1*baseContr + (double)r*bestContr);
+						/*r = (int)((double)r1*baseContr + (double)r*bestContr);
 						g = (int)((double)g1*baseContr + (double)g*bestContr);
-						b = (int)((double)b1*baseContr + (double)b*bestContr);
+						b = (int)((double)b1*baseContr + (double)b*bestContr);*/
+						r = r1;
+						g = g1;
+						b = b1;
+						alphaVal = (int)(baseContr*100);
 					}
 					
 					mPaint.setColor(Color
-							.argb(100, r, g, b));
+							.argb(alphaVal, r, g, b));
 					myCanvas.drawPoint(startX+x, startY+y, mPaint);
 				}
 			}
-
 		}
-
 	}
 }
