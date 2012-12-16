@@ -297,7 +297,7 @@ public class SelectFacesActivity extends Activity {
 			
 			for (int x = 0; x < faceBest.getWidth(); x++) {
 				for (int y = 0; y < faceBest.getHeight(); y++) {
-					int alphaVal = 1;
+					int alphaVal = 100;
 					color = faceBest.getPixel(x, y);
 					r = Color.red(color);
 					g = Color.green(color);
@@ -306,16 +306,8 @@ public class SelectFacesActivity extends Activity {
 					r1 = Color.red(color1);
 					g1 = Color.green(color1);
 					b1 = Color.blue(color1);
-					if (x < innerBoundary * faceBest.getWidth()
-							|| y < innerBoundary * faceBest.getHeight()
-							|| x > (1 - innerBoundary) * faceBest.getWidth()
-							|| y > (1 - innerBoundary) * faceBest.getHeight()) {
-						r = r1;
-						b = b1;
-						g = g1;
-
-					}
-					else if (x < outerBoundary * faceBest.getWidth()
+					
+					if (x < outerBoundary * faceBest.getWidth()
 							|| y < outerBoundary * faceBest.getHeight()
 							|| x > (1 - outerBoundary) * faceBest.getWidth()
 							|| y > (1 - outerBoundary) * faceBest.getHeight()) {
@@ -340,13 +332,9 @@ public class SelectFacesActivity extends Activity {
 							baseContr = 1-bestContr;
 						}
 							
-						/*r = (int)((double)r1*baseContr + (double)r*bestContr);
+						r = (int)((double)r1*baseContr + (double)r*bestContr);
 						g = (int)((double)g1*baseContr + (double)g*bestContr);
-						b = (int)((double)b1*baseContr + (double)b*bestContr);*/
-						r = r1;
-						g = g1;
-						b = b1;
-						alphaVal = (int)(baseContr*100);
+						b = (int)((double)b1*baseContr + (double)b*bestContr);
 					}
 					
 					mPaint.setColor(Color

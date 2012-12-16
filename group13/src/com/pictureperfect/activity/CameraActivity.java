@@ -239,7 +239,7 @@ public class CameraActivity extends Activity {
 
 	Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
-			// new SavePhoto().execute(data);
+			//new SavePhoto().execute(data);
 			((ImgData) getApplication()).addPicture(data);
 			inPreview = true;
 

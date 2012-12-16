@@ -163,24 +163,24 @@ public class FinalResultActivity extends Activity {
 		case 0:
 			init();
 			Helper.savePhoto(
-					Helper.bitmapToByteArray(processSepia()), 0);
+					Helper.bitmapToByteArray(processSepia()), 10);
 			break;
 
 		case 1:
 			init();
-			Helper.savePhoto(Helper.bitmapToByteArray(processBW()), 1);
+			Helper.savePhoto(Helper.bitmapToByteArray(processBW()), 11);
 			break;
 
 		case 2:
 			init();
-			Helper.savePhoto(Helper.bitmapToByteArray(processGrayscale()), 2);
+			Helper.savePhoto(Helper.bitmapToByteArray(processGrayscale()), 12);
 			break;
 
 		case 3:
 			init();
 			Helper.savePhoto(Helper
 					.bitmapToByteArray(((ImgData) getApplication())
-							.getBackground()), 3);
+							.getBackground()), 13);
 			break;
 
 		case 4:
