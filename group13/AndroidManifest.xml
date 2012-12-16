@@ -45,6 +45,10 @@
             android:name="com.pictureperfect.activity.SelectFacesActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".GalleryActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

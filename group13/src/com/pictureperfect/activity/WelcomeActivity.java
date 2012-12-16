@@ -39,17 +39,15 @@ public class WelcomeActivity extends Activity {
         Button editExistingButton = (Button) findViewById(R.id.button2);
         TakePictureButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(WelcomeActivity.this,
-						CameraActivity.class);
+				Intent intent = new Intent(WelcomeActivity.this, CameraActivity.class);
 				startActivity(intent);
 			}
 		});
         
         editExistingButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-		/*		Intent intent = new Intent(WelcomeActivity.this,
-						CustomGalleryActivity.class);
-				startActivity(intent);*/
+				Intent intent = new Intent(WelcomeActivity.this, GalleryActivity.class);
+				startActivity(intent);
 			}
 		});
     }
@@ -66,7 +64,6 @@ public class WelcomeActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		super.onOptionsItemSelected(item);
 
 		switch (item.getItemId()) {

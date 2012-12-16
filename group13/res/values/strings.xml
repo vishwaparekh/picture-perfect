@@ -17,7 +17,7 @@
     <string name="remFace">: Step 3 : </string>
     <string name="welcome">Welcome to Picture Perfect!</string>
     <string name="NextP">S W I T C H</string>
-    
+    <string name = "SelectThumb">Select</string>
     
     <string name="About">About</string>
     <string name="Exit">Exit</string>
