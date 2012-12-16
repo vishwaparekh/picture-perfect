@@ -160,6 +160,7 @@ public class ImgData extends Application {
 				}
 			}
 		}
+		//if(!facesPic.isEmpty())
 		myFaces.add(facesPic);
 	}
 
@@ -184,6 +185,14 @@ public class ImgData extends Application {
 		numPictures++;
 	}
 
+	public void addPicture(Bitmap bitmap) {
+		bitmap.getHeight();
+		bitmap.getWidth();
+		myPictures.add(bitmap.copy(Bitmap.Config.RGB_565, true));
+		findandAddFaces(myPictures.get(numPictures));
+		numPictures++;
+	}
+	
 	/**
 	 * Given an image, it finds all the unwanted objects and adds them to the
 	 * unwantedObjects array.
