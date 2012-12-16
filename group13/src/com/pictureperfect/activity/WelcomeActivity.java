@@ -46,7 +46,7 @@ public class WelcomeActivity extends Activity {
         
         editExistingButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(WelcomeActivity.this, GalleryActivity.class);
+				Intent intent = new Intent(WelcomeActivity.this, EditExistingActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -55,10 +55,6 @@ public class WelcomeActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 1, R.string.About);
 		menu.add(0, 1, 1, R.string.Exit);
-		/*menu.add(0, 2, 1, R.string.Refresh);
-		menu.add(0, 3, 1, R.string.Delete);*/
-	/*	menu.add(0, 4, 1, R.string.app_about);
-		menu.add(0, 5, 1, R.string.logout);*/
 		return super.onCreateOptionsMenu(menu);
 	}
 
