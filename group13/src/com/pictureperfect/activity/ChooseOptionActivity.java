@@ -13,7 +13,6 @@ import android.widget.Button;
 
 import com.pictureperfect.common.Helper;
 import com.pictureperfect.imagehandling.ImgData;
-import com.pictureperfect.imagehandling.SavePhoto;
 
 /**
  * This screen helps the user to chose between selecting faces and removing
@@ -74,7 +73,7 @@ public class ChooseOptionActivity extends Activity {
 				byte[] myBitmapFinal = Helper
 						.bitmapToByteArray(((ImgData) getApplication())
 								.getMyBackground());
-				new SavePhoto().execute(myBitmapFinal);
+			//	new SavePhoto().execute(myBitmapFinal);
 				Intent intent = new Intent(ChooseOptionActivity.this,
 						FinalResultActivity.class);
 				startActivity(intent);
