@@ -11,7 +11,7 @@ import android.app.Activity;
 import android.widget.Button;
 
 import com.pictureperfect.activity.CameraActivity;
-import com.pictureperfect.activity.GalleryActivity;
+import com.pictureperfect.activity.EditExistingActivity;
 import com.pictureperfect.activity.WelcomeActivity;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
@@ -42,7 +42,7 @@ public class WelcomeActivityTest {
 	@Test
 	public void shouldOpenGalleryActivityWhenPressed() throws Exception{
 		b2.performClick();
-		activity3 = new CameraActivity();
+		activity3 = new EditExistingActivity();
 		assertEquals(activity3, activity);
 	}
 }
