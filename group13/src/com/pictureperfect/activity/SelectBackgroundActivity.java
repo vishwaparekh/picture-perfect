@@ -40,15 +40,6 @@ public class SelectBackgroundActivity extends Activity {
 	 *            shut down then this Bundle contains the data it most recently
 	 *            supplied in onSaveInstanceState(Bundle)
 	 */
-
-	protected Handler mHandler = new Handler() {
-		// @Override
-		public void handleMessage(Message msg) {
-			myImageView.invalidate();
-			super.handleMessage(msg);
-		}
-	};
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,29 +82,42 @@ public class SelectBackgroundActivity extends Activity {
 
 		DonePictureButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Toast.makeText(SelectBackgroundActivity.this,"Base Image selected",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(SelectBackgroundActivity.this,
+						"Base Image selected", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(SelectBackgroundActivity.this,
 						ChooseOptionActivity.class);
 				startActivity(intent);
 			}
 		});
 		// perform face detection in setFace() in a background thread
-		int isImageAvailable= init();
-		if(isImageAvailable==1){
+		int isImageAvailable = init();
+		if (isImageAvailable == 1) {
 			Intent intent = new Intent(SelectBackgroundActivity.this,
 					WelcomeActivity.class);
 			startActivity(intent);
 		}
 	}
 
+	protected Handler mHandler = new Handler() {
+		// @Override
+		public void handleMessage(Message msg) {
+			myImageView.invalidate();
+			super.handleMessage(msg);
+		}
+	};
+
+	/**
+	 * Initialize the screen
+	 * 
+	 * @return 1 OR 0
+	 */
 	private int init() {
-		if(((ImgData) getApplication()).getMyPictures().size()==0){
+		if (((ImgData) getApplication()).getMyPictures().size() == 0) {
 			return 1;
-		}else{
+		} else {
 			((ImgData) getApplication()).setBackgroundNum(0);
-			myImageView
-					.setImageBitmap(((ImgData) getApplication()).getBackground());
+			myImageView.setImageBitmap(((ImgData) getApplication())
+					.getBackground());
 			myImageView.invalidate();
 			return 0;
 		}
@@ -130,17 +134,9 @@ public class SelectBackgroundActivity extends Activity {
 		}
 
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			// remove the holder
+
 		}
 	};
-
-	/**
-	 * This method updates the background number in both the view and the
-	 * ImgData object.
-	 */
-	private void changeBackground() {
-
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,7 +148,6 @@ public class SelectBackgroundActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		super.onOptionsItemSelected(item);
 
 		switch (item.getItemId()) {
@@ -192,10 +187,11 @@ public class SelectBackgroundActivity extends Activity {
 						new DialogInterface.OnClickListener() {
 							public void onClick(
 									DialogInterface dialoginterface, int i) {
-								Intent intent = new Intent(SelectBackgroundActivity.this,
+								Intent intent = new Intent(
+										SelectBackgroundActivity.this,
 										WelcomeActivity.class);
-										startActivity(intent);
-										finish();
+								startActivity(intent);
+								finish();
 							}
 						}).show();
 	}

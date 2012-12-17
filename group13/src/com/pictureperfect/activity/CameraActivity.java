@@ -98,7 +98,6 @@ public class CameraActivity extends Activity {
 		mCamera.release();
 		mCamera = null;
 		inPreview = false;
-
 		super.onPause();
 	}
 
@@ -150,8 +149,8 @@ public class CameraActivity extends Activity {
 				Log.e("Preview-surfaceCallback",
 						"Exception in setPreviewDisplay()", t);
 
-				Toast.makeText(CameraActivity.this, t.getMessage(), Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(CameraActivity.this, t.getMessage(),
+						Toast.LENGTH_LONG).show();
 			}
 
 			if (!cameraConfigured) {
@@ -203,7 +202,7 @@ public class CameraActivity extends Activity {
 			parameters.setPictureFormat(PixelFormat.JPEG);
 			parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 			parameters.setJpegQuality(100);
-			//parameters.setFlashMode(FLASH_MODE_AUTO);
+			// parameters.setFlashMode(FLASH_MODE_AUTO);
 			mCamera.setParameters(parameters);
 			initPreview(width, height);
 			startPreview();
@@ -222,7 +221,6 @@ public class CameraActivity extends Activity {
 
 	Camera.PictureCallback photoCallback = new Camera.PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
-			//new SavePhoto().execute(data);
 			((ImgData) getApplication()).addPicture(data);
 			inPreview = true;
 			Helper.savePhoto(data, 1);

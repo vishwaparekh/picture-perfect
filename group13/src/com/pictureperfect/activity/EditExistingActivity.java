@@ -15,15 +15,15 @@ import android.provider.MediaStore;
 import com.pictureperfect.imagehandling.ImgData;
 
 /**
- * This screen helps the user to click a burst of images.
+ * This screen helps the user to select images from gallery.
  * 
  * @author group13
  * 
  */
-
 public class EditExistingActivity extends Activity {
 
-	boolean flag= true;
+	boolean flag = true;
+
 	/**
 	 * Called when the activity is first created. This is where you should do
 	 * all of your normal static set up: create views, bind data to lists, etc.
@@ -35,20 +35,28 @@ public class EditExistingActivity extends Activity {
 	 *            shut down then this Bundle contains the data it most recently
 	 *            supplied in onSaveInstanceState(Bundle)
 	 */
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		uploadImagesFromGallery();
-		}
+	}
 
+	/**
+	 * This method opens the gallery view for image selection.
+	 */
 	public void openGallery() {
 		Intent i = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(i, 0);
-		
+
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onActivityResult(int, int,
+	 * android.content.Intent)
+	 */
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent imageReturnedIntent) {
 		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -70,13 +78,16 @@ public class EditExistingActivity extends Activity {
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inPreferredConfig = Config.RGB_565;
 				options.inSampleSize = 10;
-				Bitmap myImage = BitmapFactory.decodeFile(filePath,options);
+				Bitmap myImage = BitmapFactory.decodeFile(filePath, options);
 				((ImgData) getApplication()).addPicture(myImage);
 			}
 		}
 		uploadImagesFromGallery();
 	}
-	
+
+	/**
+	 * Dialogue box to as user to upload more images.
+	 */
 	private void uploadImagesFromGallery() {
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.Upload)
@@ -85,10 +96,11 @@ public class EditExistingActivity extends Activity {
 						new DialogInterface.OnClickListener() {
 							public void onClick(
 									DialogInterface dialoginterface, int i) {
-								flag=false;
-								Intent intent = new Intent(EditExistingActivity.this,
-										 SelectBackgroundActivity.class); 
-								 startActivity(intent);
+								flag = false;
+								Intent intent = new Intent(
+										EditExistingActivity.this,
+										SelectBackgroundActivity.class);
+								startActivity(intent);
 							}
 						})
 				.setPositiveButton(R.string.str_yes,

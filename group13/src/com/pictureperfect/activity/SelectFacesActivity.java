@@ -219,7 +219,6 @@ public class SelectFacesActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		super.onOptionsItemSelected(item);
 
 		switch (item.getItemId()) {
@@ -268,6 +267,9 @@ public class SelectFacesActivity extends Activity {
 						}).show();
 	}
 
+	/**
+	 * Alternate Blend option.
+	 */
 	private void blendImage_old() {
 		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
 		Canvas myCanvasIm = new Canvas(myBitmapIm);
@@ -283,12 +285,15 @@ public class SelectFacesActivity extends Activity {
 		for (currentpId = 0; currentpId < myPeople.size(); currentpId++) {
 			Bitmap faceBase = myPeople.get(currentpId).getBaseFace()
 					.getFaceImg();
-			int startX =  myPeople.get(currentpId).getBaseFace().getFacePos().getX();
-			int startY = myPeople.get(currentpId).getBaseFace().getFacePos().getY();
+			int startX = myPeople.get(currentpId).getBaseFace().getFacePos()
+					.getX();
+			int startY = myPeople.get(currentpId).getBaseFace().getFacePos()
+					.getY();
 			Bitmap faceBestTemp = myPeople.get(currentpId).getBestFace()
 					.getFaceImg();
-			Bitmap faceBest = Bitmap.createScaledBitmap(faceBestTemp, faceBase.getWidth(), faceBase.getHeight(), false);
-			
+			Bitmap faceBest = Bitmap.createScaledBitmap(faceBestTemp,
+					faceBase.getWidth(), faceBase.getHeight(), false);
+
 			for (int x = 0; x < faceBest.getWidth(); x++) {
 				for (int y = 0; y < faceBest.getHeight(); y++) {
 					int alphaVal = 255;
@@ -300,50 +305,58 @@ public class SelectFacesActivity extends Activity {
 					r1 = Color.red(color1);
 					g1 = Color.green(color1);
 					b1 = Color.blue(color1);
-					
+
 					if (x < outerBoundary * faceBest.getWidth()
 							|| y < outerBoundary * faceBest.getHeight()
 							|| x > (1 - outerBoundary) * faceBest.getWidth()
 							|| y > (1 - outerBoundary) * faceBest.getHeight()) {
-						
-						
-						double baseContr=0;
-						double bestContr=0;
-						if(x< faceBest.getWidth() * outerBoundary){
-							bestContr = Math.max(bestContr,x/(faceBest.getWidth() * outerBoundary));
-							baseContr = 1-bestContr;
+
+						double baseContr = 0;
+						double bestContr = 0;
+						if (x < faceBest.getWidth() * outerBoundary) {
+							bestContr = Math.max(bestContr,
+									x / (faceBest.getWidth() * outerBoundary));
+							baseContr = 1 - bestContr;
 						}
-						if(x > faceBest.getWidth() * (1-outerBoundary)){
-							bestContr = Math.max(bestContr,(faceBase.getWidth()-x)/(faceBest.getWidth() * outerBoundary));
-							baseContr = 1-bestContr;
+						if (x > faceBest.getWidth() * (1 - outerBoundary)) {
+							bestContr = Math
+									.max(bestContr,
+											(faceBase.getWidth() - x)
+													/ (faceBest.getWidth() * outerBoundary));
+							baseContr = 1 - bestContr;
 						}
-						if(y< faceBest.getHeight()* outerBoundary){
-							bestContr = Math.max(bestContr,y/(faceBest.getHeight() * outerBoundary));
-							baseContr = 1-bestContr;
+						if (y < faceBest.getHeight() * outerBoundary) {
+							bestContr = Math.max(bestContr,
+									y / (faceBest.getHeight() * outerBoundary));
+							baseContr = 1 - bestContr;
 						}
-						if(y > faceBest.getHeight()* (1-outerBoundary)){
-							bestContr = Math.max(bestContr,(faceBase.getHeight()-y)/(faceBest.getHeight()* outerBoundary));
-							baseContr = 1-bestContr;
+						if (y > faceBest.getHeight() * (1 - outerBoundary)) {
+							bestContr = Math
+									.max(bestContr,
+											(faceBase.getHeight() - y)
+													/ (faceBest.getHeight() * outerBoundary));
+							baseContr = 1 - bestContr;
 						}
-							
-						r = (int)((double)r1*baseContr + (double)r*bestContr);
-						g = (int)((double)g1*baseContr + (double)g*bestContr);
-						b = (int)((double)b1*baseContr + (double)b*bestContr);
-						/*r = r1;
-						g = g1;
-						b = b1;
-						*/
+
+						r = (int) ((double) r1 * baseContr + (double) r
+								* bestContr);
+						g = (int) ((double) g1 * baseContr + (double) g
+								* bestContr);
+						b = (int) ((double) b1 * baseContr + (double) b
+								* bestContr);
 					}
-					
-					mPaint.setColor(Color
-							.argb(alphaVal, r, g, b));
-					myCanvasIm.drawPoint(startX+x, startY+y, mPaint);
+
+					mPaint.setColor(Color.argb(alphaVal, r, g, b));
+					myCanvasIm.drawPoint(startX + x, startY + y, mPaint);
 				}
 			}
 		}
 	}
-	
-	private void blendImage(){
+
+	/**
+	 * Method to blend the images
+	 */
+	private void blendImage() {
 		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
 		Canvas myCanvasIm = new Canvas(myBitmapIm);
 		mPaint.setStyle(Paint.Style.STROKE);
@@ -354,58 +367,104 @@ public class SelectFacesActivity extends Activity {
 		for (currentpId = 0; currentpId < myPeople.size(); currentpId++) {
 			Bitmap faceBase = myPeople.get(currentpId).getBaseFace()
 					.getFaceImg();
-			
-			int startX =  myPeople.get(currentpId).getBaseFace().getFacePos().getX();
-			int startY = myPeople.get(currentpId).getBaseFace().getFacePos().getY();
-			
+
+			int startX = myPeople.get(currentpId).getBaseFace().getFacePos()
+					.getX();
+			int startY = myPeople.get(currentpId).getBaseFace().getFacePos()
+					.getY();
+
 			blendSides(myBitmapIm, myCanvasIm, startX, startY, faceBase);
 		}
 	}
-	
-	private void blendSides(Bitmap myBitmapIm,Canvas myCanvasIm, int startX, int startY, Bitmap faceBase){
+
+	/**
+	 * Method to blend the sides
+	 * @param myBitmapIm
+	 * @param myCanvasIm
+	 * @param startX
+	 * @param startY
+	 * @param faceBase
+	 */
+	private void blendSides(Bitmap myBitmapIm, Canvas myCanvasIm, int startX,
+			int startY, Bitmap faceBase) {
 		double outerBoundary = 0.1;
-		int deltaX = (int)(outerBoundary*faceBase.getWidth());
-		int deltaY = (int)(outerBoundary*faceBase.getHeight());
-		int tempstartX = Math.max(startX-deltaX,0);
-		int tempstartY = Math.max(startY,0);
-		int tempendX = Math.min(startX,myBitmapIm.getWidth()-1);
-		int tempendY = Math.min(startY + faceBase.getHeight(),myBitmapIm.getHeight()-1);
-		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,true);
-		tempstartX = Math.max(startX+faceBase.getWidth(),0);
-		tempendX=Math.min(startX+faceBase.getWidth()+deltaX,myBitmapIm.getWidth()-1);
-		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,true);
-		tempstartX = Math.max(startX,0);
-		tempendX = Math.min(startX+faceBase.getWidth(),myBitmapIm.getWidth()-1);
-		tempstartY = Math.max(startY-deltaY,0);
-		tempendY = Math.min(startY,myBitmapIm.getHeight()-1);
-		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,false);
-		tempstartY = Math.max(startY+faceBase.getHeight(),0);
-		tempendY = Math.min(startY+faceBase.getHeight()+deltaY,myBitmapIm.getHeight()-1);
-		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,false);
-		
-		
+		int deltaX = (int) (outerBoundary * faceBase.getWidth());
+		int deltaY = (int) (outerBoundary * faceBase.getHeight());
+		int tempstartX = Math.max(startX - deltaX, 0);
+		int tempstartY = Math.max(startY, 0);
+		int tempendX = Math.min(startX, myBitmapIm.getWidth() - 1);
+		int tempendY = Math.min(startY + faceBase.getHeight(),
+				myBitmapIm.getHeight() - 1);
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY,
+				myBitmapIm, myCanvasIm, true);
+		tempstartX = Math.max(startX + faceBase.getWidth(), 0);
+		tempendX = Math.min(startX + faceBase.getWidth() + deltaX,
+				myBitmapIm.getWidth() - 1);
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY,
+				myBitmapIm, myCanvasIm, true);
+		tempstartX = Math.max(startX, 0);
+		tempendX = Math.min(startX + faceBase.getWidth(),
+				myBitmapIm.getWidth() - 1);
+		tempstartY = Math.max(startY - deltaY, 0);
+		tempendY = Math.min(startY, myBitmapIm.getHeight() - 1);
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY,
+				myBitmapIm, myCanvasIm, false);
+		tempstartY = Math.max(startY + faceBase.getHeight(), 0);
+		tempendY = Math.min(startY + faceBase.getHeight() + deltaY,
+				myBitmapIm.getHeight() - 1);
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY,
+				myBitmapIm, myCanvasIm, false);
+
 	}
-	
-	private void loopandInterpolate(int tempstartX, int tempstartY, int tempendX, int tempendY,Bitmap myBitmapIm,Canvas myCanvasIm,boolean isX){
-		for (int x = tempstartX ; x <= tempendX; x++) {
+
+	/**
+	 * This method interpolates the bitmaps
+	 * 
+	 * @param tempstartX
+	 * @param tempstartY
+	 * @param tempendX
+	 * @param tempendY
+	 * @param myBitmapIm
+	 * @param myCanvasIm
+	 * @param isX
+	 */
+	private void loopandInterpolate(int tempstartX, int tempstartY,
+			int tempendX, int tempendY, Bitmap myBitmapIm, Canvas myCanvasIm,
+			boolean isX) {
+		for (int x = tempstartX; x <= tempendX; x++) {
 			for (int y = tempstartY; y <= tempendY; y++) {
-				if(x>myBitmapIm.getWidth() || x<0 || y<0 || y>myBitmapIm.getHeight())
-				{
+				if (x > myBitmapIm.getWidth() || x < 0 || y < 0
+						|| y > myBitmapIm.getHeight()) {
 					continue;
 				}
-				if(isX)
-					interpolateColor(myBitmapIm, tempstartX, tempendX, y, y, y, x, myCanvasIm);
+				if (isX)
+					interpolateColor(myBitmapIm, tempstartX, tempendX, y, y, y,
+							x, myCanvasIm);
 				else
-					interpolateColor(myBitmapIm, x, x, tempstartY, tempendY, y, x, myCanvasIm);
+					interpolateColor(myBitmapIm, x, x, tempstartY, tempendY, y,
+							x, myCanvasIm);
 			}
 		}
 	}
-	
-	private int interpolateColor(Bitmap myBitmapIm,int startX,int endX,int startY, int endY,int y, int x, Canvas myCanvasIm){
-		int delta ;
-		
-		delta = Math.max(endX - startX,endY - startY);
-		if(delta==0){
+
+	/**
+	 * This method interpolates the color of the Bitmap
+	 * @param myBitmapIm
+	 * @param startX
+	 * @param endX
+	 * @param startY
+	 * @param endY
+	 * @param y
+	 * @param x
+	 * @param myCanvasIm
+	 * @return
+	 */
+	private int interpolateColor(Bitmap myBitmapIm, int startX, int endX,
+			int startY, int endY, int y, int x, Canvas myCanvasIm) {
+		int delta;
+
+		delta = Math.max(endX - startX, endY - startY);
+		if (delta == 0) {
 			return 0;
 		}
 		int color_left = myBitmapIm.getPixel(startX, startY);
@@ -416,17 +475,17 @@ public class SelectFacesActivity extends Activity {
 		int rRight = Color.red(color_right);
 		int gRight = Color.green(color_right);
 		int bRight = Color.blue(color_right);
-		
-		int distLeft = Math.min(x - (startX),(endX-startX))+Math.min(y - (startY),(endY-startY));
-		int distRight = Math.min(endX - (x),(endX-startX))+Math.min(endY - y,(endY-startY));
-		
-		int r = (rLeft * distRight + rRight*distLeft)/(delta);
-		int g = (gLeft * distRight + gRight*distLeft)/(delta);
-		int b = (bLeft * distRight + bRight*distLeft)/(delta);
-		mPaint.setColor(Color
-				.argb(255, r, g, b));
+
+		int distLeft = Math.min(x - (startX), (endX - startX))
+				+ Math.min(y - (startY), (endY - startY));
+		int distRight = Math.min(endX - (x), (endX - startX))
+				+ Math.min(endY - y, (endY - startY));
+
+		int r = (rLeft * distRight + rRight * distLeft) / (delta);
+		int g = (gLeft * distRight + gRight * distLeft) / (delta);
+		int b = (bLeft * distRight + bRight * distLeft) / (delta);
+		mPaint.setColor(Color.argb(255, r, g, b));
 		myCanvasIm.drawPoint(x, y, mPaint);
 		return 0;
 	}
 }
-

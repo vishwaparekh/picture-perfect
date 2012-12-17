@@ -1,4 +1,4 @@
-package com.pictureperfect.activity;	
+package com.pictureperfect.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,44 +14,49 @@ import android.widget.Button;
 import com.pictureperfect.imagehandling.ImgData;
 
 /**
- * It is the main screen of the application It consists of two buttons. 
- * @author group13 
- *
+ * It is the main screen of the application It consists of two buttons.
+ * 
+ * @author group13
+ * 
  */
 public class WelcomeActivity extends Activity {
-	
-	/** Called when the activity is first created. */
-    @Override
-    /**Called when the activity is first created. This is where you should do all 
-     * of your normal static set up: create views, bind data to lists, etc. This method
-     *  also provides you with a Bundle containing the activity's previously frozen 
-     *  state, if there was one.
-     * 
-     * @param savedInstancesState f the activity is being re-initialized after 
-     * previously being shut down then this Bundle contains the data it most 
-     * recently supplied in onSaveInstanceState(Bundle) 
-     */
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        ((ImgData) getApplication()).reset();
-        Button TakePictureButton = (Button) findViewById(R.id.button1);
-        Button editExistingButton = (Button) findViewById(R.id.button2);
-        TakePictureButton.setOnClickListener(new OnClickListener() {
+
+	/**
+	 * Called when the activity is first created. This is where you should do
+	 * all of your normal static set up: create views, bind data to lists, etc.
+	 * This method also provides you with a Bundle containing the activity's
+	 * previously frozen state, if there was one.
+	 * 
+	 * @param savedInstancesState
+	 *            f the activity is being re-initialized after previously being
+	 *            shut down then this Bundle contains the data it most recently
+	 *            supplied in onSaveInstanceState(Bundle)
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		((ImgData) getApplication()).reset();
+		Button TakePictureButton = (Button) findViewById(R.id.button1);
+		Button editExistingButton = (Button) findViewById(R.id.button2);
+		TakePictureButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(WelcomeActivity.this, CameraActivity.class);
+				Intent intent = new Intent(WelcomeActivity.this,
+						CameraActivity.class);
 				startActivity(intent);
 			}
 		});
-        
-        editExistingButton.setOnClickListener(new OnClickListener() {
+
+		editExistingButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(WelcomeActivity.this, EditExistingActivity.class);
+				Intent intent = new Intent(WelcomeActivity.this,
+						EditExistingActivity.class);
 				startActivity(intent);
 			}
 		});
-    }
-    @Override
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 1, R.string.About);
 		menu.add(0, 1, 1, R.string.Exit);
@@ -107,4 +112,3 @@ public class WelcomeActivity extends Activity {
 						}).show();
 	}
 }
-

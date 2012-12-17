@@ -9,6 +9,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.media.FaceDetector;
+import android.util.Log;
 
 import com.pictureperfect.common.Helper;
 import com.pictureperfect.common.RectRegion;
@@ -121,7 +122,7 @@ public class ImgData extends Application {
 			faceDetector = new FaceDetector(myFaceWidth, myFaceHeight, MAX_FACES);
 			count = faceDetector.findFaces(myPicture, faces);
 		} catch (Exception e) {
-			/* Log.e(TAG, "setFace(): " + e.toString()); */
+			Log.e("Exception", "setFace(): " + e.toString());
 			return;
 		}
 		if (count > 0) {
@@ -156,11 +157,10 @@ public class ImgData extends Application {
 					byte[] abc = Helper.bitmapToByteArray(faceImg);
 				//	Helper.savePhoto(abc, i);
 				} catch (Exception e) {
-					/* Log.e(TAG, "setFace(): face " + i + ": " + e.toString()); */
+					Log.e("Exception", "setFace(): face " + i + ": " + e.toString());
 				}
 			}
 		}
-		//if(!facesPic.isEmpty())
 		myFaces.add(facesPic);
 	}
 
@@ -185,6 +185,13 @@ public class ImgData extends Application {
 		numPictures++;
 	}
 
+	/**
+	 * Adds a new picture to the myPicture array. Calls findandAddFaces() on the
+	 * same.
+	 * 
+	 * @param data
+	 *            Bitmap of the captured image
+	 */
 	public void addPicture(Bitmap bitmap) {
 		bitmap.getHeight();
 		bitmap.getWidth();
@@ -315,6 +322,9 @@ public class ImgData extends Application {
 		return numPictures;
 	}
 
+	/**
+	 * Reset all and get ready for another run
+	 */
 	public void reset(){
 		this.myPictures = new ArrayList<Bitmap>();
 		this.myFaces = new ArrayList<ArrayList<Faces>>();

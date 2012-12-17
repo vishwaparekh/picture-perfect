@@ -14,9 +14,7 @@ public class AveragePictureGenerator {
 	 * @param myPictures
 	 * @return average picture calculated
 	 */
-	@SuppressWarnings("null")
 	public static Bitmap generate(ArrayList<Bitmap> myPictures) {
-		// TODO Auto-generated method stub
 		Bitmap b = myPictures.get(0);
 		int []pixelsAverage= new int[b.getWidth()*b.getHeight()];
 		for (int i = 0; i<myPictures.size();i++)

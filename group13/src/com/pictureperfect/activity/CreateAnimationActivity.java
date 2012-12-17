@@ -23,7 +23,7 @@ import com.pictureperfect.common.Helper;
 import com.pictureperfect.imagehandling.ImgData;
 
 /**
- * This screen helps the user to select the best face of all the persons.
+ * This screen helps to animate the object in the images.
  * 
  * @author group13
  * 
@@ -33,15 +33,13 @@ public class CreateAnimationActivity extends Activity {
 	private Bitmap myBitmap;
 	private List<Canvas> myCanvasImages = new ArrayList<Canvas>();
 	private List<Bitmap> myBitmapImages = new ArrayList<Bitmap>();
-	private ImageView mIV;
+	private ImageView myImageView;
 	private List<ImageView> pictureView = new ArrayList<ImageView>();
 	static boolean finished = false;
 	private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	protected static final int GUIUPDATE_SETFACE = 999;
-	private int alphaComponent= 255;
+	private int alphaComponent = 255;
 	private int currentPictureId = 0;
-	
-	
 
 	/**
 	 * Called when the activity is first created. This is where you should do
@@ -58,7 +56,7 @@ public class CreateAnimationActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.removeunwantedobjects);
-		mIV = (ImageView) findViewById(R.id.imageView1);
+		myImageView = (ImageView) findViewById(R.id.imageView1);
 		pictureView.add((ImageView) findViewById(R.id.imageView2));
 		pictureView.add((ImageView) findViewById(R.id.imageView4));
 		pictureView.add((ImageView) findViewById(R.id.imageView3));
@@ -76,8 +74,8 @@ public class CreateAnimationActivity extends Activity {
 							FinalResultActivity.class);
 					startActivity(intent);
 				} else {
-					Toast.makeText(CreateAnimationActivity.this, "Animation saved",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(CreateAnimationActivity.this,
+							"Animation saved", Toast.LENGTH_LONG).show();
 					Intent intent = new Intent(CreateAnimationActivity.this,
 							ChooseOptionActivity.class);
 					startActivity(intent);
@@ -97,11 +95,9 @@ public class CreateAnimationActivity extends Activity {
 			}
 		});
 	}
-	
 
 	/**
-	 * This method initializes the screen with all the faces corresponding to
-	 * each person
+	 * This method initializes the screen with all the images.
 	 */
 	private void initializeScreen() {
 		Bitmap myBitmapImm = ((ImgData) getApplication()).getBackground();
@@ -113,10 +109,11 @@ public class CreateAnimationActivity extends Activity {
 		mPaint.setColor(0x80ff0000);
 		mPaint.setStrokeWidth(3);
 		myCanvas.drawBitmap(myBitmap, 0, 0, null);
-		mIV.setImageBitmap(myBitmap);
+		myImageView.setImageBitmap(myBitmap);
 		for (int j = 0; j < 3; j++) {
 			int i = j % ((ImgData) getApplication()).getMyPictures().size();
-			myBitmapImages.add(i, ((ImgData) getApplication()).getMyPictures().get(i));
+			myBitmapImages.add(i, ((ImgData) getApplication()).getMyPictures()
+					.get(i));
 			myCanvasImages.add(i, new Canvas(myBitmapImages.get(i)));
 			myCanvasImages.get(i).drawBitmap(myBitmapImages.get(i), 0, 0, null);
 			pictureView.get(i).setImageBitmap(myBitmapImages.get(i));
@@ -124,11 +121,12 @@ public class CreateAnimationActivity extends Activity {
 	}
 
 	/**
-	 * This method switches the current selection of person.
+	 * This method add the object into animation.
 	 */
 	private void addImageSelection() {
-		Bitmap superImpose = ((ImgData) getApplication()).getMyPictures().get(currentPictureId);
-		alphaComponent=alphaComponent*1/2;
+		Bitmap superImpose = ((ImgData) getApplication()).getMyPictures().get(
+				currentPictureId);
+		alphaComponent = alphaComponent * 1 / 2;
 		mPaint.setAlpha(alphaComponent);
 		myCanvas.drawBitmap(superImpose, 0, 0, mPaint);
 	}
@@ -137,16 +135,18 @@ public class CreateAnimationActivity extends Activity {
 	 * This method switches the current selection of face.
 	 */
 	private void changeImageSelection() {
-		currentPictureId = (currentPictureId + 1)%((ImgData) getApplication()).getMyPictures().size();
-		for (int j = currentPictureId;j<currentPictureId+3;j++){
-			int i = j%((ImgData) getApplication()).getMyPictures().size();
-			myBitmapImages.add(i, ((ImgData) getApplication()).getMyPictures().get(i));
+		currentPictureId = (currentPictureId + 1)
+				% ((ImgData) getApplication()).getMyPictures().size();
+		for (int j = currentPictureId; j < currentPictureId + 3; j++) {
+			int i = j % ((ImgData) getApplication()).getMyPictures().size();
+			myBitmapImages.add(i, ((ImgData) getApplication()).getMyPictures()
+					.get(i));
 			myCanvasImages.add(i, new Canvas(myBitmapImages.get(i)));
 			myCanvasImages.get(i).drawBitmap(myBitmapImages.get(i), 0, 0, null);
-			pictureView.get(j - currentPictureId)
-					.setImageBitmap(myBitmapImages.get(i));
+			pictureView.get(j - currentPictureId).setImageBitmap(
+					myBitmapImages.get(i));
 		}
-	
+
 	}
 
 	@Override
@@ -159,7 +159,6 @@ public class CreateAnimationActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		super.onOptionsItemSelected(item);
 
 		switch (item.getItemId()) {
@@ -207,6 +206,4 @@ public class CreateAnimationActivity extends Activity {
 							}
 						}).show();
 	}
-
 }
-

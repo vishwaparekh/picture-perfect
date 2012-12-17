@@ -24,11 +24,20 @@ public class Helper {
 		return bitmapdata;
 	}
 
+	/**
+	 * Save the image data to file
+	 * 
+	 * @param data
+	 *            Byte array of image to be saved
+	 * @param type
+	 *            type of image. Burst/Animated
+	 */
 	public static void savePhoto(byte[] data, int type) {
 		File folder = new File(Environment.getExternalStorageDirectory()
 				+ "/Picture Perfect/");
-		File folderAnimated = new File(Environment.getExternalStorageDirectory()
-				+ "/Picture Perfect/Animated/");
+		File folderAnimated = new File(
+				Environment.getExternalStorageDirectory()
+						+ "/Picture Perfect/Animated/");
 		boolean success = true;
 		if (!folder.exists()) {
 			success = folder.mkdir();
@@ -36,7 +45,7 @@ public class Helper {
 		if (!folderAnimated.exists()) {
 			success = folderAnimated.mkdir();
 		}
-		
+
 		if (success) {
 			File photo = null;
 			long numPictureTaken = System.currentTimeMillis();
@@ -63,7 +72,7 @@ public class Helper {
 				fos.write(data);
 				fos.close();
 			} catch (java.io.IOException e) {
-				Log.e("PictureDemo", "Exception in photoCallback", e);
+				Log.e("SavePhoto", "Exception in photoCallback", e);
 			}
 		}
 	}

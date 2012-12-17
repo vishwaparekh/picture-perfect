@@ -8,7 +8,6 @@ package com.pictureperfect.common;
  * @author group13
  * 
  */
-
 public class RectRegion {
 	private int x;
 

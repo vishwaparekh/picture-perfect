@@ -33,7 +33,6 @@ public class FinalResultActivity extends Activity {
 	private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	ImageView myImageView;
 
-	/** Called when the activity is first created. */
 	@Override
 	/**Called when the activity is first created. This is where you should do all 
 	 * of your normal static set up: create views, bind data to lists, etc. This method
@@ -49,9 +48,8 @@ public class FinalResultActivity extends Activity {
 		setContentView(R.layout.finalresult);
 		Button Done = (Button) findViewById(R.id.button4);
 		myImageView = (ImageView) findViewById(R.id.imageView1);
-		Helper.savePhoto(Helper
-				.bitmapToByteArray(((ImgData) getApplication())
-						.getBackground()), 2);
+		Helper.savePhoto(Helper.bitmapToByteArray(((ImgData) getApplication())
+				.getBackground()), 2);
 
 		init();
 
@@ -63,7 +61,7 @@ public class FinalResultActivity extends Activity {
 			}
 		});
 	}
-	
+
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent intent = new Intent(FinalResultActivity.this,
@@ -73,6 +71,9 @@ public class FinalResultActivity extends Activity {
 		return (super.onKeyDown(keyCode, event));
 	}
 
+	/**
+	 * Initialize the screen with required items
+	 */
 	public void init() {
 		Bitmap myBitmapImm = ((ImgData) getApplication()).getBackground();
 		myBitmap = Bitmap.createScaledBitmap(myBitmapImm,
@@ -87,7 +88,12 @@ public class FinalResultActivity extends Activity {
 		myImageView.setImageBitmap(myBitmap);
 	}
 
-	public Bitmap processBW() {
+	/**
+	 * Apply the cartoon effect to the image.
+	 * 
+	 * @return Processed bitmap
+	 */
+	public Bitmap processCartoon() {
 		int r = 0, g = 0, b = 0, color;
 
 		for (int x = 0; x < myBitmap.getWidth(); x++) {
@@ -96,21 +102,26 @@ public class FinalResultActivity extends Activity {
 				r = Color.red(color);
 				g = Color.green(color);
 				b = Color.blue(color);
-				double grayScale = ((r+ g+ b)/3);
+				double grayScale = ((r + g + b) / 3);
 				if (grayScale > 130) {
 					mPaint.setColor(Color.argb(255, 200, 200, 200));
 				} else {
-					mPaint.setColor(Color.argb(255,10,10,10));
+					mPaint.setColor(Color.argb(255, 10, 10, 10));
 				}
 				myCanvas.drawPoint(x, y, mPaint);
-				
+
 			}
 		}
 		return myBitmap;
 	}
 
+	/**
+	 * Apply the Sepia effect to the image.
+	 * 
+	 * @return Processed bitmap
+	 */
 	public Bitmap processSepia() {
-		int r = 0, g = 0, b = 0, color, outputRed, outputGreen,outputBlue;
+		int r = 0, g = 0, b = 0, color, outputRed, outputGreen, outputBlue;
 
 		for (int x = 0; x < myBitmap.getWidth(); x++) {
 			for (int y = 0; y < myBitmap.getHeight(); y++) {
@@ -118,23 +129,28 @@ public class FinalResultActivity extends Activity {
 				r = Color.red(color);
 				g = Color.green(color);
 				b = Color.blue(color);
-				outputRed = (int)((r * .393) + (g * .769) + (b * .189));
+				outputRed = (int) ((r * .393) + (g * .769) + (b * .189));
 				if (outputRed > 255)
-					outputRed=255;
-				outputGreen = (int)((r * .349) + (g * .686) + (b * .168));
-				if (outputGreen>255)
+					outputRed = 255;
+				outputGreen = (int) ((r * .349) + (g * .686) + (b * .168));
+				if (outputGreen > 255)
 					outputGreen = 255;
-				outputBlue = (int)((r * .272) + (g * .534) + (b * .131));
-				if(outputBlue>255)
+				outputBlue = (int) ((r * .272) + (g * .534) + (b * .131));
+				if (outputBlue > 255)
 					outputBlue = 255;
-				mPaint.setColor(Color
-						.argb(255, outputRed, outputGreen, outputBlue));
+				mPaint.setColor(Color.argb(255, outputRed, outputGreen,
+						outputBlue));
 				myCanvas.drawPoint(x, y, mPaint);
 			}
 		}
 		return myBitmap;
 	}
 
+	/**
+	 * Apply the Grayscale effect to the image.
+	 * 
+	 * @return Processed bitmap
+	 */
 	public Bitmap processGrayscale() {
 		int r = 0, g = 0, b = 0, color;
 
@@ -144,7 +160,7 @@ public class FinalResultActivity extends Activity {
 				r = Color.red(color);
 				g = Color.green(color);
 				b = Color.blue(color);
-				int grayScale = (int) ((r+ g+ b)/3);
+				int grayScale = (int) ((r + g + b) / 3);
 				mPaint.setColor(Color
 						.argb(255, grayScale, grayScale, grayScale));
 				myCanvas.drawPoint(x, y, mPaint);
@@ -166,19 +182,17 @@ public class FinalResultActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		super.onOptionsItemSelected(item);
 
 		switch (item.getItemId()) {
 		case 0:
 			init();
-			Helper.savePhoto(
-					Helper.bitmapToByteArray(processSepia()), 2);
+			Helper.savePhoto(Helper.bitmapToByteArray(processSepia()), 2);
 			break;
 
 		case 1:
 			init();
-			Helper.savePhoto(Helper.bitmapToByteArray(processBW()), 2);
+			Helper.savePhoto(Helper.bitmapToByteArray(processCartoon()), 2);
 			break;
 
 		case 2:
