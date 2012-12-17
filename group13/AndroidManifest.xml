@@ -38,15 +38,15 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".RemoveUnwantedObjectsActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="com.pictureperfect.activity.SelectFacesActivity"
+            android:name=".CreateAnimationActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".EditExistingActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".SelectFacesActivity"
             android:label="@string/app_name" >
         </activity>
     </application>
