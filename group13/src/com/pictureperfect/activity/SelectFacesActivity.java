@@ -273,12 +273,12 @@ public class SelectFacesActivity extends Activity {
 						}).show();
 	}
 
-	private void blendImage() {
+	private void blendImage_old() {
 		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
 		Canvas myCanvasIm = new Canvas(myBitmapIm);
 		int r = 0, g = 0, b = 0, color;
 		int r1 = 0, g1 = 0, b1 = 0, color1;
-		double outerBoundary = 0.3;
+		double outerBoundary = 0.2;
 		double innerBoundary = 0;
 
 		mPaint.setStyle(Paint.Style.STROKE);
@@ -297,7 +297,7 @@ public class SelectFacesActivity extends Activity {
 			
 			for (int x = 0; x < faceBest.getWidth(); x++) {
 				for (int y = 0; y < faceBest.getHeight(); y++) {
-					int alphaVal = 100;
+					int alphaVal = 255;
 					color = faceBest.getPixel(x, y);
 					r = Color.red(color);
 					g = Color.green(color);
@@ -335,13 +335,98 @@ public class SelectFacesActivity extends Activity {
 						r = (int)((double)r1*baseContr + (double)r*bestContr);
 						g = (int)((double)g1*baseContr + (double)g*bestContr);
 						b = (int)((double)b1*baseContr + (double)b*bestContr);
+						/*r = r1;
+						g = g1;
+						b = b1;
+						*/
 					}
 					
 					mPaint.setColor(Color
 							.argb(alphaVal, r, g, b));
-					myCanvas.drawPoint(startX+x, startY+y, mPaint);
+					myCanvasIm.drawPoint(startX+x, startY+y, mPaint);
 				}
 			}
 		}
 	}
+	public void blendImage(){
+		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
+		Canvas myCanvasIm = new Canvas(myBitmapIm);
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setColor(0x80ff0000);
+		mPaint.setStrokeWidth(0);
+		myCanvasIm.drawBitmap(myBitmapIm, 0, 0, null);
+		for (currentpId = 0; currentpId < myPeople.size(); currentpId++) {
+			Bitmap faceBase = myPeople.get(currentpId).getBaseFace()
+					.getFaceImg();
+			
+			int startX =  myPeople.get(currentpId).getBaseFace().getFacePos().getX();
+			int startY = myPeople.get(currentpId).getBaseFace().getFacePos().getY();
+			
+			blendSides(myBitmapIm, myCanvasIm, startX, startY, faceBase);
+		}
+	}
+	void blendSides(Bitmap myBitmapIm,Canvas myCanvasIm, int startX, int startY, Bitmap faceBase){
+		double outerBoundary = 0.1;
+		int deltaX = (int)(outerBoundary*faceBase.getWidth());
+		int deltaY = (int)(outerBoundary*faceBase.getHeight());
+		int tempstartX = startX-deltaX;
+		int tempstartY = startY;
+		int tempendX = startX;
+		int tempendY = startY + faceBase.getHeight();
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,true);
+		tempstartX = startX+faceBase.getWidth();
+		tempendX=startX+faceBase.getWidth()+deltaX;
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,true);
+		tempstartX = startX;
+		tempendX = startX+faceBase.getWidth();
+		tempstartY = startY-deltaY;
+		tempendY = startY;
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,false);
+		tempstartY = startY+faceBase.getHeight();
+		tempendY = startY+faceBase.getHeight()+deltaY;
+		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,false);
+		
+		
+	}
+	void loopandInterpolate(int tempstartX, int tempstartY, int tempendX, int tempendY,Bitmap myBitmapIm,Canvas myCanvasIm,boolean isX){
+		for (int x = tempstartX ; x <= tempendX; x++) {
+			for (int y = tempstartY; y <= tempendY; y++) {
+				if(x>myBitmapIm.getWidth() || x<0 || y<0 || y>myBitmapIm.getHeight())
+				{
+					continue;
+				}
+				if(isX)
+					interpolateColor(myBitmapIm, tempstartX, tempendX, y, y, y, x, myCanvasIm);
+				else
+					interpolateColor(myBitmapIm, x, x, tempstartY, tempendY, y, x, myCanvasIm);
+			}
+		}
+	}
+	int interpolateColor(Bitmap myBitmapIm,int startX,int endX,int startY, int endY,int y, int x, Canvas myCanvasIm){
+		int delta ;
+		
+		delta = Math.max(endX - startX,endY - startY);
+		int color_left = myBitmapIm.getPixel(startX, startY);
+		int rLeft = Color.red(color_left);
+		int gLeft = Color.green(color_left);
+		int bLeft = Color.blue(color_left);
+		int color_right = myBitmapIm.getPixel(endX, endY);
+		int rRight = Color.red(color_right);
+		int gRight = Color.green(color_right);
+		int bRight = Color.blue(color_right);
+		
+		int distLeft = Math.min(x - (startX),(endX-startX))+Math.min(y - (startY),(endY-startY));
+		int distRight = Math.min(endX - (x),(endX-startX))+Math.min(endY - y,(endY-startY));
+		
+		int r = (rLeft * distRight + rRight*distLeft)/(delta);
+		int g = (gLeft * distRight + gRight*distLeft)/(delta);
+		int b = (bLeft * distRight + bRight*distLeft)/(delta);
+		mPaint.setColor(Color
+				.argb(255, r, g, b));
+		myCanvasIm.drawPoint(x, y, mPaint);
+		return 0;
+	}
+	
 }
+

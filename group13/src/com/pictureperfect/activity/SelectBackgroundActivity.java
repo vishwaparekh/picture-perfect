@@ -104,15 +104,24 @@ public class SelectBackgroundActivity extends Activity {
 			}
 		});
 		// perform face detection in setFace() in a background thread
-		init();
-
+		int isImageAvailable= init();
+		if(isImageAvailable==1){
+			Intent intent = new Intent(SelectBackgroundActivity.this,
+					WelcomeActivity.class);
+			startActivity(intent);
+		}
 	}
 
-	private void init() {
-		((ImgData) getApplication()).setBackgroundNum(0);
-		myImageView
-				.setImageBitmap(((ImgData) getApplication()).getBackground());
-		myImageView.invalidate();
+	private int init() {
+		if(((ImgData) getApplication()).getMyPictures().size()==0){
+			return 1;
+		}else{
+			((ImgData) getApplication()).setBackgroundNum(0);
+			myImageView
+					.setImageBitmap(((ImgData) getApplication()).getBackground());
+			myImageView.invalidate();
+			return 0;
+		}
 	}
 
 	SurfaceHolder.Callback cameraSurfaceCallback = new SurfaceHolder.Callback() {
