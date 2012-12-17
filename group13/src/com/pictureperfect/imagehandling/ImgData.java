@@ -154,7 +154,7 @@ public class ImgData extends Application {
 					Faces faceTemp = new Faces(facePos, faceImg, eyePos);
 					facesPic.add(faceTemp);
 					byte[] abc = Helper.bitmapToByteArray(faceImg);
-					Helper.savePhoto(abc, i);
+				//	Helper.savePhoto(abc, i);
 				} catch (Exception e) {
 					/* Log.e(TAG, "setFace(): face " + i + ": " + e.toString()); */
 				}

@@ -1,6 +1,5 @@
 package com.pictureperfect.common;
 
-import android.graphics.Bitmap;
 
 /**
  * This class acts as a storage for a region that would indicate presence of a

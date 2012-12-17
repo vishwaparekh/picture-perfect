@@ -38,13 +38,8 @@ public class SelectFacesActivity extends Activity {
 	private List<Bitmap> myBitmapFaces = new ArrayList<Bitmap>();
 	private ImageView mIV;
 	private List<ImageView> faceView = new ArrayList<ImageView>();
-	private int mFaceWidth = 200;
-	private int mFaceHeight = 200;
-	private static final int MAX_FACES = 10;
-	private static boolean DEBUG = false;
 	static boolean finished = false;
 	private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-	private int mDisplayStyle = 0;
 	protected static final int GUIUPDATE_SETFACE = 999;
 	private int totalFaces = 0;
 	private int currentpId = 0;
@@ -81,7 +76,7 @@ public class SelectFacesActivity extends Activity {
 			public void onClick(View v) {
 				blendImage();
 				finished = true;
-				if (finished && RemoveUnwantedObjectsActivity.finished) {
+				if (finished && CreateAnimationActivity.finished) {
 					Intent intent = new Intent(SelectFacesActivity.this,
 							FinalResultActivity.class);
 					startActivity(intent);
@@ -279,7 +274,6 @@ public class SelectFacesActivity extends Activity {
 		int r = 0, g = 0, b = 0, color;
 		int r1 = 0, g1 = 0, b1 = 0, color1;
 		double outerBoundary = 0.2;
-		double innerBoundary = 0;
 
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -348,7 +342,8 @@ public class SelectFacesActivity extends Activity {
 			}
 		}
 	}
-	public void blendImage(){
+	
+	private void blendImage(){
 		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
 		Canvas myCanvasIm = new Canvas(myBitmapIm);
 		mPaint.setStyle(Paint.Style.STROKE);
@@ -366,30 +361,32 @@ public class SelectFacesActivity extends Activity {
 			blendSides(myBitmapIm, myCanvasIm, startX, startY, faceBase);
 		}
 	}
-	void blendSides(Bitmap myBitmapIm,Canvas myCanvasIm, int startX, int startY, Bitmap faceBase){
+	
+	private void blendSides(Bitmap myBitmapIm,Canvas myCanvasIm, int startX, int startY, Bitmap faceBase){
 		double outerBoundary = 0.1;
 		int deltaX = (int)(outerBoundary*faceBase.getWidth());
 		int deltaY = (int)(outerBoundary*faceBase.getHeight());
-		int tempstartX = startX-deltaX;
-		int tempstartY = startY;
-		int tempendX = startX;
-		int tempendY = startY + faceBase.getHeight();
+		int tempstartX = Math.max(startX-deltaX,0);
+		int tempstartY = Math.max(startY,0);
+		int tempendX = Math.min(startX,myBitmapIm.getWidth()-1);
+		int tempendY = Math.min(startY + faceBase.getHeight(),myBitmapIm.getHeight()-1);
 		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,true);
-		tempstartX = startX+faceBase.getWidth();
-		tempendX=startX+faceBase.getWidth()+deltaX;
+		tempstartX = Math.max(startX+faceBase.getWidth(),0);
+		tempendX=Math.min(startX+faceBase.getWidth()+deltaX,myBitmapIm.getWidth()-1);
 		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,true);
-		tempstartX = startX;
-		tempendX = startX+faceBase.getWidth();
-		tempstartY = startY-deltaY;
-		tempendY = startY;
+		tempstartX = Math.max(startX,0);
+		tempendX = Math.min(startX+faceBase.getWidth(),myBitmapIm.getWidth()-1);
+		tempstartY = Math.max(startY-deltaY,0);
+		tempendY = Math.min(startY,myBitmapIm.getHeight()-1);
 		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,false);
-		tempstartY = startY+faceBase.getHeight();
-		tempendY = startY+faceBase.getHeight()+deltaY;
+		tempstartY = Math.max(startY+faceBase.getHeight(),0);
+		tempendY = Math.min(startY+faceBase.getHeight()+deltaY,myBitmapIm.getHeight()-1);
 		loopandInterpolate(tempstartX, tempstartY, tempendX, tempendY, myBitmapIm, myCanvasIm,false);
 		
 		
 	}
-	void loopandInterpolate(int tempstartX, int tempstartY, int tempendX, int tempendY,Bitmap myBitmapIm,Canvas myCanvasIm,boolean isX){
+	
+	private void loopandInterpolate(int tempstartX, int tempstartY, int tempendX, int tempendY,Bitmap myBitmapIm,Canvas myCanvasIm,boolean isX){
 		for (int x = tempstartX ; x <= tempendX; x++) {
 			for (int y = tempstartY; y <= tempendY; y++) {
 				if(x>myBitmapIm.getWidth() || x<0 || y<0 || y>myBitmapIm.getHeight())
@@ -403,10 +400,14 @@ public class SelectFacesActivity extends Activity {
 			}
 		}
 	}
-	int interpolateColor(Bitmap myBitmapIm,int startX,int endX,int startY, int endY,int y, int x, Canvas myCanvasIm){
+	
+	private int interpolateColor(Bitmap myBitmapIm,int startX,int endX,int startY, int endY,int y, int x, Canvas myCanvasIm){
 		int delta ;
 		
 		delta = Math.max(endX - startX,endY - startY);
+		if(delta==0){
+			return 0;
+		}
 		int color_left = myBitmapIm.getPixel(startX, startY);
 		int rLeft = Color.red(color_left);
 		int gLeft = Color.green(color_left);
@@ -427,6 +428,5 @@ public class SelectFacesActivity extends Activity {
 		myCanvasIm.drawPoint(x, y, mPaint);
 		return 0;
 	}
-	
 }
 

@@ -13,6 +13,7 @@ public class Helper {
 
 	/**
 	 * Convert the Bitmap of an image into Byte array
+	 * 
 	 * @param bitmap
 	 * @return Byte array
 	 */
@@ -22,22 +23,48 @@ public class Helper {
 		byte[] bitmapdata = bos.toByteArray();
 		return bitmapdata;
 	}
-	
-	public static void savePhoto(byte[] data, int numPictureTaken) {
-		File photo = new File(Environment.getExternalStorageDirectory(),
-				"/Picture Perfect/" + "photo" + numPictureTaken + ".jpg");
 
-		if (photo.exists()) {
-			photo.delete();
+	public static void savePhoto(byte[] data, int type) {
+		File folder = new File(Environment.getExternalStorageDirectory()
+				+ "/Picture Perfect/");
+		File folderAnimated = new File(Environment.getExternalStorageDirectory()
+				+ "/Picture Perfect/Animated/");
+		boolean success = true;
+		if (!folder.exists()) {
+			success = folder.mkdir();
 		}
+		if (!folderAnimated.exists()) {
+			success = folderAnimated.mkdir();
+		}
+		
+		if (success) {
+			File photo = null;
+			long numPictureTaken = System.currentTimeMillis();
+			if (type == 1) {
+				photo = new File(Environment.getExternalStorageDirectory(),
+						"/Picture Perfect/" + "Burstphoto" + numPictureTaken
+								+ ".jpg");
+			} else if (type == 2) {
+				photo = new File(Environment.getExternalStorageDirectory(),
+						"/Picture Perfect/" + "Finalphoto" + numPictureTaken
+								+ ".jpg");
+			} else if (type == 3) {
+				photo = new File(Environment.getExternalStorageDirectory(),
+						"/Picture Perfect/Animated/" + "Animatedphoto"
+								+ numPictureTaken + ".jpg");
+			}
 
-		try {
-			FileOutputStream fos = new FileOutputStream(photo.getPath());
-			fos.write(data);
-			fos.close();
-		} catch (java.io.IOException e) {
-			Log.e("PictureDemo", "Exception in photoCallback", e);
+			if (photo.exists()) {
+				photo.delete();
+			}
+
+			try {
+				FileOutputStream fos = new FileOutputStream(photo.getPath());
+				fos.write(data);
+				fos.close();
+			} catch (java.io.IOException e) {
+				Log.e("PictureDemo", "Exception in photoCallback", e);
+			}
 		}
 	}
-	
 }

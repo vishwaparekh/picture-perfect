@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,14 +30,10 @@ import com.pictureperfect.imagehandling.ImgData;
 public class CameraActivity extends Activity {
 
 	private static final int BURST_SIZE = 3;
-	private static final int CAMERA_PIC_REQUEST = 1337;
-	private static final int SET_ZOOM_CHANGE_LISTENER = 14;
-	protected static final String EFFECT_SEPIA = "sepia";
 	protected static final String FLASH_MODE_AUTO = "auto";
 	private SurfaceView preview = null;
 	private SurfaceHolder previewHolder = null;
 	private Camera mCamera = null;
-	// ImgData imgData = new ImgData();
 	private boolean cameraConfigured = false;
 	private boolean inPreview = false;
 	private int numPictureTaken = 1;
@@ -54,21 +49,15 @@ public class CameraActivity extends Activity {
 	 *            shut down then this Bundle contains the data it most recently
 	 *            supplied in onSaveInstanceState(Bundle)
 	 */
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.camera);
 
-		/* zoomPreview= (Zoom) */
 		preview = (SurfaceView) findViewById(R.id.preview);
 		previewHolder = preview.getHolder();
 		previewHolder.addCallback(surfaceCallback);
 		previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		/*
-		 * Intent intent = new Intent(CameraActivity.this,
-		 * SelectBackgroundActivity.class); startActivity(intent);
-		 */
 	}
 
 	@Override
@@ -88,7 +77,6 @@ public class CameraActivity extends Activity {
 	}
 
 	/* Define which keys will "take the picture" */
-
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_CAMERA
 				|| keyCode == KeyEvent.KEYCODE_SEARCH) {
@@ -97,7 +85,6 @@ public class CameraActivity extends Activity {
 				takePicture();
 				i++;
 			}
-			// return (true);
 		}
 		return (super.onKeyDown(keyCode, event));
 	}
@@ -152,7 +139,6 @@ public class CameraActivity extends Activity {
 				}
 			}
 		}
-
 		return (result);
 	}
 
@@ -161,12 +147,11 @@ public class CameraActivity extends Activity {
 			try {
 				mCamera.setPreviewDisplay(previewHolder);
 			} catch (Throwable t) {
-				Log.e("PreviewDemo-surfaceCallback",
+				Log.e("Preview-surfaceCallback",
 						"Exception in setPreviewDisplay()", t);
 
 				Toast.makeText(CameraActivity.this, t.getMessage(), Toast.LENGTH_LONG)
 						.show();
-
 			}
 
 			if (!cameraConfigured) {
@@ -210,7 +195,6 @@ public class CameraActivity extends Activity {
 		public void surfaceChanged(SurfaceHolder holder, int format, int width,
 				int height) {
 			Camera.Parameters parameters = mCamera.getParameters();
-
 			/*
 			 * Customize width/height here - otherwise defaults to screen
 			 * width/height
@@ -233,7 +217,6 @@ public class CameraActivity extends Activity {
 		}
 
 		public void surfaceDestroyed(SurfaceHolder holder) {
-
 		}
 	};
 
@@ -242,9 +225,7 @@ public class CameraActivity extends Activity {
 			//new SavePhoto().execute(data);
 			((ImgData) getApplication()).addPicture(data);
 			inPreview = true;
-
-			Helper.savePhoto(data, numPictureTaken);
-			
+			Helper.savePhoto(data, 1);
 			if (numPictureTaken < BURST_SIZE) {
 				takePicture();
 				numPictureTaken++;
@@ -268,13 +249,11 @@ public class CameraActivity extends Activity {
 		menu.add(0, 6, 1, R.string.Whiteboard);
 		menu.add(0, 7, 1, R.string.app_help);
 		menu.add(0, 8, 1, R.string.Exit);
-
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		super.onOptionsItemSelected(item);
 
 		switch (item.getItemId()) {

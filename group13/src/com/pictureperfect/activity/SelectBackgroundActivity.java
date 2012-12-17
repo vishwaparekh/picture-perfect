@@ -27,11 +27,6 @@ import com.pictureperfect.imagehandling.ImgData;
 public class SelectBackgroundActivity extends Activity {
 
 	private ImageView myImageView;
-	private int mFaceWidth = 200;
-	private int mFaceHeight = 200;
-	private static final int MAX_FACES = 10;
-	private static boolean DEBUG = false;
-
 	protected static final int GUIUPDATE_SETFACE = 999;
 
 	/**

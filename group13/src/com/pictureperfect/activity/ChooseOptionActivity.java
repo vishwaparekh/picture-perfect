@@ -55,7 +55,7 @@ public class ChooseOptionActivity extends Activity {
         RemoveObjects.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ChooseOptionActivity.this,
-						RemoveUnwantedObjectsActivity.class);
+						CreateAnimationActivity.class);
 				startActivity(intent);
 				
 			}

@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.pictureperfect.common.Helper;
-import com.pictureperfect.common.ImageToGray;
 import com.pictureperfect.imagehandling.ImgData;
 
 /**
@@ -49,18 +49,28 @@ public class FinalResultActivity extends Activity {
 		setContentView(R.layout.finalresult);
 		Button Done = (Button) findViewById(R.id.button4);
 		myImageView = (ImageView) findViewById(R.id.imageView1);
+		Helper.savePhoto(Helper
+				.bitmapToByteArray(((ImgData) getApplication())
+						.getBackground()), 2);
+
 		init();
 
 		Done.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Helper.savePhoto(Helper
-						.bitmapToByteArray(((ImgData) getApplication())
-								.getBackground()), 3);
 				Intent intent = new Intent(FinalResultActivity.this,
 						WelcomeActivity.class);
 				startActivity(intent);
 			}
 		});
+	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent(FinalResultActivity.this,
+					WelcomeActivity.class);
+			startActivity(intent);
+		}
+		return (super.onKeyDown(keyCode, event));
 	}
 
 	public void init() {
@@ -163,24 +173,21 @@ public class FinalResultActivity extends Activity {
 		case 0:
 			init();
 			Helper.savePhoto(
-					Helper.bitmapToByteArray(processSepia()), 10);
+					Helper.bitmapToByteArray(processSepia()), 2);
 			break;
 
 		case 1:
 			init();
-			Helper.savePhoto(Helper.bitmapToByteArray(processBW()), 11);
+			Helper.savePhoto(Helper.bitmapToByteArray(processBW()), 2);
 			break;
 
 		case 2:
 			init();
-			Helper.savePhoto(Helper.bitmapToByteArray(processGrayscale()), 12);
+			Helper.savePhoto(Helper.bitmapToByteArray(processGrayscale()), 2);
 			break;
 
 		case 3:
 			init();
-			Helper.savePhoto(Helper
-					.bitmapToByteArray(((ImgData) getApplication())
-							.getBackground()), 13);
 			break;
 
 		case 4:
