@@ -99,7 +99,10 @@ public class WelcomeActivity extends Activity {
 						new DialogInterface.OnClickListener() {
 							public void onClick(
 									DialogInterface dialoginterface, int i) {
-								finish();
+								Intent intent = new Intent(Intent.ACTION_MAIN);
+								intent.addCategory(Intent.CATEGORY_HOME);
+								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivity(intent);
 							}
 						}).show();
 	}

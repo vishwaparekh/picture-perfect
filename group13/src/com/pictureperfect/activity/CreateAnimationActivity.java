@@ -176,7 +176,7 @@ public class CreateAnimationActivity extends Activity {
 	private void openOptionsDialog() {
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.app_help)
-				.setMessage(R.string.app_about_messageF)
+				.setMessage(R.string.app_about_messageA)
 				.setPositiveButton(R.string.str_ok,
 						new DialogInterface.OnClickListener() {
 							public void onClick(

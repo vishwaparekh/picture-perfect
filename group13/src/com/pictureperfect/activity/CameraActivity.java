@@ -240,15 +240,8 @@ public class CameraActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 1, R.string.Normal);
-		menu.add(0, 1, 1, R.string.BW);
-		menu.add(0, 2, 1, R.string.Sepia);
-		menu.add(0, 3, 1, R.string.Negative);
-		menu.add(0, 4, 1, R.string.Posterize);
-		menu.add(0, 5, 1, R.string.Solarize);
-		menu.add(0, 6, 1, R.string.Whiteboard);
-		menu.add(0, 7, 1, R.string.app_help);
-		menu.add(0, 8, 1, R.string.Exit);
+		menu.add(0, 0, 1, R.string.app_help);
+		menu.add(0, 1, 1, R.string.Exit);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -258,33 +251,9 @@ public class CameraActivity extends Activity {
 
 		switch (item.getItemId()) {
 		case 0:
-			mCamera.getParameters().setColorEffect("none");
-			mCamera.setParameters(mCamera.getParameters());
-			break;
-		case 1:
-			mCamera.getParameters().setColorEffect("blackboard");
-			mCamera.setParameters(mCamera.getParameters());
-			break;
-		case 2:
-			mCamera.getParameters().setColorEffect("sepia");
-			mCamera.setParameters(mCamera.getParameters());
-			break;
-		case 3:
-			mCamera.getParameters().setColorEffect("negative");
-			break;
-		case 4:
-			mCamera.getParameters().setColorEffect("posterize");
-			break;
-		case 5:
-			mCamera.getParameters().setColorEffect("solarize");
-			break;
-		case 6:
-			mCamera.getParameters().setColorEffect("whiteboard");
-			break;
-		case 7:
 			openOptionsDialog();
 			break;
-		case 8:
+		case 1:
 			exitOptionsDialog();
 			break;
 		}
