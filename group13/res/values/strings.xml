@@ -20,7 +20,7 @@
     <string name="Sepia">Add Sepia Effect</string>
     <string name = "SelectThumb">Select</string>
     <string name="GrayScale">Add GrayScale Effect</string>
-    <string name="BW">Add B/W Effect</string>
+    <string name="BW">Add Cartoon Effect</string>
     <string name="Normal">Reset</string>
     <string name="Negative">Add Negative Effect</string>
     <string name="Solarize">Add Solarize Effect</string>
@@ -28,6 +28,9 @@
     <string name="Whiteboard">Add Whiteboard Effect</string>
     <string name="finalI">Final Image!</string>
     <string name="finalT">P.S. Apply Filters from Menu</string>
+    <string name="ayss">Do you want to select images?</string>
+    <string name="Upload">Upload</string>
+    <string name="str_yes">Yes</string>
     
     <string name="About">About</string>
     <string name="Exit">Exit</string>
