@@ -37,15 +37,17 @@
     <string name="Exit">Exit</string>
     <string name="app_about">About</string>
     <string name="app_help">Help</string>
+    
     <string name="ays">Are you sure?</string>
     <string name="Settings">Settings</string>
     <string name="str_exit">Exit</string>
-    <string name="app_about_messageB">Select a base image. You have 3 images to choose from.</string>
-    <string name="app_about_messageF">Select a face for each Square.</string>
-    <string name="app_about_messageR">Press Done to save the image.</string>
-    <string name="app_about_messageH">Choose Step 2 for replacing faces. Try it!<br/> OR <br/> Step 3 to animate. </string>
-    <string name="app_about_messageW">Picture Perfect v 1.0  Authored by Group 13</string>
-    <string name="app_about_message">Use the Camera button on the side or the Search button in  the front to capture the images</string>
+    <string name="app_about_messageA">Select images to include in the animation using ADD.</string>
+    <string name="app_about_messageB">Browse through the images using Previous and Next. Press Done to a base image.</string>
+    <string name="app_about_messageF">Select a face for each object using arrow. Press SWITCH to change objects.</string>
+    <string name="app_about_messageR">Apply Effects using the menu</string>
+    <string name="app_about_messageH">Choose Step 2 for replacing faces <br/> OR <br/> Step 3 to animate. Try it!</string>
+    <string name="app_about_messageW">Picture Perfect v 1.1  OOSE Group 13</string>
+    <string name="app_about_message">Use the Camera button on the side or the Search button in  the front to capture the images.</string>
     <string name="str_ok">OK</string>
     <string name="app_exit">Exit</string>
     <string name="app_exit_message">Do you want to exit?</string>
