@@ -105,7 +105,9 @@ public class SelectFacesActivity extends Activity {
 
 	/**
 	 * This method initializes the screen with all the faces corresponding to
-	 * each person
+	 * each person. The faces are displayed in the gallery view below, and the
+	 * Final Processed Image is displayed in the main image view. Also first of all the 
+	 * faces detected is enclosed within a green rectangle
 	 */
 	private void initializeScreen() {
 		Bitmap myBitmapImm = ((ImgData) getApplication()).getBackground();
@@ -147,7 +149,9 @@ public class SelectFacesActivity extends Activity {
 	}
 
 	/**
-	 * This method switches the current selection of person.
+	 * This method switches the current selection of person. The focus shifts to the
+	 * next found face and it is enclosed within a green rectangle to indicate 
+	 * the selection has shifted.
 	 */
 	private void changePersonSelection() {
 		if (totalPeople == 0)
@@ -174,7 +178,9 @@ public class SelectFacesActivity extends Activity {
 	}
 
 	/**
-	 * This method switches the current selection of face.
+	 * This method switches the current selection of face. The new face gets
+	 * warped onto the existing final processed image and the result is shown on
+	 * the final image view
 	 */
 	private void changeFaceSelection() {
 		if (totalPeople == 0)
@@ -268,7 +274,8 @@ public class SelectFacesActivity extends Activity {
 	}
 
 	/**
-	 * Alternate Blend option.
+	 * Alternate Blend option. This method blends the new face over the original face
+	 * to get the intensity range of the new face to the intensity range of the base face
 	 */
 	private void blendImage_old() {
 		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
@@ -354,7 +361,9 @@ public class SelectFacesActivity extends Activity {
 	}
 
 	/**
-	 * Method to blend the images
+	 * Method to blend the images: This method is based on linear interpolation.
+	 * We interpolate the delta pixels on the side to linearly vary to match the starting
+	 * intensity of each of the 4 sides of the face
 	 */
 	private void blendImage() {
 		Bitmap myBitmapIm = ((ImgData) getApplication()).getBackground();
@@ -378,7 +387,9 @@ public class SelectFacesActivity extends Activity {
 	}
 
 	/**
-	 * Method to blend the sides
+	 * Method to blend the sides. This method gets called by the blendImage.
+	 * This actually calcualates the delta interpolate and calls the interpolation method
+	 * on each of the 4 sides
 	 * @param myBitmapIm
 	 * @param myCanvasIm
 	 * @param startX
@@ -418,8 +429,9 @@ public class SelectFacesActivity extends Activity {
 	}
 
 	/**
-	 * This method interpolates the bitmaps
-	 * 
+	 * This method interpolates the bitmaps based on information provided by blendSides
+	 * It calls the interpolate method which calculates the final intensity to be produced
+	 * for each point and superimposes that on the original image
 	 * @param tempstartX
 	 * @param tempstartY
 	 * @param tempendX
