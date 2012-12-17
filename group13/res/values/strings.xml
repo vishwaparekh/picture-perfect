@@ -4,7 +4,7 @@
     <string name="SelectBackground"><b>: Step 1 - Select Background :</b></string>
     <string name="app_name">Picture Perfect</string>
     <string name="bestFace">Select Faces</string>
-    <string name="unwantedObjects"> Remove Unwanted Objects</string>
+    <string name="unwantedObjects">Animate</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
     <string name="Next">Next</string>
@@ -17,6 +17,7 @@
     <string name="remFace">: Step 3 : </string>
     <string name="welcome">Welcome to Picture Perfect!</string>
     <string name="NextP">S W I T C H</string>
+    <string name="AddP">A D D</string>
     <string name="Sepia">Add Sepia Effect</string>
     <string name = "SelectThumb">Select</string>
     <string name="GrayScale">Add GrayScale Effect</string>
@@ -31,7 +32,7 @@
     <string name="ayss">Do you want to select images?</string>
     <string name="Upload">Upload</string>
     <string name="str_yes">Yes</string>
-    
+    <string name="Animate">Animate!</string>
     <string name="About">About</string>
     <string name="Exit">Exit</string>
     <string name="app_about">About</string>
@@ -42,7 +43,7 @@
     <string name="app_about_messageB">Select a base image. You have 3 images to choose from.</string>
     <string name="app_about_messageF">Select a face for each Square.</string>
     <string name="app_about_messageR">Press Done to save the image.</string>
-    <string name="app_about_messageH">Choose Step 2 for replacing faces. Try it!<br/> OR <br/> Step 3 to pull out bad stuff </string>
+    <string name="app_about_messageH">Choose Step 2 for replacing faces. Try it!<br/> OR <br/> Step 3 to animate. </string>
     <string name="app_about_messageW">Picture Perfect v 1.0  Authored by Group 13</string>
     <string name="app_about_message">Use the Camera button on the side or the Search button in  the front to capture the images</string>
     <string name="str_ok">OK</string>
