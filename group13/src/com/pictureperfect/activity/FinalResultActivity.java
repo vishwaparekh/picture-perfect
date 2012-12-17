@@ -88,9 +88,9 @@ public class FinalResultActivity extends Activity {
 				b = Color.blue(color);
 				double grayScale = ((r+ g+ b)/3);
 				if (grayScale > 130) {
-					mPaint.setColor(Color.argb(100, 200, 200, 200));
+					mPaint.setColor(Color.argb(255, 200, 200, 200));
 				} else {
-					mPaint.setColor(Color.argb(100,10,10,10));
+					mPaint.setColor(Color.argb(255,10,10,10));
 				}
 				myCanvas.drawPoint(x, y, mPaint);
 				
@@ -118,7 +118,7 @@ public class FinalResultActivity extends Activity {
 				if(outputBlue>255)
 					outputBlue = 255;
 				mPaint.setColor(Color
-						.argb(80, outputRed, outputGreen, outputBlue));
+						.argb(255, outputRed, outputGreen, outputBlue));
 				myCanvas.drawPoint(x, y, mPaint);
 			}
 		}
@@ -136,7 +136,7 @@ public class FinalResultActivity extends Activity {
 				b = Color.blue(color);
 				int grayScale = (int) ((r+ g+ b)/3);
 				mPaint.setColor(Color
-						.argb(100, grayScale, grayScale, grayScale));
+						.argb(255, grayScale, grayScale, grayScale));
 				myCanvas.drawPoint(x, y, mPaint);
 			}
 		}
