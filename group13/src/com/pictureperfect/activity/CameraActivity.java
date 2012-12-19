@@ -26,7 +26,6 @@ import com.pictureperfect.imagehandling.ImgData;
  * @author group13
  * 
  */
-
 public class CameraActivity extends Activity {
 
 	private static final int BURST_SIZE = 3;

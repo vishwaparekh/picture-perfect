@@ -87,12 +87,16 @@ public class CreateAnimationActivity extends Activity {
 			public void onClick(View v) {
 				addImageSelection();
 			}
+
+			
 		});
 
 		NextFace.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				changeImageSelection();
 			}
+
+			
 		});
 	}
 
@@ -121,34 +125,34 @@ public class CreateAnimationActivity extends Activity {
 	}
 
 	/**
-	 * This method add the object into animation.
-	 */
-	private void addImageSelection() {
-		Bitmap superImpose = ((ImgData) getApplication()).getMyPictures().get(
-				currentPictureId);
-		alphaComponent = alphaComponent * 1 / 2;
-		mPaint.setAlpha(alphaComponent);
-		myCanvas.drawBitmap(superImpose, 0, 0, mPaint);
-	}
-
+     * This method add the object into animation.
+     */
+    private void addImageSelection() {
+            Bitmap superImpose = ((ImgData) getApplication()).getMyPictures().get(
+                            currentPictureId);
+            alphaComponent = alphaComponent * 1 / 2;
+            mPaint.setAlpha(alphaComponent);
+            myCanvas.drawBitmap(superImpose, 0, 0, mPaint);
+    }
+	
 	/**
-	 * This method switches the current selection of face.
-	 */
-	private void changeImageSelection() {
-		currentPictureId = (currentPictureId + 1)
-				% ((ImgData) getApplication()).getMyPictures().size();
-		for (int j = currentPictureId; j < currentPictureId + 3; j++) {
-			int i = j % ((ImgData) getApplication()).getMyPictures().size();
-			myBitmapImages.add(i, ((ImgData) getApplication()).getMyPictures()
-					.get(i));
-			myCanvasImages.add(i, new Canvas(myBitmapImages.get(i)));
-			myCanvasImages.get(i).drawBitmap(myBitmapImages.get(i), 0, 0, null);
-			pictureView.get(j - currentPictureId).setImageBitmap(
-					myBitmapImages.get(i));
-		}
+     * This method switches the current selection of face.
+     */
+    private void changeImageSelection() {
+            currentPictureId = (currentPictureId + 1)
+                            % ((ImgData) getApplication()).getMyPictures().size();
+            for (int j = currentPictureId; j < currentPictureId + 3; j++) {
+                    int i = j % ((ImgData) getApplication()).getMyPictures().size();
+                    myBitmapImages.add(i, ((ImgData) getApplication()).getMyPictures()
+                                    .get(i));
+                    myCanvasImages.add(i, new Canvas(myBitmapImages.get(i)));
+                    myCanvasImages.get(i).drawBitmap(myBitmapImages.get(i), 0, 0, null);
+                    pictureView.get(j - currentPictureId).setImageBitmap(
+                                    myBitmapImages.get(i));
+            }
 
-	}
-
+    }
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 1, R.string.app_help);

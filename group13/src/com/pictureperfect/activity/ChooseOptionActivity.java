@@ -72,7 +72,7 @@ public class ChooseOptionActivity extends Activity {
 			public void onClick(View v) {
 				byte[] myBitmapFinal = Helper
 						.bitmapToByteArray(((ImgData) getApplication())
-								.getMyBackground());
+								.getBackground());
 			//	new SavePhoto().execute(myBitmapFinal);
 				Intent intent = new Intent(ChooseOptionActivity.this,
 						FinalResultActivity.class);

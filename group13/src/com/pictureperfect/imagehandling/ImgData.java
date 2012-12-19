@@ -54,9 +54,9 @@ public class ImgData extends Application {
 	 * @param pId
 	 *            person ID
 	 */
-	private void warpFace(Integer pId) {
-		Faces baseFace = myPeople.get(pId).getBaseFace();
-		Faces bestFace = myPeople.get(pId).getBestFace();
+	private void warpFace(Person person) {
+		Faces baseFace = person.getBaseFace();
+		Faces bestFace = person.getBestFace();
 		int dstWidth = baseFace.getFaceImg().getWidth();
 		int dstHeight = baseFace.getFaceImg().getHeight();
 		int currWidth = bestFace.getFaceImg().getWidth();
@@ -76,27 +76,16 @@ public class ImgData extends Application {
 	}
 
 	/**
-	 * Given a person ID, it returns all the faces that belong to this person.
+	 * Given a person and best face, it updates the best face of that person.
 	 * 
-	 * @param pId
-	 *            Person ID
-	 * @return Faces of the person
-	 */
-	public ArrayList<Faces> getFaces(Integer pId) {
-		return myPeople.get(pId).getFaces();
-	}
-
-	/**
-	 * Given a person ID and best face, it updates the best face of that person.
-	 * 
-	 * @param pId
-	 *            Person ID
+	 * @param person
+	 *            Person object
 	 * @param bestFace
 	 *            The best face chosen by user
 	 */
-	public void setBestFace(Integer pId, Faces bestFace) {
-		myPeople.get(pId).setBestFace(bestFace);
-		warpFace(pId);
+	public void setBestFace(Person person, Faces bestFace) {
+		person.setBestFace(bestFace);
+		warpFace(person);
 	}
 
 	/**
@@ -287,13 +276,7 @@ public class ImgData extends Application {
 		return myPictures;
 	}
 
-	/**
-	 * @return the myBackground
-	 */
-	public Bitmap getMyBackground() {
-		return myBackground;
-	}
-
+	
 	/**
 	 * @return the myFaces
 	 */
